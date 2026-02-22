@@ -153,6 +153,9 @@
       transition: border-color 0.2s, color 0.2s;
     }
     .hero-tag:hover { border-color: var(--accent); color: var(--accent); }
+    .hero-tag[data-tag="Digital STS"]                  { color: #4dc4a8; border-color: rgba(77, 196, 168, 0.35); }
+    .hero-tag[data-tag="Digital Philosophy of Science"] { color: #8e7fd4; border-color: rgba(142, 127, 212, 0.35); }
+    .hero-tag[data-tag="Digital Anthropology"]          { color: #c8a96e; border-color: rgba(200, 169, 110, 0.35); }
 
     /* ── SECTIONS ── */
     section {
@@ -507,6 +510,61 @@
       transition: all 0.2s;
     }
     .kw:hover { border-color: var(--accent); color: var(--accent); }
+    .kw[data-tag="Digital STS"]                  { color: #4dc4a8; border-color: rgba(77, 196, 168, 0.35); }
+    .kw[data-tag="Digital Philosophy of Science"] { color: #8e7fd4; border-color: rgba(142, 127, 212, 0.35); }
+    .kw[data-tag="Digital Anthropology"]          { color: #c8a96e; border-color: rgba(200, 169, 110, 0.35); }
+    .topic-tag {
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      padding: 3px 10px;
+      border-radius: 1px;
+      display: inline-block;
+      border: 1px solid;
+    }
+    /* Anthropology family — warm earth */
+    .topic-tag[data-tag="Anthropology"] {
+      color: #c87a5e;
+      border-color: rgba(200, 122, 94, 0.35);
+    }
+    .topic-tag[data-tag="Digital Anthropology"] {
+      color: #c8a96e;
+      border-color: rgba(200, 169, 110, 0.35);
+    }
+    /* STS family — teal */
+    .topic-tag[data-tag="STS"] {
+      color: #6ab08a;
+      border-color: rgba(106, 176, 138, 0.35);
+    }
+    .topic-tag[data-tag="Digital STS"] {
+      color: #4dc4a8;
+      border-color: rgba(77, 196, 168, 0.35);
+    }
+    /* Philosophy of Science family — purple */
+    .topic-tag[data-tag="Philosophy of Science"] {
+      color: #a87cb0;
+      border-color: rgba(168, 124, 176, 0.35);
+    }
+    .topic-tag[data-tag="Digital Philosophy of Science"] {
+      color: #8e7fd4;
+      border-color: rgba(142, 127, 212, 0.35);
+    }
+    /* Humanities / Digital Technology family — blue */
+    .topic-tag[data-tag="Humanities"] {
+      color: #4868a8;
+      border-color: rgba(72, 104, 168, 0.35);
+    }
+    .topic-tag[data-tag="Digital Humanities"] {
+      color: #38b0e8;
+      border-color: rgba(56, 176, 232, 0.35);
+    }
+    .topic-tag[data-tag="Digital Technology"] {
+      color: #78a8e0;
+      border-color: rgba(120, 168, 224, 0.35);
+    }
+    .topic-tag[data-tag="Technology"] {
+      color: #6890c0;
+      border-color: rgba(104, 144, 192, 0.35);
+    }
 
     /* ── RESEARCH CARD ── */
     .research-card {
@@ -1248,10 +1306,9 @@
       </div>
 
       <div class="hero-tags">
-        <span class="hero-tag">Digital STS</span>
-        <span class="hero-tag">Digital Philosophy of Science</span>
-        <span class="hero-tag">Digital Ethnography</span>
-        <span class="hero-tag">AI × Humanities</span>
+        <span class="hero-tag" data-tag="Digital STS">Digital STS</span>
+        <span class="hero-tag" data-tag="Digital Philosophy of Science">Digital Philosophy of Science</span>
+        <span class="hero-tag" data-tag="Digital Anthropology">Digital Anthropology</span>
       </div>
     </div>
     <div class="scroll-hint">
@@ -1264,7 +1321,7 @@
   <div style="padding: 90px 0; border-bottom: 1px solid var(--line);">
     <div style="max-width:1100px; margin:0 auto; padding:0 48px;">
       <p class="sec-label">Philosophy</p>
-      <h2 class="sec-title" data-lang="ja">ミッション・ビジョン・バリュー</h2>
+      <h2 class="sec-title" data-lang="ja">ミッション／ビジョン／バリュー</h2>
       <h2 class="sec-title" data-lang="en">Mission · Vision · Values</h2>
     </div>
 
@@ -1372,7 +1429,7 @@
   <div style="padding: 90px 0; border-bottom: 1px solid var(--line);">
     <div style="max-width:1100px; margin:0 auto; padding:0 48px 56px;">
       <p class="sec-label">Profile</p>
-      <h2 class="sec-title" data-lang="ja">強み・仕事のスタイル</h2>
+      <h2 class="sec-title" data-lang="ja">強み／仕事のスタイルと課題</h2>
       <h2 class="sec-title" data-lang="en">Strengths &amp; Working Style</h2>
     </div>
     <div style="max-width:1100px; margin:0 auto; padding:0 48px;">
@@ -1421,24 +1478,21 @@
           <div class="research-block-body" data-lang="ja">
             AIが流暢に言葉を紡ぎ、自律的にコンテンツを生成する時代において、「知」のあり方は根本的な転換点を迎えています。私は、高度に専門化・タコツボ化した現代の科学技術と知識構造を連携させ、生成AI時代にふさわしい動的な「百学連環（西周）」の再構築に挑んでいます。
             <br><br>
-            「デジタルSTS」「デジタル科学哲学」「デジタルエスノグラフィ」の3領域を柱とし、AIを単なる効率化のツールとして消費するのではなく、テクノロジーと人間社会がどう共創し得るのか、その望ましい関係性を探求しています。
+            「デジタルSTS」「デジタル科学哲学」「デジタル人類学（Digital Anthropology）」の3領域を柱とし、AIを単なる効率化のツールとして消費するのではなく、テクノロジーと人間社会がどう共創し得るのか、その望ましい関係性を探求しています。
             <br><br>
             私の最大の特徴は、人文学的な深い思索にとどまらず、自らプログラミングやデータ分析、生成AIの活用を行い、デザインやウェブ構築を通じて「実装」する点にあります。AIが答えを出せる時代だからこそ、人文学が培ってきた「アナログな思考」と「本質的な問い」を実践的に融合させ、異なる分野の知を繋ぐ新たな対話のプラットフォームを構築しています。
           </div>
           <div class="research-block-body" data-lang="en">
             In an era where AI fluently weaves words and autonomously generates content, the very nature of "knowledge" has reached a fundamental turning point. I am taking on the challenge of connecting the highly specialized and siloed structures of contemporary science and knowledge, aiming to reconstruct a dynamic "Hyakugaku Renkan" (Amane Nishi's Encyclopedia of the Sciences) suited for the age of Generative AI.
             <br><br>
-            Anchored by three core pillars—Digital STS, Digital Philosophy of Science, and Digital Ethnography—I explore the ideal relationship between technology and human society, focusing on how we can co-create with AI rather than merely consuming it as a tool for efficiency.
+            Anchored by three core pillars—Digital STS, Digital Philosophy of Science, and Digital Anthropology—I explore the ideal relationship between technology and human society, focusing on how we can co-create with AI rather than merely consuming it as a tool for efficiency.
             <br><br>
             My defining characteristic is my focus on "implementation." I do not stop at deep humanistic contemplation; I actively bring ideas to life through programming, data analysis, the practical application of generative AI, design, and web development. Precisely because we live in an age where AI can readily provide answers, I practically fuse the "analog thinking" and "essential questioning" cultivated by the humanities to build new interactive platforms that bridge knowledge across diverse disciplines.
           </div>
           <div class="kw-list">
-            <span class="kw">Digital STS</span>
-            <span class="kw">Digital Philosophy of Science</span>
-            <span class="kw">Digital Ethnography</span>
-            <span class="kw">AI × Humanities</span>
-            <span class="kw">Machine Learning</span>
-            <span class="kw">Corpus Linguistics</span>
+            <span class="kw" data-tag="Digital STS">Digital STS</span>
+            <span class="kw" data-tag="Digital Philosophy of Science">Digital Philosophy of Science</span>
+            <span class="kw" data-tag="Digital Anthropology">Digital Anthropology</span>
           </div>
         </div>
       </div>
@@ -1467,6 +1521,7 @@
             <span data-lang="ja">菅原裕輝 / 『文化人類学』89(4)</span>
             <span data-lang="en">Yuki Sugawara / <i>Japanese Journal of Cultural Anthropology</i> 89(4)</span>
           </div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Digital Anthropology">Digital Anthropology</span></div>
         </div>
       </div>
 
@@ -1481,6 +1536,10 @@
             <span data-lang="ja">菅原裕輝, 山﨑真帆 / 『日本災害復興学会論文集』25, pp.36–47</span>
             <span data-lang="en">Yuki Sugawara, Maho Yamazaki / <i>Journal of Japan Society for Disaster Resilience</i> 25, pp.36–47</span>
           </div>
+          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="topic-tag" data-tag="Anthropology">Anthropology</span>
+            <span class="topic-tag" data-tag="STS">STS</span>
+          </div>
         </div>
       </div>
 
@@ -1491,6 +1550,7 @@
             <div class="pub-title">Revisiting Semantic Prosody of Cause: A Sentiment Analysis</div>
           </a>
           <div class="pub-detail">Yuki Sugawara, Kazuho Kambara / <i>Journal of Corpus-based Lexicology Studies</i> 6, pp.71–92</div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Digital Philosophy of Science">Digital Philosophy of Science</span></div>
         </div>
       </div>
 
@@ -1501,6 +1561,7 @@
             <div class="pub-title">The Many Uses of Explain: Quantitative Corpus Method and Philosophy of Science</div>
           </a>
           <div class="pub-detail">Yuki Sugawara, Kazuho Kambara / <i>Annals of the Japan Association for Philosophy of Science</i> 32(2), pp.23–46</div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Digital Philosophy of Science">Digital Philosophy of Science</span></div>
         </div>
       </div>
 
@@ -1511,6 +1572,7 @@
             <div class="pub-title">Philosophy with and for Data Science: Setting the Scene</div>
           </a>
           <div class="pub-detail">Yuki Sugawara / <i>Annals of the Japan Association for Philosophy of Science</i> 32(2), pp.17–22</div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Digital Philosophy of Science">Digital Philosophy of Science</span></div>
         </div>
       </div>
 
@@ -1536,6 +1598,7 @@
             <span data-lang="ja">標葉隆馬・見上公一（編） / ナカニシヤ出版 / 2024年5月10日 / ISBN: 978-4-7795-1779-2</span>
             <span data-lang="en">Eds. Takuma Shineha, Koichi Mikami / Nakanishiya Shuppan / 10 May 2024 / ISBN: 978-4-7795-1779-2</span>
           </div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="STS">STS</span></div>
         </div>
       </div>
 
@@ -1554,6 +1617,7 @@
             <span data-lang="ja">レイチェル・クーパー 著 / 伊勢田哲治・村井俊哉・植野仙経・中尾央・川島啓嗣・菅原裕輝 訳 / 名古屋大学出版会 / 2015年6月19日 / ISBN: 978-4-8158-0807-4</span>
             <span data-lang="en">Rachel Cooper (auth.) / trans. Tetsuji Iseda, Toshiya Murai, Sennyo Ueno, Hisashi Nakao, Keiji Kawashima, Yuki Sugawara / Nagoya University Press / 19 Jun 2015 / ISBN: 978-4-8158-0807-4</span>
           </div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Philosophy of Science">Philosophy of Science</span></div>
         </div>
       </div>
 
@@ -1572,6 +1636,7 @@
             <span data-lang="ja">キム・ステレルニー 著 / 田中泉吏・中尾央・源河亨・菅原裕輝 訳 / 勁草書房 / 2013年12月26日 / ISBN: 978-4-326-19964-9</span>
             <span data-lang="en">Kim Sterelny (auth.) / trans. Izuri Tanaka, Hisashi Nakao, Toru Genka, Yuki Sugawara / Keiso Shobo / 26 Dec 2013 / ISBN: 978-4-326-19964-9</span>
           </div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Philosophy of Science">Philosophy of Science</span></div>
         </div>
       </div>
 
@@ -1603,6 +1668,7 @@
             <div class="pub-title" data-lang="ja">デジタル人類学で拓く「デジタル日本学」教育のグローバル展開</div>
             <div class="pub-title" data-lang="en">Global Development of "Digital Japanese Studies" Education through Digital Anthropology</div>
           </a>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Digital Anthropology">Digital Anthropology</span></div>
           <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
             <span class="grant-tag" data-lang="ja">大阪大学グローバル日本学教育研究拠点 拠点形成プロジェクト</span>
             <span class="grant-tag" data-lang="en">Osaka University Global Japanese Studies Education and Research Hub Project</span>
@@ -1615,6 +1681,7 @@
         <div>
           <div class="pub-title" data-lang="ja">深層学習を用いた社会技術的現象の分析</div>
           <div class="pub-title" data-lang="en">Analysis of Sociotechnical Phenomena Using Deep Learning</div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Digital STS">Digital STS</span></div>
           <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
             <span class="grant-tag" data-lang="ja">栢森情報科学振興財団 2024年度研究助成</span>
             <span class="grant-tag" data-lang="en">Kayamori Foundation of Informational Science Advancement, Research Grant 2024</span>
@@ -1627,6 +1694,10 @@
         <div>
           <div class="pub-title" data-lang="ja">機械学習を用いた知識構造と社会技術的現象の俯瞰的分析</div>
           <div class="pub-title" data-lang="en">Panoramic Analysis of Knowledge Structures and Sociotechnical Phenomena Using Machine Learning</div>
+          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="topic-tag" data-tag="Digital Philosophy of Science">Digital Philosophy of Science</span>
+            <span class="topic-tag" data-tag="Digital STS">Digital STS</span>
+          </div>
           <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
             <span class="grant-tag" data-lang="ja">大阪大学D3センター 学際共創プロジェクト</span>
             <span class="grant-tag" data-lang="en">Osaka University D3 Center Interdisciplinary Co-Creation Project</span>
@@ -1639,6 +1710,10 @@
         <div>
           <div class="pub-title" data-lang="ja">津波被災地域の持続可能なまちづくりへ向けたグローカルな未来像の分析</div>
           <div class="pub-title" data-lang="en">Analysis of Glocal Visions for Sustainable Community Development in Tsunami-Affected Areas</div>
+          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="topic-tag" data-tag="Anthropology">Anthropology</span>
+            <span class="topic-tag" data-tag="STS">STS</span>
+          </div>
           <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
             <span class="grant-tag" data-lang="ja">鹿島学術振興財団 2024年度一般研究助成</span>
             <span class="grant-tag" data-lang="en">Kajima Foundation, General Research Grant 2024</span>
@@ -1651,6 +1726,10 @@
         <div>
           <div class="pub-title" data-lang="ja">津波被災自治体移住者の語りの記録と分析を基にした共生型地域社会のモデル構築</div>
           <div class="pub-title" data-lang="en">Building a Model of Inclusive Local Communities Based on Documentation and Analysis of Narratives from Migrants in Tsunami-Affected Municipalities</div>
+          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="topic-tag" data-tag="Anthropology">Anthropology</span>
+            <span class="topic-tag" data-tag="STS">STS</span>
+          </div>
           <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
             <span class="grant-tag" data-lang="ja">上廣倫理財団 研究助成</span>
             <span class="grant-tag" data-lang="en">Uehiro Foundation on Ethics and Education, Research Grant</span>
@@ -1663,6 +1742,7 @@
         <div>
           <div class="pub-title" data-lang="ja">ゲノム合成分野におけるバイオベンチャーの動向に関する調査研究</div>
           <div class="pub-title" data-lang="en">Research on Trends in Bio-ventures in the Field of Genome Synthesis</div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="STS">STS</span></div>
           <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
             <span class="grant-tag" data-lang="ja">新技術振興渡辺記念会 科学技術調査研究助成</span>
             <span class="grant-tag" data-lang="en">Watanabe Memorial Foundation for the Advancement of Technology, Research Grant</span>
@@ -1675,6 +1755,7 @@
         <div>
           <div class="pub-title" data-lang="ja">機械学習を用いた学際分野の俯瞰的分析</div>
           <div class="pub-title" data-lang="en">Panoramic Analysis of Interdisciplinary Fields Using Machine Learning</div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Digital Philosophy of Science">Digital Philosophy of Science</span></div>
           <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
             <span class="grant-tag" data-lang="ja">大阪大学 IDS 学際共創プロジェクト</span>
             <span class="grant-tag" data-lang="en">Osaka University IDS Interdisciplinary Co-Creation Project</span>
@@ -1687,6 +1768,7 @@
         <div>
           <div class="pub-title" data-lang="ja">機械学習を用いた学術分野の俯瞰的分析</div>
           <div class="pub-title" data-lang="en">Panoramic Analysis of Academic Fields Using Machine Learning</div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Digital Philosophy of Science">Digital Philosophy of Science</span></div>
           <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
             <span class="grant-tag" data-lang="ja">中部科学技術センター 人工知能研究助成</span>
             <span class="grant-tag" data-lang="en">Chubu Science and Technology Center, AI Research Grant</span>
@@ -1699,6 +1781,7 @@
         <div>
           <div class="pub-title" data-lang="ja">神経科学の哲学の基盤構築</div>
           <div class="pub-title" data-lang="en">Foundations of the Philosophy of Neuroscience</div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Philosophy of Science">Philosophy of Science</span></div>
           <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
             <span class="grant-tag" data-lang="ja">日本学術振興会 特別研究員奨励費（DC2）</span>
             <span class="grant-tag" data-lang="en">JSPS Research Fellowship for Young Scientists (DC2)</span>
@@ -1711,6 +1794,7 @@
         <div>
           <div class="pub-title" data-lang="ja">神経科学の哲学の基盤構築</div>
           <div class="pub-title" data-lang="en">Foundations of the Philosophy of Neuroscience</div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Philosophy of Science">Philosophy of Science</span></div>
           <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
             <span class="grant-tag" data-lang="ja">サントリー文化財団 チャレンジ研究助成</span>
             <span class="grant-tag" data-lang="en">Suntory Foundation, Challenge Research Grant</span>
@@ -1730,6 +1814,7 @@
         <div>
           <div class="pub-title" data-lang="ja">文化的言語的に多様な子どもの複数言語アセスメントの実証研究</div>
           <div class="pub-title" data-lang="en">Empirical Research on Multilingual Assessment of Culturally and Linguistically Diverse Children</div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Digital Technology">Digital Technology</span></div>
           <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
             <span class="grant-tag" data-lang="ja">日本学術振興会 科学研究費助成事業 基盤研究(B)</span>
             <span class="grant-tag" data-lang="en">JSPS Grant-in-Aid for Scientific Research (B)</span>
@@ -1747,6 +1832,7 @@
         <span class="pub-year">2021—2024</span>
         <div>
           <div class="pub-title">Future Organisms: Synthetic Genomics and Responsible Innovation in the UK, the USA and Japan</div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="STS">STS</span></div>
           <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
             <span class="grant-tag">UKRI / Economic and Social Research Council (ESRC) — International Research Grant</span>
           </div>
@@ -1785,6 +1871,7 @@
           </a>
           <div class="teaching-inst" data-lang="ja">大阪大学 文学部</div>
           <div class="teaching-inst" data-lang="en">School of Letters, Osaka University</div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Digital Humanities">Digital Humanities</span></div>
         </div>
       </div>
 
@@ -1797,6 +1884,10 @@
           <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k04AA83A5-0587-B280-A763-214C44B3BBE3" target="_blank" rel="noopener noreferrer" class="pub-title-link" data-lang="en">
             <div class="pub-title">Digital Tools for Students of Foreign Languages</div>
           </a>
+          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="topic-tag" data-tag="Humanities">Humanities</span>
+            <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
+          </div>
           <div class="teaching-inst" data-lang="ja">大阪大学 外国語学部</div>
           <div class="teaching-inst" data-lang="en">School of Foreign Studies, Osaka University</div>
         </div>
@@ -1813,6 +1904,10 @@
           </a>
           <div class="teaching-inst" data-lang="ja">大阪大学 大学院人文学研究科</div>
           <div class="teaching-inst" data-lang="en">Graduate School of Humanities, Osaka University</div>
+          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="topic-tag" data-tag="Humanities">Humanities</span>
+            <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
+          </div>
         </div>
       </div>
 
@@ -1827,6 +1922,7 @@
           </a>
           <div class="teaching-inst" data-lang="ja">大阪大学 大学院人文学研究科</div>
           <div class="teaching-inst" data-lang="en">Graduate School of Humanities, Osaka University</div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Humanities">Humanities</span></div>
         </div>
       </div>
 
@@ -1839,6 +1935,10 @@
           </a>
           <div class="teaching-inst" data-lang="ja">同志社女子大学 学芸学部</div>
           <div class="teaching-inst" data-lang="en">Faculty of Liberal Arts, Doshisha Women's College of Liberal Arts</div>
+          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="topic-tag" data-tag="Humanities">Humanities</span>
+            <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
+          </div>
         </div>
       </div>
 
@@ -1900,8 +2000,8 @@
   <!-- CAREER -->
   <section>
     <p class="sec-label">Career</p>
-    <h2 class="sec-title" data-lang="ja">経歴</h2>
-    <h2 class="sec-title" data-lang="en">Academic Career</h2>
+    <h2 class="sec-title" data-lang="ja">経歴（抜粋）</h2>
+    <h2 class="sec-title" data-lang="en">Academic Career (Selected)</h2>
 
     <div class="career-list" style="margin-top: 56px;">
       <div class="career-item">
@@ -1914,17 +2014,27 @@
           <div class="career-role">
             <span data-lang="ja">講師</span><span data-lang="en">Lecturer</span>
           </div>
+          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="topic-tag" data-tag="Humanities">Humanities</span>
+            <span class="topic-tag" data-tag="Digital Humanities">Digital Humanities</span>
+            <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
+          </div>
         </div>
       </div>
       <div class="career-item">
         <span class="career-period">2022.04 — 2025.03</span>
         <div>
           <div class="career-body">
-            <span data-lang="ja">大阪大学</span>
-            <span data-lang="en">Osaka University</span>
+            <span data-lang="ja">大阪大学 大学院人文学研究科 人文学林</span>
+            <span data-lang="en">Interdisciplinary Network in the Humanities, Graduate School of Humanities, The University of Osaka</span>
           </div>
           <div class="career-role">
             <span data-lang="ja">特任助教（常勤）</span><span data-lang="en">Specially Appointed Assistant Professor</span>
+          </div>
+          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="topic-tag" data-tag="Humanities">Humanities</span>
+            <span class="topic-tag" data-tag="Digital Humanities">Digital Humanities</span>
+            <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
           </div>
         </div>
       </div>
@@ -1932,12 +2042,13 @@
         <span class="career-period">2021.07 — 2022.03</span>
         <div>
           <div class="career-body">
-            <span data-lang="ja">慶應義塾大学</span>
-            <span data-lang="en">Keio University</span>
+            <span data-lang="ja">慶應義塾大学 理工学部</span>
+            <span data-lang="en">Faculty of Science and Technology, Keio University</span>
           </div>
           <div class="career-role">
             <span data-lang="ja">研究員</span><span data-lang="en">Research Fellow</span>
           </div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="STS">STS</span></div>
         </div>
       </div>
     </div>
@@ -1974,6 +2085,61 @@
           <div class="career-body">
             <span data-lang="ja">準学士（工学）— 国立秋田高専</span>
             <span data-lang="en">Associate Degree in Engineering — Akita National College of Technology</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 64px;">
+      <p class="sec-label" style="margin-bottom: 32px;">
+        <span data-lang="ja">学歴</span>
+        <span data-lang="en">Education</span>
+      </p>
+      <div class="career-list">
+        <div class="career-item">
+          <span class="career-period">2012.04 — 2015.03</span>
+          <div>
+            <div class="career-body">
+              <span data-lang="ja">京都大学 大学院文学研究科 現代文化学専攻 科学哲学科学史専修（博士後期課程）</span>
+              <span data-lang="en">Doctoral Program, Dept. of Philosophy and History of Science, Graduate School of Letters, Kyoto University</span>
+            </div>
+            <div style="margin-top:6px;"><span class="topic-tag" data-tag="Philosophy of Science">Philosophy of Science</span></div>
+          </div>
+        </div>
+        <div class="career-item">
+          <span class="career-period">2010.04 — 2012.03</span>
+          <div>
+            <div class="career-body">
+              <span data-lang="ja">名古屋大学 大学院情報科学研究科 社会システム情報学専攻（博士前期課程）</span>
+              <span data-lang="en">Master's Program, Dept. of Social Systems and Informatics, Graduate School of Information Science, Nagoya University</span>
+            </div>
+            <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+              <span class="topic-tag" data-tag="Philosophy of Science">Philosophy of Science</span>
+              <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
+            </div>
+          </div>
+        </div>
+        <div class="career-item">
+          <span class="career-period">2008.04 — 2010.03</span>
+          <div>
+            <div class="career-body">
+              <span data-lang="ja">岩手大学 人文社会科学部 人間科学課程（学士課程）</span>
+              <span data-lang="en">Undergraduate Program, Course in Human Sciences, Faculty of Humanities and Social Sciences, Iwate University</span>
+            </div>
+            <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+              <span class="topic-tag" data-tag="Philosophy of Science">Philosophy of Science</span>
+              <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
+            </div>
+          </div>
+        </div>
+        <div class="career-item">
+          <span class="career-period">2003.04 — 2008.03</span>
+          <div>
+            <div class="career-body">
+              <span data-lang="ja">秋田工業高等専門学校 環境都市工学科</span>
+              <span data-lang="en">Dept. of Environmental and Civil Engineering, Akita National College of Technology</span>
+            </div>
+            <div style="margin-top:6px;"><span class="topic-tag" data-tag="Technology">Technology</span></div>
           </div>
         </div>
       </div>
