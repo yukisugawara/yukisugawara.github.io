@@ -508,6 +508,74 @@
     }
     .kw:hover { border-color: var(--accent); color: var(--accent); }
 
+    /* ── RESEARCH CARD ── */
+    .research-card {
+      position: relative;
+      overflow: hidden;
+      padding: 48px 40px;
+      border: 1px solid var(--line);
+      background: var(--bg);
+      transition: background 0.4s ease;
+      cursor: default;
+      max-width: 760px;
+    }
+    .research-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--accent);
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .research-card:hover::before { width: 100%; }
+    .research-card::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; right: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(200,169,110,0.10) 0%, transparent 70%);
+      transform: scale(0);
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .research-card:hover::after { transform: scale(1); }
+    .research-card:hover { background: var(--bg2); }
+    .research-card > * { position: relative; z-index: 1; }
+    .research-card-title {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.5;
+      margin-bottom: 0;
+    }
+    .research-card-title::after {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--accent);
+      margin-top: 18px;
+      opacity: 0.45;
+      transition: opacity 0.35s ease, width 0.35s ease;
+    }
+    .research-card:hover .research-card-title::after { opacity: 0; width: 0; }
+    .research-card-body {
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(18px);
+      transition: max-height 1.2s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.9s ease 0.15s,
+                  transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+    }
+    .research-card:hover .research-card-body {
+      max-height: 600px;
+      opacity: 1;
+      transform: translateY(0);
+      margin-top: 28px;
+    }
+
     /* ── PUBLICATIONS ── */
     .pub-list {
       display: flex;
@@ -846,6 +914,7 @@
     .mvv-card-body[data-lang],
     .strengths-card-body[data-lang],
     .mvv-card-title[data-lang],
+    .research-card-title[data-lang],
     .hero-affil[data-lang],
     .hero-name-sub[data-lang],
     .sec-title[data-lang],
@@ -860,6 +929,7 @@
     body.lang-ja .mvv-card-body[data-lang="ja"],
     body.lang-ja .strengths-card-body[data-lang="ja"],
     body.lang-ja .mvv-card-title[data-lang="ja"],
+    body.lang-ja .research-card-title[data-lang="ja"],
     body.lang-ja .hero-affil[data-lang="ja"],
     body.lang-ja .hero-name-sub[data-lang="ja"],
     body.lang-ja .sec-title[data-lang="ja"],
@@ -872,6 +942,7 @@
     body.lang-en .mvv-card-body[data-lang="en"],
     body.lang-en .strengths-card-body[data-lang="en"],
     body.lang-en .mvv-card-title[data-lang="en"],
+    body.lang-en .research-card-title[data-lang="en"],
     body.lang-en .hero-affil[data-lang="en"],
     body.lang-en .hero-name-sub[data-lang="en"],
     body.lang-en .sec-title[data-lang="en"],
@@ -1057,9 +1128,79 @@
       height: 1px;
       background: var(--muted);
     }
+
+    /* ── GRAIN OVERLAY ── */
+    .grain-overlay {
+      position: fixed;
+      inset: -50%;
+      width: 200%; height: 200%;
+      z-index: 9995;
+      pointer-events: none;
+      opacity: 0.038;
+      filter: url(#grain-filter);
+      background: white;
+      animation: grain-move 0.2s steps(1) infinite;
+    }
+    @keyframes grain-move {
+      0%   { transform: translate3d(0%,    0%,    0); }
+      10%  { transform: translate3d(-2%,  -3%,    0); }
+      20%  { transform: translate3d(3%,    2%,    0); }
+      30%  { transform: translate3d(-2%,   3%,    0); }
+      40%  { transform: translate3d(2%,   -2%,    0); }
+      50%  { transform: translate3d(-3%,   2%,    0); }
+      60%  { transform: translate3d(3%,   -3%,    0); }
+      70%  { transform: translate3d(-1%,   2%,    0); }
+      80%  { transform: translate3d(2%,   -1%,    0); }
+      90%  { transform: translate3d(-2%,   2%,    0); }
+      100% { transform: translate3d(1%,   -1%,    0); }
+    }
+
+    /* ── HERO CANVAS + GLOW ── */
+    #hero-canvas {
+      position: absolute;
+      inset: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 2.5s ease;
+    }
+    #hero-canvas.active { opacity: 1; }
+    .hero-glow {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ── CLIP-PATH TITLE REVEAL ── */
+    .clip-reveal {
+      clip-path: inset(0 0 100% 0);
+      transform: translateY(22px);
+      transition: clip-path 1.0s cubic-bezier(0.16, 1, 0.3, 1),
+                  transform 1.0s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .clip-reveal.visible {
+      clip-path: inset(0 0 0% 0);
+      transform: translateY(0);
+    }
+
+    /* ── CARD TILT (3-D) ── */
+    .mvv-card, .strengths-card, .research-card { will-change: transform; }
   </style>
 </head>
 <body class="lang-ja">
+
+  <!-- GRAIN NOISE -->
+  <svg style="position:absolute;width:0;height:0;overflow:hidden" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <filter id="grain-filter">
+        <feTurbulence type="fractalNoise" baseFrequency="0.72" numOctaves="4" stitchTiles="stitch"/>
+        <feColorMatrix type="saturate" values="0"/>
+      </filter>
+    </defs>
+  </svg>
+  <div class="grain-overlay"></div>
 
   <!-- LOADER -->
   <div id="loader">
@@ -1088,6 +1229,8 @@
 
   <!-- HERO -->
   <div class="hero">
+    <canvas id="hero-canvas"></canvas>
+    <div class="hero-glow"></div>
     <div class="hero-photo-wrap">
       <img class="hero-photo" src="https://researchmap.jp/yukisugawara/avatar.jpg" alt="Yuki Sugawara" />
     </div>
@@ -1270,23 +1413,33 @@
     <h2 class="sec-title" data-lang="ja">研究について</h2>
     <h2 class="sec-title" data-lang="en">Research Overview</h2>
 
-    <div style="margin-top: 56px; max-width: 760px;">
-      <div>
-        <div class="research-block-body" data-lang="ja">
-          <strong style="display:block; color:var(--white); font-weight:400; margin-bottom:14px;">機械学習時代の「知の再編成」と実装</strong>
-          高度に専門化・タコツボ化した現代の科学技術と知識構造を連携させ、AI・機械学習時代における新たな「百学連環（西周）」の再構築に挑んでいます。「デジタルSTS」「デジタル科学哲学」「デジタルエスノグラフィ」の3領域を柱とし、テクノロジーと人間社会の望ましい関係性を探求しています。最大の特徴は、人文学的な深い思索にとどまらず、自らプログラミングやデータ分析を行い、デザインやウェブ構築を通じて「実装」する点にあります。アナログな思考と最先端のデジタル技術を実践的に融合させ、異なる分野の知を繋ぐ対話の場を構築しています。
-        </div>
-        <div class="research-block-body" data-lang="en">
-          <strong style="display:block; color:var(--white); font-weight:400; margin-bottom:14px;">Reorganizing and Implementing Knowledge in the Age of Machine Learning</strong>
-          My research takes on the challenge of reconstructing a modern "Hyakugaku Renkan" (Amane Nishi's Encyclopedia of the Sciences) for the age of AI and machine learning. I aim to connect the highly specialized and siloed structures of contemporary science, technology, and knowledge. Anchored by three core pillars—Digital STS (Science and Technology Studies), Digital Philosophy of Science, and Digital Ethnography—I explore the ideal relationship between technology and human society. My greatest defining characteristic is that I do not stop at deep humanistic contemplation; I actively "implement" these ideas by personally engaging in programming, data analysis, design, and web development. By practically fusing analog analytical thinking with cutting-edge digital technologies, I am building interactive platforms that bridge knowledge across diverse disciplines.
-        </div>
-        <div class="kw-list">
-          <span class="kw">Digital STS</span>
-          <span class="kw">Digital Philosophy of Science</span>
-          <span class="kw">Digital Ethnography</span>
-          <span class="kw">AI × Humanities</span>
-          <span class="kw">Machine Learning</span>
-          <span class="kw">Corpus Linguistics</span>
+    <div style="margin-top: 56px;">
+      <div class="research-card">
+        <div class="research-card-title" data-lang="ja">生成AI時代の「知の再編成」と実装</div>
+        <div class="research-card-title" data-lang="en">Reorganizing and Implementing Knowledge in the Age of Generative AI</div>
+        <div class="research-card-body">
+          <div class="research-block-body" data-lang="ja">
+            AIが流暢に言葉を紡ぎ、自律的にコンテンツを生成する時代において、「知」のあり方は根本的な転換点を迎えています。私は、高度に専門化・タコツボ化した現代の科学技術と知識構造を連携させ、生成AI時代にふさわしい動的な「百学連環（西周）」の再構築に挑んでいます。
+            <br><br>
+            「デジタルSTS」「デジタル科学哲学」「デジタルエスノグラフィ」の3領域を柱とし、AIを単なる効率化のツールとして消費するのではなく、テクノロジーと人間社会がどう共創し得るのか、その望ましい関係性を探求しています。
+            <br><br>
+            私の最大の特徴は、人文学的な深い思索にとどまらず、自らプログラミングやデータ分析、生成AIの活用を行い、デザインやウェブ構築を通じて「実装」する点にあります。AIが答えを出せる時代だからこそ、人文学が培ってきた「アナログな思考」と「本質的な問い」を実践的に融合させ、異なる分野の知を繋ぐ新たな対話のプラットフォームを構築しています。
+          </div>
+          <div class="research-block-body" data-lang="en">
+            In an era where AI fluently weaves words and autonomously generates content, the very nature of "knowledge" has reached a fundamental turning point. I am taking on the challenge of connecting the highly specialized and siloed structures of contemporary science and knowledge, aiming to reconstruct a dynamic "Hyakugaku Renkan" (Amane Nishi's Encyclopedia of the Sciences) suited for the age of Generative AI.
+            <br><br>
+            Anchored by three core pillars—Digital STS, Digital Philosophy of Science, and Digital Ethnography—I explore the ideal relationship between technology and human society, focusing on how we can co-create with AI rather than merely consuming it as a tool for efficiency.
+            <br><br>
+            My defining characteristic is my focus on "implementation." I do not stop at deep humanistic contemplation; I actively bring ideas to life through programming, data analysis, the practical application of generative AI, design, and web development. Precisely because we live in an age where AI can readily provide answers, I practically fuse the "analog thinking" and "essential questioning" cultivated by the humanities to build new interactive platforms that bridge knowledge across diverse disciplines.
+          </div>
+          <div class="kw-list">
+            <span class="kw">Digital STS</span>
+            <span class="kw">Digital Philosophy of Science</span>
+            <span class="kw">Digital Ethnography</span>
+            <span class="kw">AI × Humanities</span>
+            <span class="kw">Machine Learning</span>
+            <span class="kw">Corpus Linguistics</span>
+          </div>
         </div>
       </div>
     </div>
@@ -1943,9 +2096,9 @@
       revealObserver.observe(el);
     });
 
-    // Observe section titles
+    // Observe section titles — clip-path reveal
     document.querySelectorAll('.sec-title, .sec-title-jp').forEach(el => {
-      el.classList.add('reveal');
+      el.classList.add('clip-reveal');
       revealObserver.observe(el);
     });
 
@@ -2005,6 +2158,111 @@
         setTimeout(() => { scrollHint.style.transform = 'scaleX(1)'; }, 300);
       }, 2500);
     }
+
+    /* ── HERO CANVAS (constellation) ── */
+    (function() {
+      const canvas = document.getElementById('hero-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      const N = 55;
+      let pts = [];
+
+      function resize() {
+        canvas.width  = canvas.offsetWidth;
+        canvas.height = canvas.offsetHeight;
+      }
+      resize();
+      window.addEventListener('resize', resize, { passive: true });
+
+      for (let i = 0; i < N; i++) {
+        pts.push({
+          x:  Math.random() * canvas.width,
+          y:  Math.random() * canvas.height,
+          vx: (Math.random() - 0.5) * 0.25,
+          vy: (Math.random() - 0.5) * 0.25,
+          r:  Math.random() * 1.2 + 0.4
+        });
+      }
+
+      function tick() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        pts.forEach(p => {
+          p.x += p.vx;
+          p.y += p.vy;
+          if (p.x < 0) p.x = canvas.width;
+          if (p.x > canvas.width)  p.x = 0;
+          if (p.y < 0) p.y = canvas.height;
+          if (p.y > canvas.height) p.y = 0;
+        });
+        const MAX = 150;
+        for (let i = 0; i < N; i++) {
+          for (let j = i + 1; j < N; j++) {
+            const dx = pts[i].x - pts[j].x;
+            const dy = pts[i].y - pts[j].y;
+            const d  = Math.sqrt(dx*dx + dy*dy);
+            if (d < MAX) {
+              ctx.strokeStyle = `rgba(200,169,110,${(1 - d/MAX) * 0.10})`;
+              ctx.lineWidth = 0.5;
+              ctx.beginPath();
+              ctx.moveTo(pts[i].x, pts[i].y);
+              ctx.lineTo(pts[j].x, pts[j].y);
+              ctx.stroke();
+            }
+          }
+        }
+        pts.forEach(p => {
+          ctx.fillStyle = 'rgba(200,169,110,0.30)';
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+          ctx.fill();
+        });
+        requestAnimationFrame(tick);
+      }
+      tick();
+      setTimeout(() => canvas.classList.add('active'), 100);
+    })();
+
+    /* ── HERO AMBIENT GLOW ── */
+    (function() {
+      const hero = document.querySelector('.hero');
+      const glow = document.querySelector('.hero-glow');
+      if (!hero || !glow) return;
+      let tx = 50, ty = 50, cx = 50, cy = 50;
+      hero.addEventListener('mousemove', e => {
+        const r = hero.getBoundingClientRect();
+        tx = ((e.clientX - r.left) / r.width)  * 100;
+        ty = ((e.clientY - r.top)  / r.height) * 100;
+      });
+      (function glowTick() {
+        cx += (tx - cx) * 0.05;
+        cy += (ty - cy) * 0.05;
+        glow.style.background =
+          `radial-gradient(700px circle at ${cx}% ${cy}%, rgba(200,169,110,0.055), transparent 60%)`;
+        requestAnimationFrame(glowTick);
+      })();
+    })();
+
+    /* ── 3-D CARD TILT ── */
+    (function() {
+      const TILT_SELECTORS = ['.mvv-card', '.strengths-card', '.research-card'];
+      const BASE_T = 'background 0.4s ease, opacity 0.4s ease';
+      TILT_SELECTORS.forEach(sel => {
+        document.querySelectorAll(sel).forEach(card => {
+          card.addEventListener('mousemove', e => {
+            const r = card.getBoundingClientRect();
+            const x = (e.clientX - r.left) / r.width  - 0.5;
+            const y = (e.clientY - r.top)  / r.height - 0.5;
+            card.style.transition = `${BASE_T}, transform 0.08s ease`;
+            card.style.transform  =
+              `perspective(900px) rotateY(${x * 7}deg) rotateX(${-y * 5}deg) scale3d(1.012,1.012,1.012)`;
+          });
+          card.addEventListener('mouseleave', () => {
+            card.style.transition = `${BASE_T}, transform 0.7s cubic-bezier(0.16,1,0.3,1)`;
+            card.style.transform  = '';
+          });
+        });
+      });
+    })();
   </script>
 </body>
 </html>
