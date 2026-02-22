@@ -947,10 +947,36 @@
       .contact-item { grid-template-columns: 1fr; gap: 6px; }
       footer { padding: 32px 24px; flex-direction: column; gap: 12px; text-align: center; }
       .lang-bar { padding: 16px 24px; }
+      .pub-item { gap: 20px; }
+      .pub-item-book { gap: 20px; }
     }
     @media (max-width: 560px) {
+      .hero { padding: 0 20px 56px; }
       .hero-photo-wrap { display: none; }
+      .hero-name img { height: clamp(36px, 14vw, 70px) !important; }
+      section { padding: 48px 20px; }
       .values-item { grid-template-columns: 48px 1fr; gap: 16px; padding: 28px 20px; }
+      .pub-item { grid-template-columns: 1fr; gap: 4px; padding: 20px 0; }
+      .pub-year { padding-top: 0; }
+      .pub-item-book { grid-template-columns: 64px 1fr; gap: 20px; padding: 24px 0; }
+      .pub-book-cover { width: 64px !important; }
+      .career-item { padding: 16px 0; }
+      .kw { font-size: 11px; padding: 5px 10px; }
+      .topic-tag { font-size: 9px; padding: 2px 8px; }
+      .hero-tag { font-size: 9px; padding: 4px 10px; }
+      .grant-group-label { margin-top: 36px !important; }
+    }
+    /* タッチデバイスではホバー非表示コンテンツを常時表示 */
+    @media (pointer: coarse) {
+      .pub-item .pub-detail,
+      .pub-item .grant-info,
+      .pub-item .member-info {
+        max-height: none;
+        opacity: 1;
+        margin-top: 6px;
+        transition: none;
+      }
+      .pub-item > div::after { display: none; }
     }
 
     /* ── LANGUAGE SWITCH ── */
