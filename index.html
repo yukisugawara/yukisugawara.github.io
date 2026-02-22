@@ -778,6 +778,42 @@
       opacity: 1;
       margin-top: 8px;
     }
+    .pub-item:hover .pub-detail-media { max-height: 280px; }
+    .yt-thumb-link {
+      display: block;
+      position: relative;
+      max-width: 300px;
+      margin-top: 4px;
+      border-radius: 2px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+    }
+    .yt-thumb-link img { width: 100%; display: block; transition: opacity 0.2s; }
+    .yt-thumb-link:hover img { opacity: 0.85; }
+    .yt-play-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.25);
+      transition: background 0.2s;
+    }
+    .yt-thumb-link:hover .yt-play-overlay { background: rgba(0,0,0,0.1); }
+    .yt-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: #ff4444;
+      border: 1px solid rgba(255, 68, 68, 0.4);
+      padding: 3px 10px 3px 8px;
+      border-radius: 1px;
+      text-decoration: none;
+      transition: background 0.2s, border-color 0.2s;
+    }
+    .yt-badge:hover { background: rgba(255,68,68,0.08); border-color: rgba(255,68,68,0.7); }
     .pub-item { cursor: default; }
     /* hint: small dot on right edge when hoverable content exists */
     .pub-item > div { position: relative; }
@@ -791,6 +827,7 @@
       transition: color 0.25s;
     }
     .pub-item:hover > div::after { color: var(--accent); }
+    .pub-item.news-entry:hover .pub-detail { max-height: 2000px; transition: max-height 0.8s cubic-bezier(0.16,1,0.3,1), opacity 0.5s ease, margin-top 0.3s ease; }
 
     /* ── GRANTS & TEACHING ── */
     .grant-group-label {
@@ -1346,6 +1383,58 @@
     </div>
   </div>
 
+  <!-- NEWS -->
+  <section>
+    <p class="sec-label">News</p>
+    <h2 class="sec-title" data-lang="ja">新着情報</h2>
+    <h2 class="sec-title" data-lang="en">News</h2>
+
+    <div class="pub-list" style="margin-top: 40px;">
+
+      <div class="pub-item news-entry" style="align-items:start; padding: 32px 0;">
+        <span class="pub-year">2026.02.23</span>
+        <div>
+          <div class="pub-title" data-lang="ja" style="font-size:15px; font-weight:400; line-height:1.6;">【お知らせ】「デジタル人類学」リーディンググループ開始と参加者募集</div>
+          <div class="pub-title" data-lang="en" style="font-size:15px; font-weight:400; line-height:1.6;">[News] Call for Participants: Digital Anthropology Reading Group</div>
+          <div style="margin-top:8px;"><span class="topic-tag" data-tag="Digital Anthropology">Digital Anthropology</span></div>
+
+          <div class="pub-detail">
+            <!-- 日本語本文 -->
+            <div data-lang="ja" style="font-size:13px; line-height:2; color:var(--text);">
+              <p>グローバル日本学教育研究拠点のプロジェクト「デジタル人類学で拓く『デジタル日本学』教育のグローバル展開」（代表：菅原裕輝）の一環として、2025年10月より「デジタル人類学」のリーディンググループ（読書会）をスタートいたしました。</p>
+              <p style="margin-top:12px;">デジタル環境における人間・社会・文化のあり方を問う新たな研究領域「デジタル人類学」。本グループでは、関連文献を講読しながら分野を越えた対話と議論を深め、研究の基盤となる視座を共有していきます。</p>
+              <p style="margin-top:24px; font-size:11px; letter-spacing:0.1em; color:var(--accent);">■ 開催概要</p>
+              <p style="margin-top:10px;">日時：毎月 第2木曜日 11:00–12:00</p>
+              <p style="margin-top:4px;">対象：デジタル人類学に関心のある学生・研究者・社会人（学内外を問いません）</p>
+              <p style="margin-top:4px;">形式：オンライン（Zoom）および Notionを活用した情報共有</p>
+              <p style="margin-top:24px; font-size:11px; letter-spacing:0.1em; color:var(--accent);">■ 参加方法について</p>
+              <p style="margin-top:10px;">まずは、下記のGoogleフォームよりお気軽にご登録ください。</p>
+              <p style="margin-top:8px;"><a href="https://forms.gle/1AHmpgQyykCZotsM6" target="_blank" rel="noopener noreferrer" style="color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(200,169,110,0.4); padding-bottom:1px;">🔗 参加登録フォームはこちら</a></p>
+              <p style="margin-top:12px;">ご登録いただいた方には、文献リストや読書メモ、Zoomリンク、進め方などをまとめた「Notionページ」のリンクをメールにてご案内いたします。そちらの詳細をご確認いただいた上で、実際の参加をご判断いただけます（登録＝参加必須ではありません）。</p>
+              <p style="margin-top:20px;">多様なバックグラウンドを持つ皆様との有意義な対話を楽しみにしています。心よりご登録をお待ちしております。</p>
+            </div>
+
+            <!-- English body -->
+            <div data-lang="en" style="font-size:13px; line-height:2; color:var(--text);">
+              <p>As part of the project "Global Expansion of 'Digital Japanese Studies' Education Pioneered by Digital Anthropology" (Project Leader: Yuki Sugawara), we launched the Digital Anthropology Reading Group in October 2025.</p>
+              <p style="margin-top:12px;">Digital anthropology is an emerging field that explores human behavior, society, and culture within digital environments. In this group, we will read relevant literature, deepen our discussions across disciplines, and share foundational perspectives for future research.</p>
+              <p style="margin-top:24px; font-size:11px; letter-spacing:0.1em; color:var(--accent);">■ Overview</p>
+              <p style="margin-top:10px;">Schedule: 2nd Thursday of every month, 11:00–12:00 (JST)</p>
+              <p style="margin-top:4px;">Target: Students, researchers, and professionals interested in digital anthropology (open to both internal and external participants)</p>
+              <p style="margin-top:4px;">Format: Online (Zoom) with shared resources and collaboration via Notion</p>
+              <p style="margin-top:24px; font-size:11px; letter-spacing:0.1em; color:var(--accent);">■ How to Join</p>
+              <p style="margin-top:10px;">If you are interested, please register via the Google Form below:</p>
+              <p style="margin-top:8px;"><a href="https://forms.gle/1AHmpgQyykCZotsM6" target="_blank" rel="noopener noreferrer" style="color:var(--accent); text-decoration:none; border-bottom:1px solid rgba(200,169,110,0.4); padding-bottom:1px;">🔗 Registration Form</a></p>
+              <p style="margin-top:12px;">Upon registration, you will receive an email with a link to our Notion page containing all necessary details, including reading lists, memos, Zoom links, and procedures. You are welcome to review these materials first before officially deciding to participate.</p>
+              <p style="margin-top:20px;">We look forward to engaging in meaningful dialogue with participants from diverse backgrounds!</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- MISSION / VISION / VALUES -->
   <div style="padding: 90px 0; border-bottom: 1px solid var(--line);">
     <div style="max-width:1100px; margin:0 auto; padding:0 48px;">
@@ -1806,7 +1895,7 @@
       </div>
 
       <div class="pub-item">
-        <span class="pub-year">2014—2015</span>
+        <span class="pub-year">2014—2016</span>
         <div>
           <div class="pub-title" data-lang="ja">神経科学の哲学の基盤構築</div>
           <div class="pub-title" data-lang="en">Foundations of the Philosophy of Neuroscience</div>
@@ -1884,8 +1973,8 @@
   <!-- TEACHING -->
   <section>
     <p class="sec-label">Teaching</p>
-    <h2 class="sec-title" data-lang="ja">担当授業</h2>
-    <h2 class="sec-title" data-lang="en">Courses Taught</h2>
+    <h2 class="sec-title" data-lang="ja">授業（現在担当分）</h2>
+    <h2 class="sec-title" data-lang="en">Courses Currently Taught</h2>
 
     <div class="pub-list" style="margin-top: 56px;">
 
@@ -1933,9 +2022,27 @@
           </a>
           <div class="teaching-inst" data-lang="ja">大阪大学 大学院人文学研究科</div>
           <div class="teaching-inst" data-lang="en">Graduate School of Humanities, Osaka University</div>
-          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap; align-items:center;">
             <span class="topic-tag" data-tag="Humanities">Humanities</span>
             <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
+            <a href="https://youtu.be/72bx9-_iJN0" target="_blank" rel="noopener noreferrer" class="yt-badge">
+              <svg width="13" height="9" viewBox="0 0 13 9" fill="none">
+                <rect width="13" height="9" rx="2" fill="#ff4444"/>
+                <polygon points="5,2.5 9.5,4.5 5,6.5" fill="white"/>
+              </svg>
+              紹介動画
+            </a>
+          </div>
+          <div class="pub-detail pub-detail-media">
+            <a href="https://youtu.be/72bx9-_iJN0" target="_blank" rel="noopener noreferrer" class="yt-thumb-link">
+              <img src="https://img.youtube.com/vi/72bx9-_iJN0/hqdefault.jpg" alt="人文学とデジタル技術 紹介動画">
+              <div class="yt-play-overlay">
+                <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
+                  <circle cx="26" cy="26" r="26" fill="rgba(0,0,0,0.55)"/>
+                  <polygon points="21,17 39,26 21,35" fill="white"/>
+                </svg>
+              </div>
+            </a>
           </div>
         </div>
       </div>
