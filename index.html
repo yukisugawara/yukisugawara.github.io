@@ -79,30 +79,6 @@
       position: relative;
       border-bottom: 1px solid var(--line);
     }
-    .hero-photo-wrap {
-      position: absolute;
-      top: 0; right: 0;
-      width: 44vw;
-      max-width: 580px;
-      height: 100%;
-      overflow: hidden;
-    }
-    .hero-photo-wrap::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(100deg, var(--bg) 28%, transparent 68%),
-                  linear-gradient(to top, var(--bg) 0%, transparent 40%);
-    }
-    .hero-photo {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: left top;
-      opacity: 0.55;
-      filter: grayscale(30%) contrast(1.05);
-      display: block;
-    }
     .hero-content {
       position: relative;
       z-index: 1;
@@ -1689,6 +1665,142 @@
       line-height: 2;
     }
 
+    /* ── CONCEPT MAP ── */
+    #concept-map-container {
+      width: 100%;
+      height: 640px;
+      background: var(--bg);
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      overflow: hidden;
+      position: relative;
+    }
+    #concept-map-svg {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+    .cmap-edge {
+      stroke: var(--muted);
+      stroke-opacity: 0.18;
+      stroke-width: 1;
+      transition: stroke-opacity 0.2s;
+    }
+    #concept-map-svg.has-hover .cmap-edge { stroke-opacity: 0.04; }
+    #concept-map-svg.has-hover .cmap-node { opacity: 0.15; }
+    #concept-map-svg.has-hover .cmap-edge.edge-active { stroke-opacity: 0.5; stroke-width: 1.5; }
+    #concept-map-svg.has-hover .cmap-node.node-active { opacity: 1; }
+    #concept-map-svg.has-filter .cmap-edge { stroke-opacity: 0.04; }
+    #concept-map-svg.has-filter .cmap-node { opacity: 0.15; }
+    #concept-map-svg.has-filter .cmap-edge.edge-active { stroke-opacity: 0.5; stroke-width: 1.5; }
+    #concept-map-svg.has-filter .cmap-node.node-active { opacity: 1; }
+    #concept-map-tooltip {
+      position: absolute;
+      pointer-events: none;
+      background: rgba(16, 16, 16, 0.94);
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-size: 12px;
+      padding: 12px 16px;
+      border-radius: 3px;
+      white-space: normal;
+      opacity: 0;
+      transition: opacity 0.18s;
+      z-index: 10;
+      max-width: 420px;
+      line-height: 1.55;
+      backdrop-filter: blur(6px);
+    }
+    #concept-map-tooltip.visible { opacity: 1; }
+    /* concept map animations */
+    @keyframes cmap-flow {
+      to { stroke-dashoffset: -18; }
+    }
+    @keyframes cmap-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.18; }
+      50% { transform: scale(1.08); opacity: 0.30; }
+    }
+    .cmap-edge-flow { animation: cmap-flow 3s linear infinite; }
+    .cmap-shape-pulse { transform-origin: 0 0; animation: cmap-pulse 3.5s ease-in-out infinite; }
+    .cmap-node.cmap-entering { opacity: 0; }
+    .cmap-node.cmap-entered { transition: opacity 0.6s ease-out; opacity: 1; }
+    .cmap-edge.cmap-entering { stroke-opacity: 0 !important; }
+    .cmap-edge.cmap-entered { transition: stroke-opacity 0.8s ease-out; }
+
+    /* ── STATS DASHBOARD ── */
+    #proj-stats { margin-bottom: 48px; }
+    .proj-stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      margin-bottom: 36px;
+    }
+    .proj-stat-card {
+      text-align: center;
+      padding: 28px 16px;
+      border-right: 1px solid var(--line);
+      transition: background 0.25s;
+    }
+    .proj-stat-card:last-child { border-right: none; }
+    .proj-stat-card:hover { background: rgba(200,169,110,0.04); }
+    .proj-stat-num {
+      font-size: 42px;
+      font-weight: 200;
+      font-variant-numeric: tabular-nums;
+      color: var(--white);
+      line-height: 1.1;
+    }
+    .proj-stat-label {
+      font-size: 11px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+    #proj-tag-dist {
+      margin-top: 24px;
+    }
+    .proj-tag-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 6px;
+      font-size: 12px;
+    }
+    .proj-tag-bar-label {
+      width: 180px;
+      text-align: right;
+      color: var(--muted);
+      flex-shrink: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .proj-tag-bar-track {
+      flex: 1;
+      height: 14px;
+      background: rgba(255,255,255,0.03);
+      border-radius: 1px;
+      overflow: hidden;
+    }
+    .proj-tag-bar-fill {
+      height: 100%;
+      border-radius: 1px;
+      width: 0;
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .proj-tag-bar-count {
+      width: 28px;
+      text-align: right;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+      flex-shrink: 0;
+    }
+
+    #pub-stats { margin-bottom: 48px; }
+    #pub-tag-dist { margin-top: 24px; }
+
     /* ── PUBLICATIONS ── */
     .pub-list {
       display: flex;
@@ -2063,60 +2175,69 @@
     .teaching-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      background: var(--line);
-      border: 1px solid var(--line);
+      gap: 20px;
       margin-top: 56px;
     }
     .teaching-card {
       background: var(--bg);
-      padding: 44px 36px;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      padding: 40px 32px;
       display: flex;
       flex-direction: column;
       position: relative;
       overflow: hidden;
-      transition: background 0.4s ease, opacity 0.4s ease;
+      transition: border-color 0.3s, background 0.3s, opacity 0.4s ease;
     }
     .teaching-card::before {
       content: '';
       position: absolute;
-      top: 0; left: 0;
-      width: 0; height: 1px;
-      background: var(--accent);
-      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--tc-color, var(--accent));
+      opacity: 0.5;
+      transition: opacity 0.3s;
     }
-    .teaching-card:hover::before { width: 100%; }
+    .teaching-card:hover::before { opacity: 1; }
     .teaching-card::after {
       content: '';
       position: absolute;
       bottom: -60px; right: -60px;
       width: 200px; height: 200px;
-      background: radial-gradient(circle, rgba(200,169,110,0.10) 0%, transparent 70%);
+      background: radial-gradient(circle, color-mix(in srgb, var(--tc-color, var(--accent)) 10%, transparent) 0%, transparent 70%);
       transform: scale(0);
       transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
       pointer-events: none;
       z-index: 0;
     }
     .teaching-card:hover::after { transform: scale(1); }
-    .teaching-card:hover { background: var(--bg2); }
+    .teaching-card:hover {
+      border-color: color-mix(in srgb, var(--tc-color, var(--accent)) 35%, transparent);
+      background: var(--bg2);
+    }
     .teaching-card > * { position: relative; z-index: 1; }
     .teaching-grid:has(.teaching-card:hover) .teaching-card:not(:hover) { opacity: 0.06; }
-    .tc-accent {
-      width: 24px;
-      height: 2px;
-      margin-bottom: 24px;
-      transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    .tc-num {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      font-weight: 300;
+      color: var(--tc-color, var(--accent));
+      background: color-mix(in srgb, var(--tc-color, var(--accent)) 10%, transparent);
+      border: 1px solid color-mix(in srgb, var(--tc-color, var(--accent)) 20%, transparent);
+      margin-bottom: 20px;
+      font-variant-numeric: tabular-nums;
+      transition: background 0.3s, color 0.3s;
     }
-    .teaching-card:hover .tc-accent { width: 48px; }
+    .teaching-card:hover .tc-num {
+      background: color-mix(in srgb, var(--tc-color, var(--accent)) 18%, transparent);
+    }
     .tc-year {
       font-size: 11px;
-      color: var(--accent);
+      color: var(--tc-color, var(--accent));
       letter-spacing: 0.14em;
       margin-bottom: 14px;
-    }
-    .tc-title-link {
-      text-decoration: none;
-      display: block;
     }
     .tc-title {
       font-size: 16px;
@@ -2124,56 +2245,43 @@
       color: var(--white);
       line-height: 1.5;
       margin-bottom: 8px;
-      transition: color 0.2s;
     }
-    .tc-title-link:hover .tc-title { color: var(--accent); }
+    .tc-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 16px;
+    }
+    .tc-level {
+      font-size: 9px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--tc-color, var(--accent));
+      border: 1px solid color-mix(in srgb, var(--tc-color, var(--accent)) 30%, transparent);
+      padding: 2px 10px;
+      border-radius: 1px;
+    }
     .tc-inst {
-      font-size: 12px;
+      font-size: 11px;
       color: var(--muted);
       letter-spacing: 0.04em;
-      margin-bottom: 12px;
+    }
+    .tc-dot {
+      width: 3px; height: 3px;
+      border-radius: 50%;
+      background: var(--line);
     }
     .tc-tags { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
-    .tc-action {
-      font-size: 11px;
-      color: var(--accent);
-      margin-top: auto;
-      padding-top: 20px;
-      opacity: 0;
-      transform: translateY(6px);
-      transition: opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-      letter-spacing: 0.04em;
-    }
-    .teaching-card:hover .tc-action { opacity: 1; transform: translateY(0); }
-    /* featured card with video */
-    .teaching-card.tc-featured {
-      grid-column: 1 / -1;
-      flex-direction: row;
-      gap: 40px;
-      align-items: start;
-    }
-    .tc-featured-info { flex: 1; display: flex; flex-direction: column; min-width: 0; }
-    .tc-featured-media {
-      flex-shrink: 0;
-      width: 300px;
-      border-radius: 2px;
-      overflow: hidden;
-      border: 1px solid var(--line);
-      position: relative;
-      align-self: center;
-    }
-    .tc-featured-media img { width: 100%; display: block; transition: opacity 0.2s; }
-    .tc-featured-media:hover img { opacity: 0.85; }
-    .tc-featured-media .yt-play-overlay { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.25); transition: background 0.2s; }
-    .tc-featured-media:hover .yt-play-overlay { background: rgba(0,0,0,0.1); }
     /* lang handling for tc elements */
-    .tc-title-link[data-lang], .tc-inst[data-lang], .tc-title[data-lang] { display: none; }
-    body.lang-ja .tc-title-link[data-lang="ja"],
-    body.lang-ja .tc-inst[data-lang="ja"],
+    .tc-title[data-lang] { display: none; }
     body.lang-ja .tc-title[data-lang="ja"] { display: block; }
-    body.lang-en .tc-title-link[data-lang="en"],
-    body.lang-en .tc-inst[data-lang="en"],
     body.lang-en .tc-title[data-lang="en"] { display: block; }
+    .tc-inst[data-lang], .tc-level[data-lang] { display: none; }
+    body.lang-ja .tc-inst[data-lang="ja"],
+    body.lang-ja .tc-level[data-lang="ja"] { display: inline; }
+    body.lang-en .tc-inst[data-lang="en"],
+    body.lang-en .tc-level[data-lang="en"] { display: inline; }
     /* lang handling for new elements */
     .pub-title[data-lang], .grant-tag[data-lang], .grant-role[data-lang], .teaching-inst[data-lang] { display: none; }
     body.lang-ja .pub-title[data-lang="ja"],
@@ -2192,71 +2300,91 @@
     .ig-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      background: var(--line);
-      border: 1px solid var(--line);
+      gap: 24px;
     }
     .ig-card {
-      display: grid;
-      grid-template-columns: 72px 1fr 48px;
+      display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 32px;
+      text-align: center;
       background: var(--bg);
-      padding: 40px 40px;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      padding: 48px 32px 40px;
       text-decoration: none;
-      transition: border-color 0.25s, background 0.25s;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s, background 0.3s;
     }
+    .ig-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      opacity: 0.5;
+      transition: opacity 0.3s;
+    }
+    .ig-card:hover::before { opacity: 1; }
     .ig-card:hover {
-      border-color: #c05b8a;
+      border-color: rgba(192,91,138,0.35);
       background: var(--bg2);
     }
+    .ig-ring {
+      width: 88px; height: 88px;
+      border-radius: 50%;
+      padding: 3px;
+      background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      margin-bottom: 20px;
+      transition: transform 0.3s;
+    }
+    .ig-card:hover .ig-ring { transform: scale(1.05); }
     .ig-account-icon {
-      width: 56px;
-      height: 56px;
+      width: 100%; height: 100%;
       border-radius: 50%;
       object-fit: cover;
       display: block;
+      border: 3px solid var(--bg);
       filter: grayscale(20%);
-      transition: filter 0.25s, transform 0.25s;
+      transition: filter 0.3s;
     }
-    .ig-card:hover .ig-account-icon {
-      filter: grayscale(0%);
-      transform: scale(1.05);
-    }
+    .ig-card:hover .ig-account-icon { filter: grayscale(0%); }
     .ig-type {
       font-size: 10px;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 6px;
+      color: #c05b8a;
+      margin-bottom: 10px;
     }
     .ig-handle {
-      font-size: 11px;
-      letter-spacing: 0.14em;
-      color: var(--accent);
-      margin-bottom: 8px;
+      font-size: 15px;
+      letter-spacing: 0.06em;
+      color: var(--white);
+      font-weight: 400;
+      margin-bottom: 4px;
     }
     .ig-name {
-      font-size: 16px;
-      font-weight: 400;
-      color: var(--white);
-      margin-bottom: 12px;
-      line-height: 1.4;
-    }
-    .ig-desc {
       font-size: 13px;
       color: var(--muted);
-      line-height: 1.85;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .ig-desc {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.8;
+      opacity: 0.65;
     }
     .ig-arrow {
-      font-size: 20px;
+      font-size: 18px;
       color: var(--line);
-      transition: color 0.25s, transform 0.25s;
+      transition: color 0.3s, transform 0.3s;
+      margin-top: 24px;
       display: block;
       text-align: center;
     }
-    .ig-card:hover .ig-arrow { color: #c05b8a; transform: translateX(4px); }
-    /* ig-name / ig-desc / ig-type lang handling */
+    .ig-card:hover .ig-arrow { color: #c05b8a; transform: translateY(-3px); }
+    /* ig lang handling */
     .ig-name[data-lang], .ig-desc[data-lang], .ig-type[data-lang] { display: none; }
     body.lang-ja .ig-name[data-lang="ja"],
     body.lang-ja .ig-desc[data-lang="ja"],
@@ -2281,7 +2409,6 @@
     /* ── RESPONSIVE ── */
     @media (max-width: 860px) {
       .hero { padding: 0 24px 64px; }
-      .hero-photo-wrap { width: 60vw; }
       section { padding: 64px 24px; }
       .mvv-grid { grid-template-columns: 1fr; }
       .strengths-grid { grid-template-columns: 1fr; }
@@ -2301,18 +2428,21 @@
       .contact-block-icon { width: 36px; height: 36px; }
       .contact-block-action { align-self: flex-end; }
       .teaching-grid { grid-template-columns: 1fr; }
-      .teaching-card.tc-featured { flex-direction: column; }
-      .tc-featured-media { width: 100%; max-width: 360px; }
       footer { padding: 32px 24px; flex-direction: column; gap: 12px; text-align: center; }
       .lang-bar { padding: 16px 24px; }
       .pub-item { gap: 20px; }
       .pub-item-book { gap: 20px; }
       #network-container { height: 560px; }
       #pub-network-container { height: 480px; }
+      #concept-map-container { height: 520px; }
+      .proj-stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .proj-stat-card:nth-child(2) { border-right: none; }
+      .proj-stat-card:nth-child(1),
+      .proj-stat-card:nth-child(2) { border-bottom: 1px solid var(--line); }
+      .proj-tag-bar-label { width: 140px; }
     }
     @media (max-width: 560px) {
       .hero { padding: 0 20px 56px; }
-      .hero-photo-wrap { display: none; }
       .hero-name img { height: clamp(36px, 14vw, 70px) !important; }
       section { padding: 48px 20px; }
       .values-item { grid-template-columns: 48px 1fr; gap: 16px; padding: 28px 20px; }
@@ -2327,7 +2457,12 @@
       .grant-group-label { margin-top: 36px !important; }
       #network-container { height: 440px; }
       #pub-network-container { height: 380px; }
+      #concept-map-container { height: 420px; }
       .network-wrap { margin-bottom: 32px; }
+      .proj-stats-grid { grid-template-columns: repeat(2, 1fr); }
+      .proj-stat-num { font-size: 32px; }
+      .proj-stat-card { padding: 20px 12px; }
+      .proj-tag-bar-label { width: 100px; font-size: 10px; }
       .contact-block { padding: 28px 20px; }
       .contact-block-icon { width: 30px; height: 30px; }
       .contact-block-value { font-size: 14px; }
@@ -2367,6 +2502,12 @@
       }
       .strengths-card-title::after { display: none; }
       .strengths-grid:has(.strengths-card:hover) .strengths-card:not(:hover) { opacity: 1; }
+      .teaching-card .tc-action {
+        opacity: 1;
+        transform: translateY(0);
+        transition: none;
+      }
+      .teaching-grid:has(.teaching-card:hover) .teaching-card:not(:hover) { opacity: 1; }
     }
 
     /* ── LANGUAGE SWITCH ── */
@@ -2595,12 +2736,8 @@
     .hero-affil    { opacity: 0; transform: translateY(12px); animation: heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 1.7s forwards; }
     .hero-tags     { opacity: 0; transform: translateY(10px); animation: heroFadeUp 0.7s cubic-bezier(0.16,1,0.3,1) 1.85s forwards; }
     .scroll-hint   { opacity: 0; animation: heroFadeUp 0.6s ease 2.1s forwards; }
-    .hero-photo    { opacity: 0; animation: heroPic 1.2s ease 0.8s forwards; }
     @keyframes heroFadeUp {
       to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes heroPic {
-      to { opacity: 0.55; }
     }
 
     /* ── SECTION TITLE LINE ── */
@@ -2747,9 +2884,6 @@
   <div class="hero">
     <canvas id="hero-canvas"></canvas>
     <div class="hero-glow"></div>
-    <div class="hero-photo-wrap">
-      <img class="hero-photo" src="https://researchmap.jp/yukisugawara/avatar.jpg" alt="Yuki Sugawara" />
-    </div>
     <div class="hero-content">
       <p class="hero-label">Researcher &amp; Educator</p>
       <h1 class="hero-name">
@@ -3069,6 +3203,273 @@
     </div>
   </div>
 
+  <!-- CAREER -->
+  <section>
+    <p class="sec-label">Career</p>
+    <h2 class="sec-title" data-lang="ja">経歴</h2>
+    <h2 class="sec-title" data-lang="en">Academic Career (Selected)</h2>
+
+    <!-- Career Card List -->
+    <div id="career-card-list" class="reveal">
+      <div id="career-card-filters"></div>
+      <div id="career-card-grid"></div>
+    </div>
+
+    <!-- Career Network -->
+    <div id="career-network" class="network-wrap reveal">
+      <p class="network-label">
+        <span data-lang="ja">経歴トピックネットワーク</span>
+        <span data-lang="en">Career Topic Network</span>
+      </p>
+      <p class="network-hint">
+        <span data-lang="ja">ドラッグで移動 / ホイールでズーム / クリックでフィルタ</span>
+        <span data-lang="en">Drag to move / Scroll to zoom / Click to filter</span>
+      </p>
+      <div id="career-network-container"><svg id="career-network-svg"></svg></div>
+      <div id="career-network-tooltip"></div>
+      <div id="career-network-legend"></div>
+    </div>
+
+    <div id="career-timeline-wrap" class="reveal" style="margin-top: 48px;">
+      <p class="network-label">
+        <span data-lang="ja">経歴タイムライン</span>
+        <span data-lang="en">Career Timeline</span>
+      </p>
+      <div id="career-timeline" style="position: relative;">
+        <svg id="career-timeline-svg"></svg>
+        <div id="career-timeline-tooltip"></div>
+      </div>
+    </div>
+
+    <div class="career-static-list">
+    <div class="career-list" style="margin-top: 56px;">
+      <div class="career-item" data-tenure-end="2053.03">
+        <span class="career-period">2025.04 — <span data-lang="ja">現在</span><span data-lang="en">Present</span></span>
+        <div>
+          <div class="career-body">
+            <span data-lang="ja">大阪大学 大学院人文学研究科 人文学林</span>
+            <span data-lang="en">Interdisciplinary Network in the Humanities, Graduate School of Humanities, The University of Osaka</span>
+          </div>
+          <div class="career-role">
+            <span data-lang="ja">講師</span><span data-lang="en">Lecturer</span>
+          </div>
+          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="topic-tag" data-tag="Humanities">Humanities</span>
+            <span class="topic-tag" data-tag="Digital Humanities">Digital Humanities</span>
+            <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
+          </div>
+        </div>
+      </div>
+      <div class="career-item">
+        <span class="career-period">2022.04 — 2025.03</span>
+        <div>
+          <div class="career-body">
+            <span data-lang="ja">大阪大学 大学院人文学研究科 人文学林</span>
+            <span data-lang="en">Interdisciplinary Network in the Humanities, Graduate School of Humanities, The University of Osaka</span>
+          </div>
+          <div class="career-role">
+            <span data-lang="ja">特任助教（常勤）</span><span data-lang="en">Specially Appointed Assistant Professor</span>
+          </div>
+          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="topic-tag" data-tag="Humanities">Humanities</span>
+            <span class="topic-tag" data-tag="Digital Humanities">Digital Humanities</span>
+            <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
+          </div>
+        </div>
+      </div>
+      <div class="career-item">
+        <span class="career-period">2022.04 — 2024.03</span>
+        <div>
+          <div class="career-body">
+            <span data-lang="ja">慶應義塾大学 理工学部</span>
+            <span data-lang="en">Faculty of Science and Technology, Keio University</span>
+          </div>
+          <div class="career-role">
+            <span data-lang="ja">研究員（非常勤・兼任）</span><span data-lang="en">Researcher (Part-time)</span>
+          </div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="STS">STS</span></div>
+        </div>
+      </div>
+      <div class="career-item">
+        <span class="career-period">2021.07 — 2022.03</span>
+        <div>
+          <div class="career-body">
+            <span data-lang="ja">慶應義塾大学 理工学部</span>
+            <span data-lang="en">Faculty of Science and Technology, Keio University</span>
+          </div>
+          <div class="career-role">
+            <span data-lang="ja">研究員</span><span data-lang="en">Researcher</span>
+          </div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="STS">STS</span></div>
+        </div>
+      </div>
+      <div class="career-item">
+        <span class="career-period">2020.05 — 2021.12</span>
+        <div>
+          <div class="career-body">
+            <span data-lang="ja">大阪大学 大学院人間科学研究科 基礎人間科学講座（科学技術と文化）</span>
+            <span data-lang="en">Graduate School of Human Sciences, Osaka University</span>
+          </div>
+          <div class="career-role">
+            <span data-lang="ja">特任研究員</span><span data-lang="en">Specially Appointed Researcher</span>
+          </div>
+          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="topic-tag" data-tag="STS">STS</span>
+            <span class="topic-tag" data-tag="Anthropology">Anthropology</span>
+          </div>
+        </div>
+      </div>
+      <div class="career-item">
+        <span class="career-period">2017.04 — 2018.03</span>
+        <div>
+          <div class="career-body">
+            <span data-lang="ja">大阪大学 COデザインセンター</span>
+            <span data-lang="en">Center for the Study of Co* Design, Osaka University</span>
+          </div>
+          <div class="career-role">
+            <span data-lang="ja">特任助教（常勤）</span><span data-lang="en">Specially Appointed Assistant Professor</span>
+          </div>
+          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+            <span class="topic-tag" data-tag="STS">STS</span>
+            <span class="topic-tag" data-tag="Philosophy of Science">Philosophy of Science</span>
+          </div>
+        </div>
+      </div>
+      <div class="career-item">
+        <span class="career-period">2015.08 — 2017.03</span>
+        <div>
+          <div class="career-body">
+            <span data-lang="ja">国立循環器病研究センター 研究開発基盤センター 医学倫理研究部</span>
+            <span data-lang="en">Department of Medical Ethics, National Cerebral and Cardiovascular Center</span>
+          </div>
+          <div class="career-role">
+            <span data-lang="ja">研究員（非常勤）</span><span data-lang="en">Researcher (Part-time)</span>
+          </div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Research Ethics">Research Ethics</span></div>
+        </div>
+      </div>
+      <div class="career-item">
+        <span class="career-period">2014.04 — 2015.07</span>
+        <div>
+          <div class="career-body">
+            <span data-lang="ja">日本学術振興会</span>
+            <span data-lang="en">Japan Society for the Promotion of Science</span>
+          </div>
+          <div class="career-role">
+            <span data-lang="ja">特別研究員（DC2）</span><span data-lang="en">JSPS Research Fellow (DC2)</span>
+          </div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Philosophy of Science">Philosophy of Science</span></div>
+        </div>
+      </div>
+      <div class="career-item">
+        <span class="career-period">2014.04 — 2014.07</span>
+        <div>
+          <div class="career-body">
+            <span data-lang="ja">自然科学研究機構 基礎生物学研究所 光脳回路研究部門</span>
+            <span data-lang="en">Division of Brain Circuit, National Institute for Basic Biology</span>
+          </div>
+          <div class="career-role">
+            <span data-lang="ja">特別共同利用研究員</span><span data-lang="en">Visiting Scientist</span>
+          </div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Neuroscience">Neuroscience</span></div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 64px;">
+      <p class="sec-label" style="margin-bottom: 32px;">
+        <span data-lang="ja">学位</span>
+        <span data-lang="en">Degrees</span>
+      </p>
+      <div class="career-list">
+        <div class="career-item">
+          <span class="career-period">2022.03</span>
+          <div class="career-body">
+            <span data-lang="ja">博士（人間科学）— 大阪大学</span>
+            <span data-lang="en">Ph.D. in Human Sciences — Osaka University</span>
+          </div>
+        </div>
+        <div class="career-item">
+          <span class="career-period">2012.03</span>
+          <div class="career-body">
+            <span data-lang="ja">修士（情報科学）— 名古屋大学</span>
+            <span data-lang="en">M.S. in Information Science — Nagoya University</span>
+          </div>
+        </div>
+        <div class="career-item">
+          <span class="career-period">2010.03</span>
+          <div class="career-body">
+            <span data-lang="ja">学士（学術）— 岩手大学</span>
+            <span data-lang="en">B.A. — Iwate University</span>
+          </div>
+        </div>
+        <div class="career-item">
+          <span class="career-period">2008.03</span>
+          <div class="career-body">
+            <span data-lang="ja">準学士（工学）— 国立秋田高専</span>
+            <span data-lang="en">Associate Degree in Engineering — Akita National College of Technology</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div style="margin-top: 64px;">
+      <p class="sec-label" style="margin-bottom: 32px;">
+        <span data-lang="ja">学歴</span>
+        <span data-lang="en">Education</span>
+      </p>
+      <div class="career-list">
+        <div class="career-item">
+          <span class="career-period">2012.04 — 2015.03</span>
+          <div>
+            <div class="career-body">
+              <span data-lang="ja"><a href="https://www.bun.kyoto-u.ac.jp" target="_blank" rel="noopener noreferrer" style="color:inherit; border-bottom:1px solid var(--line); text-decoration:none;">京都大学 大学院文学研究科</a> 現代文化学専攻 科学哲学科学史専修（博士後期課程）</span>
+              <span data-lang="en">Doctoral Program, Dept. of Philosophy and History of Science, <a href="https://www.bun.kyoto-u.ac.jp" target="_blank" rel="noopener noreferrer" style="color:inherit; border-bottom:1px solid var(--line); text-decoration:none;">Graduate School of Letters, Kyoto University</a></span>
+            </div>
+            <div style="margin-top:6px;"><span class="topic-tag" data-tag="Philosophy of Science">Philosophy of Science</span></div>
+          </div>
+        </div>
+        <div class="career-item">
+          <span class="career-period">2010.04 — 2012.03</span>
+          <div>
+            <div class="career-body">
+              <span data-lang="ja"><a href="https://www.is.nagoya-u.ac.jp" target="_blank" rel="noopener noreferrer" style="color:inherit; border-bottom:1px solid var(--line); text-decoration:none;">名古屋大学 大学院情報科学研究科</a> 社会システム情報学専攻（博士前期課程）</span>
+              <span data-lang="en">Master's Program, Dept. of Social Systems and Informatics, <a href="https://www.is.nagoya-u.ac.jp" target="_blank" rel="noopener noreferrer" style="color:inherit; border-bottom:1px solid var(--line); text-decoration:none;">Graduate School of Information Science, Nagoya University</a></span>
+            </div>
+            <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+              <span class="topic-tag" data-tag="Philosophy of Science">Philosophy of Science</span>
+              <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
+            </div>
+          </div>
+        </div>
+        <div class="career-item">
+          <span class="career-period">2008.04 — 2010.03</span>
+          <div>
+            <div class="career-body">
+              <span data-lang="ja"><a href="https://jinsha.iwate-u.ac.jp" target="_blank" rel="noopener noreferrer" style="color:inherit; border-bottom:1px solid var(--line); text-decoration:none;">岩手大学 人文社会科学部</a> 人間科学課程（学士課程）</span>
+              <span data-lang="en">Undergraduate Program, Course in Human Sciences, <a href="https://jinsha.iwate-u.ac.jp" target="_blank" rel="noopener noreferrer" style="color:inherit; border-bottom:1px solid var(--line); text-decoration:none;">Faculty of Humanities and Social Sciences, Iwate University</a></span>
+            </div>
+            <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
+              <span class="topic-tag" data-tag="Philosophy of Science">Philosophy of Science</span>
+              <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
+            </div>
+          </div>
+        </div>
+        <div class="career-item">
+          <span class="career-period">2003.04 — 2008.03</span>
+          <div>
+            <div class="career-body">
+              <span data-lang="ja"><a href="https://www.akita-nct.ac.jp" target="_blank" rel="noopener noreferrer" style="color:inherit; border-bottom:1px solid var(--line); text-decoration:none;">秋田工業高等専門学校</a> 環境都市工学科</span>
+              <span data-lang="en">Dept. of Environmental and Civil Engineering, <a href="https://www.akita-nct.ac.jp" target="_blank" rel="noopener noreferrer" style="color:inherit; border-bottom:1px solid var(--line); text-decoration:none;">Akita National College of Technology</a></span>
+            </div>
+            <div style="margin-top:6px;"><span class="topic-tag" data-tag="Technology">Technology</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div><!-- /career-static-list -->
+  </section>
+
   <!-- RESEARCH -->
   <section>
     <p class="sec-label">Research</p>
@@ -3079,14 +3480,32 @@
 
       <!-- Vision statement -->
       <div class="ro-vision">
-        <div class="ro-vision-title" data-lang="ja">生成AI時代の「知の再編成」と実装</div>
-        <div class="ro-vision-title" data-lang="en">Reorganizing and Implementing Knowledge in the Age of Generative AI</div>
+        <div class="ro-vision-title" data-lang="ja">生成AI時代における「百学連環」の実現</div>
+        <div class="ro-vision-title" data-lang="en">Implementing "Hyakugaku Renkan" in the Age of Generative AI</div>
         <div class="ro-vision-body" data-lang="ja">
-          AIが流暢に言葉を紡ぎ、自律的にコンテンツを生成する時代において、「知」のあり方は根本的な転換点を迎えています。高度に専門化・タコツボ化した現代の科学技術と知識構造を連携させ、生成AI時代にふさわしい動的な「百学連環（西周）」の再構築に挑んでいます。
+          現代の複雑に絡み合う社会技術的現象を解き明かすためには、単一の専門分野に留まらない視座が必要です。私は「デジタルSTS」「デジタル科学哲学」「デジタル人類学」という3つの柱を軸に、多様な分野・方法・テーマを一つの輪として繋ぐ「一人学際」の立場で研究を進めています。AIが自律的に知を生成するこの時代において、分断された科学技術と知識構造を再び連環させること。そして、諸学問の繋がりを描いた「百学連環」を単なる歴史的思想として終わらせず、現代社会における具体的な「現象の分析」を通じて実現していくことが、私の目標です。
         </div>
         <div class="ro-vision-body" data-lang="en">
-          In an era where AI fluently weaves words and autonomously generates content, the very nature of "knowledge" has reached a fundamental turning point. I am taking on the challenge of connecting the highly specialized and siloed structures of contemporary science and knowledge, aiming to reconstruct a dynamic "Hyakugaku Renkan" suited for the age of Generative AI.
+          To unravel the complex and intertwined socio-technical phenomena of today, a perspective that transcends any single discipline is essential. I conduct my research from the standpoint of "solo interdisciplinarity"—connecting diverse fields, methods, and themes into a single cohesive loop, built upon three core pillars: Digital STS, Digital Philosophy of Science, and Digital Anthropology. In this era where AI autonomously generates knowledge, my goal is to reconnect our fragmented scientific technologies and knowledge structures. Ultimately, I aim to realize "Hyakugaku-Renkan" (the interconnectedness of all disciplines)—not merely leaving it as a historical philosophy, but bringing it to life through the concrete "analysis of phenomena" in contemporary society.
         </div>
+      </div>
+
+      <!-- Concept Map -->
+      <div id="concept-map-wrap" class="network-wrap reveal">
+        <p class="network-label">
+          <span data-lang="ja">百学連環マップ</span>
+          <span data-lang="en">Hyakugaku Renkan Map</span>
+        </p>
+        <p class="network-hint">
+          <span data-lang="ja">ホバーで説明 / ドラッグで移動 / ホイールでズーム</span>
+          <span data-lang="en">Hover for details / Drag to move / Scroll to zoom</span>
+        </p>
+        <p class="network-hint" style="margin-top:2px; opacity:0.5;">
+          <span data-lang="ja">● 分野　■ テーマ　◆ 方法</span>
+          <span data-lang="en">● Field　■ Theme　◆ Method</span>
+        </p>
+        <div id="concept-map-container"><svg id="concept-map-svg"></svg></div>
+        <div id="concept-map-tooltip"></div>
       </div>
 
       <!-- 3 Pillars -->
@@ -3153,6 +3572,46 @@
     <p class="sec-label">Publications</p>
     <h2 class="sec-title" data-lang="ja">業績</h2>
     <h2 class="sec-title" data-lang="en">Selected Publications</h2>
+
+    <div id="pub-stats" class="reveal">
+      <div class="proj-stats-grid">
+        <div class="proj-stat-card">
+          <div class="proj-stat-num" data-target="14">0</div>
+          <div class="proj-stat-label">
+            <span data-lang="ja">業績</span>
+            <span data-lang="en">Publications</span>
+          </div>
+        </div>
+        <div class="proj-stat-card">
+          <div class="proj-stat-num" data-target="11">0</div>
+          <div class="proj-stat-label">
+            <span data-lang="ja">論文</span>
+            <span data-lang="en">Papers</span>
+          </div>
+        </div>
+        <div class="proj-stat-card">
+          <div class="proj-stat-num" data-target="3">0</div>
+          <div class="proj-stat-label">
+            <span data-lang="ja">著書・翻訳</span>
+            <span data-lang="en">Books</span>
+          </div>
+        </div>
+        <div class="proj-stat-card">
+          <div class="proj-stat-num proj-stat-range" data-from="2013" data-to="2025">2013–2025</div>
+          <div class="proj-stat-label">
+            <span data-lang="ja">出版期間</span>
+            <span data-lang="en">Period</span>
+          </div>
+        </div>
+      </div>
+      <div id="pub-tag-dist">
+        <p class="network-label">
+          <span data-lang="ja">トピック分布</span>
+          <span data-lang="en">Topic Distribution</span>
+        </p>
+        <div id="pub-tag-bars"></div>
+      </div>
+    </div>
 
     <div id="pub-card-list" class="reveal">
       <div id="pub-card-filters"></div>
@@ -3416,8 +3875,48 @@
   <!-- RESEARCH PROJECTS -->
   <section>
     <p class="sec-label">Grants &amp; Projects</p>
-    <h2 class="sec-title" data-lang="ja">研究課題</h2>
+    <h2 class="sec-title" data-lang="ja">研究プロジェクト</h2>
     <h2 class="sec-title" data-lang="en">Research Projects &amp; Grants</h2>
+
+    <div id="proj-stats" class="reveal">
+      <div class="proj-stats-grid">
+        <div class="proj-stat-card">
+          <div class="proj-stat-num" data-target="17">0</div>
+          <div class="proj-stat-label">
+            <span data-lang="ja">研究プロジェクト</span>
+            <span data-lang="en">Projects</span>
+          </div>
+        </div>
+        <div class="proj-stat-card">
+          <div class="proj-stat-num" data-target="10">0</div>
+          <div class="proj-stat-label">
+            <span data-lang="ja">代表者</span>
+            <span data-lang="en">PI</span>
+          </div>
+        </div>
+        <div class="proj-stat-card">
+          <div class="proj-stat-num" data-target="7">0</div>
+          <div class="proj-stat-label">
+            <span data-lang="ja">分担者</span>
+            <span data-lang="en">Co-PI</span>
+          </div>
+        </div>
+        <div class="proj-stat-card">
+          <div class="proj-stat-num proj-stat-range" data-from="2013" data-to="2030">2013–2030</div>
+          <div class="proj-stat-label">
+            <span data-lang="ja">活動期間</span>
+            <span data-lang="en">Period</span>
+          </div>
+        </div>
+      </div>
+      <div id="proj-tag-dist">
+        <p class="network-label">
+          <span data-lang="ja">トピック分布</span>
+          <span data-lang="en">Topic Distribution</span>
+        </p>
+        <div id="proj-tag-bars"></div>
+      </div>
+    </div>
 
     <div id="proj-card-list" class="reveal">
       <div id="proj-card-filters"></div>
@@ -3739,7 +4238,7 @@
 
     <div style="margin-top: 40px;">
       <a href="https://researchmap.jp/yukisugawara" target="_blank" rel="noopener noreferrer" style="font-size: 12px; letter-spacing: 0.12em; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 2px; text-transform: uppercase;">
-        <span data-lang="ja">researchmap で全研究課題を見る →</span>
+        <span data-lang="ja">researchmap で全研究プロジェクトを見る →</span>
         <span data-lang="en">View all projects on researchmap →</span>
       </a>
     </div>
@@ -3747,7 +4246,7 @@
 
     <div style="margin-top: 40px;">
       <a href="https://researchmap.jp/yukisugawara" target="_blank" rel="noopener noreferrer" style="font-size: 12px; letter-spacing: 0.12em; color: var(--accent); text-decoration: none; border-bottom: 1px solid var(--accent); padding-bottom: 2px; text-transform: uppercase;">
-        <span data-lang="ja">researchmap で全研究課題を見る →</span>
+        <span data-lang="ja">researchmap で全研究プロジェクトを見る →</span>
         <span data-lang="en">View all projects on researchmap →</span>
       </a>
     </div>
@@ -3759,127 +4258,128 @@
     <h2 class="sec-title" data-lang="ja">授業</h2>
     <h2 class="sec-title" data-lang="en">Courses Currently Taught</h2>
 
+    <div id="teaching-stats" class="reveal">
+      <div class="proj-stats-grid">
+        <div class="proj-stat-card">
+          <div class="proj-stat-num" data-target="5">0</div>
+          <div class="proj-stat-label">
+            <span data-lang="ja">開講科目</span>
+            <span data-lang="en">Courses</span>
+          </div>
+        </div>
+        <div class="proj-stat-card">
+          <div class="proj-stat-num" data-target="2">0</div>
+          <div class="proj-stat-label">
+            <span data-lang="ja">担当機関</span>
+            <span data-lang="en">Institutions</span>
+          </div>
+        </div>
+        <div class="proj-stat-card">
+          <div class="proj-stat-num proj-stat-range" data-from="2021" data-to="2025">2021–2025</div>
+          <div class="proj-stat-label">
+            <span data-lang="ja">開講期間</span>
+            <span data-lang="en">Period</span>
+          </div>
+        </div>
+        <div class="proj-stat-card">
+          <div class="proj-stat-num" data-target="2">0</div>
+          <div class="proj-stat-label">
+            <span data-lang="ja">対象課程</span>
+            <span data-lang="en">Levels</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="teaching-grid">
 
       <!-- 1. DH基礎演習 -->
-      <div class="teaching-card">
-        <div class="tc-accent" style="background:#38b0e8"></div>
+      <div class="teaching-card" style="--tc-color:#38b0e8">
+        <div class="tc-num">01</div>
         <span class="tc-year">2025 &mdash;</span>
-        <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_kF1B42C46-A6B9-AB83-EE63-D2FF11171DE5" target="_blank" rel="noopener noreferrer" class="tc-title-link" data-lang="ja">
-          <div class="tc-title">デジタルヒューマニティーズ基礎演習</div>
-        </a>
-        <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k629A5FDD-FD95-3B10-19CF-8431DA65E562" target="_blank" rel="noopener noreferrer" class="tc-title-link" data-lang="en">
-          <div class="tc-title">Introductory Seminar in Digital Humanities</div>
-        </a>
-        <div class="tc-inst" data-lang="ja">大阪大学 文学部</div>
-        <div class="tc-inst" data-lang="en">School of Letters, Osaka University</div>
+        <div class="tc-title" data-lang="ja">デジタルヒューマニティーズ基礎演習</div>
+        <div class="tc-title" data-lang="en">Introductory Seminar in Digital Humanities</div>
+        <div class="tc-meta">
+          <span class="tc-level" data-lang="ja">学部</span>
+          <span class="tc-level" data-lang="en">Undergraduate</span>
+          <span class="tc-dot"></span>
+          <span class="tc-inst" data-lang="ja">大阪大学 文学部</span>
+          <span class="tc-inst" data-lang="en">School of Letters, Osaka University</span>
+        </div>
         <div class="tc-tags"><span class="topic-tag" data-tag="Digital Humanities">Digital Humanities</span></div>
-        <span class="tc-action">
-          <span data-lang="ja">シラバスを見る &rarr;</span>
-          <span data-lang="en">View syllabus &rarr;</span>
-        </span>
       </div>
 
       <!-- 2. デジタルツール -->
-      <div class="teaching-card">
-        <div class="tc-accent" style="background:#4868a8"></div>
+      <div class="teaching-card" style="--tc-color:#38b0e8">
+        <div class="tc-num">02</div>
         <span class="tc-year">2025 &mdash;</span>
-        <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_kBC63EC31-A621-B02B-841B-E99689A97030" target="_blank" rel="noopener noreferrer" class="tc-title-link" data-lang="ja">
-          <div class="tc-title">外国語学部生のためのデジタルツール</div>
-        </a>
-        <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k04AA83A5-0587-B280-A763-214C44B3BBE3" target="_blank" rel="noopener noreferrer" class="tc-title-link" data-lang="en">
-          <div class="tc-title">Digital Tools for Students of Foreign Languages</div>
-        </a>
-        <div class="tc-inst" data-lang="ja">大阪大学 外国語学部</div>
-        <div class="tc-inst" data-lang="en">School of Foreign Studies, Osaka University</div>
+        <div class="tc-title" data-lang="ja">外国語学部生のためのデジタルツール</div>
+        <div class="tc-title" data-lang="en">Digital Tools for Students of Foreign Languages</div>
+        <div class="tc-meta">
+          <span class="tc-level" data-lang="ja">学部</span>
+          <span class="tc-level" data-lang="en">Undergraduate</span>
+          <span class="tc-dot"></span>
+          <span class="tc-inst" data-lang="ja">大阪大学 外国語学部</span>
+          <span class="tc-inst" data-lang="en">School of Foreign Studies, Osaka University</span>
+        </div>
         <div class="tc-tags">
           <span class="topic-tag" data-tag="Humanities">Humanities</span>
           <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
         </div>
-        <span class="tc-action">
-          <span data-lang="ja">シラバスを見る &rarr;</span>
-          <span data-lang="en">View syllabus &rarr;</span>
-        </span>
       </div>
 
-      <!-- 3. 人文学とデジタル技術 (featured with YouTube) -->
-      <div class="teaching-card tc-featured">
-        <div class="tc-featured-info">
-          <div class="tc-accent" style="background:#4868a8"></div>
-          <span class="tc-year">2025 &mdash;</span>
-          <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k81682114-8412-9C19-27FF-E6F2756E16C6" target="_blank" rel="noopener noreferrer" class="tc-title-link" data-lang="ja">
-            <div class="tc-title">人文学とデジタル技術</div>
-          </a>
-          <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k8C2F658B-D52A-BAFE-8519-6D5B14DF259F" target="_blank" rel="noopener noreferrer" class="tc-title-link" data-lang="en">
-            <div class="tc-title">Humanities and Digital Technologies</div>
-          </a>
-          <div class="tc-inst" data-lang="ja">大阪大学 大学院人文学研究科</div>
-          <div class="tc-inst" data-lang="en">Graduate School of Humanities, Osaka University</div>
-          <div class="tc-tags">
-            <span class="topic-tag" data-tag="Humanities">Humanities</span>
-            <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
-            <a href="https://youtu.be/72bx9-_iJN0" target="_blank" rel="noopener noreferrer" class="yt-badge">
-              <svg width="13" height="9" viewBox="0 0 13 9" fill="none">
-                <rect width="13" height="9" rx="2" fill="#ff4444"/>
-                <polygon points="5,2.5 9.5,4.5 5,6.5" fill="white"/>
-              </svg>
-              <span data-lang="ja">紹介動画</span>
-              <span data-lang="en">Intro video</span>
-            </a>
-          </div>
-          <span class="tc-action">
-            <span data-lang="ja">シラバスを見る &rarr;</span>
-            <span data-lang="en">View syllabus &rarr;</span>
-          </span>
+      <!-- 3. 人文学とデジタル技術 -->
+      <div class="teaching-card" style="--tc-color:#8e7fd4">
+        <div class="tc-num">03</div>
+        <span class="tc-year">2025 &mdash;</span>
+        <div class="tc-title" data-lang="ja">人文学とデジタル技術</div>
+        <div class="tc-title" data-lang="en">Humanities and Digital Technologies</div>
+        <div class="tc-meta">
+          <span class="tc-level" data-lang="ja">大学院</span>
+          <span class="tc-level" data-lang="en">Graduate</span>
+          <span class="tc-dot"></span>
+          <span class="tc-inst" data-lang="ja">大阪大学 大学院人文学研究科</span>
+          <span class="tc-inst" data-lang="en">Graduate School of Humanities, Osaka University</span>
         </div>
-        <a href="https://youtu.be/72bx9-_iJN0" target="_blank" rel="noopener noreferrer" class="tc-featured-media">
-          <img src="https://img.youtube.com/vi/72bx9-_iJN0/hqdefault.jpg" alt="人文学とデジタル技術 紹介動画">
-          <div class="yt-play-overlay">
-            <svg width="52" height="52" viewBox="0 0 52 52" fill="none">
-              <circle cx="26" cy="26" r="26" fill="rgba(0,0,0,0.55)"/>
-              <polygon points="21,17 39,26 21,35" fill="white"/>
-            </svg>
-          </div>
-        </a>
+        <div class="tc-tags">
+          <span class="topic-tag" data-tag="Humanities">Humanities</span>
+          <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
+        </div>
       </div>
 
       <!-- 4. 人文学基礎 -->
-      <div class="teaching-card">
-        <div class="tc-accent" style="background:#4868a8"></div>
+      <div class="teaching-card" style="--tc-color:#8e7fd4">
+        <div class="tc-num">04</div>
         <span class="tc-year">2022 &mdash;</span>
-        <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k03434786-F766-3A4F-2226-7DA31D7AD480" target="_blank" rel="noopener noreferrer" class="tc-title-link" data-lang="ja">
-          <div class="tc-title">人文学基礎（人文学と対話）</div>
-        </a>
-        <a href="https://koan.osaka-u.ac.jp/campusweb/campussquare.do?_flowExecutionKey=_cA8C83EE2-4C26-D521-36AB-1BF35A27782C_k349654A3-EE37-6E3F-A3ED-E2F0E2B6FEA6" target="_blank" rel="noopener noreferrer" class="tc-title-link" data-lang="en">
-          <div class="tc-title">Foundations of the Humanities (Humanities and Dialogue)</div>
-        </a>
-        <div class="tc-inst" data-lang="ja">大阪大学 大学院人文学研究科</div>
-        <div class="tc-inst" data-lang="en">Graduate School of Humanities, Osaka University</div>
+        <div class="tc-title" data-lang="ja">人文学基礎（人文学と対話）</div>
+        <div class="tc-title" data-lang="en">Foundations of the Humanities (Humanities and Dialogue)</div>
+        <div class="tc-meta">
+          <span class="tc-level" data-lang="ja">大学院</span>
+          <span class="tc-level" data-lang="en">Graduate</span>
+          <span class="tc-dot"></span>
+          <span class="tc-inst" data-lang="ja">大阪大学 大学院人文学研究科</span>
+          <span class="tc-inst" data-lang="en">Graduate School of Humanities, Osaka University</span>
+        </div>
         <div class="tc-tags"><span class="topic-tag" data-tag="Humanities">Humanities</span></div>
-        <span class="tc-action">
-          <span data-lang="ja">シラバスを見る &rarr;</span>
-          <span data-lang="en">View syllabus &rarr;</span>
-        </span>
       </div>
 
       <!-- 5. コーパス演習 -->
-      <div class="teaching-card">
-        <div class="tc-accent" style="background:#4868a8"></div>
+      <div class="teaching-card" style="--tc-color:#38b0e8">
+        <div class="tc-num">05</div>
         <span class="tc-year">2021 &mdash;</span>
-        <a href="https://www.dwc.doshisha.ac.jp/current/classes/course_registration/syllabus" target="_blank" rel="noopener noreferrer" class="tc-title-link">
-          <div class="tc-title" data-lang="ja">コーパス演習</div>
-          <div class="tc-title" data-lang="en">Corpus Studies Practicum</div>
-        </a>
-        <div class="tc-inst" data-lang="ja">同志社女子大学 学芸学部</div>
-        <div class="tc-inst" data-lang="en">Faculty of Liberal Arts, Doshisha Women's College of Liberal Arts</div>
+        <div class="tc-title" data-lang="ja">コーパス演習</div>
+        <div class="tc-title" data-lang="en">Corpus Studies Practicum</div>
+        <div class="tc-meta">
+          <span class="tc-level" data-lang="ja">学部</span>
+          <span class="tc-level" data-lang="en">Undergraduate</span>
+          <span class="tc-dot"></span>
+          <span class="tc-inst" data-lang="ja">同志社女子大学 学芸学部</span>
+          <span class="tc-inst" data-lang="en">Faculty of Liberal Arts, Doshisha Women's College of Liberal Arts</span>
+        </div>
         <div class="tc-tags">
           <span class="topic-tag" data-tag="Humanities">Humanities</span>
           <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
         </div>
-        <span class="tc-action">
-          <span data-lang="ja">シラバスを見る &rarr;</span>
-          <span data-lang="en">View syllabus &rarr;</span>
-        </span>
       </div>
 
     </div>
@@ -3902,306 +4402,35 @@
 
       <!-- 個人 -->
       <a href="https://www.instagram.com/ysugawara1218/" target="_blank" rel="noopener noreferrer" class="ig-card">
-        <div class="ig-card-left">
+        <div class="ig-ring">
           <img src="image/ysugawara-instagram.jpg" alt="菅原裕輝 Instagram" class="ig-account-icon" />
         </div>
-        <div class="ig-card-body">
-          <div class="ig-type" data-lang="ja">個人</div>
-          <div class="ig-type" data-lang="en">Personal</div>
-          <div class="ig-handle">@ysugawara1218</div>
-          <div class="ig-name" data-lang="ja">Yuki Sugawara</div>
-          <div class="ig-name" data-lang="en">Yuki Sugawara</div>
-        </div>
-        <div class="ig-card-right">
-          <span class="ig-arrow">→</span>
-        </div>
+        <div class="ig-type" data-lang="ja">個人</div>
+        <div class="ig-type" data-lang="en">Personal</div>
+        <div class="ig-handle">@ysugawara1218</div>
+        <div class="ig-name" data-lang="ja">Yuki Sugawara</div>
+        <div class="ig-name" data-lang="en">Yuki Sugawara</div>
+        <div class="ig-desc" data-lang="ja">研究活動や日常の記録</div>
+        <div class="ig-desc" data-lang="en">Documenting research and daily life</div>
+        <span class="ig-arrow">→</span>
       </a>
 
       <!-- 運用 -->
       <a href="https://www.instagram.com/jinbungakurin_uosaka/" target="_blank" rel="noopener noreferrer" class="ig-card">
-        <div class="ig-card-left">
+        <div class="ig-ring">
           <img src="image/jinbungakurin-instagram.jpg" alt="人文学林 Instagram" class="ig-account-icon" />
         </div>
-        <div class="ig-card-body">
-          <div class="ig-type" data-lang="ja">運用</div>
-          <div class="ig-type" data-lang="en">Managed</div>
-          <div class="ig-handle">@jinbungakurin_uosaka</div>
-          <div class="ig-name" data-lang="ja">大阪大学大学院人文学研究科 人文学林</div>
-          <div class="ig-name" data-lang="en">Graduate School of Humanities, Osaka University — Jinbungakurin</div>
-        </div>
-        <div class="ig-card-right">
-          <span class="ig-arrow">→</span>
-        </div>
+        <div class="ig-type" data-lang="ja">運用</div>
+        <div class="ig-type" data-lang="en">Managed</div>
+        <div class="ig-handle">@jinbungakurin_uosaka</div>
+        <div class="ig-name" data-lang="ja">大阪大学大学院人文学研究科 人文学林</div>
+        <div class="ig-name" data-lang="en">Jinbungakurin, Osaka University</div>
+        <div class="ig-desc" data-lang="ja">人文学林の活動紹介・イベント情報</div>
+        <div class="ig-desc" data-lang="en">Activities and events at Jinbungakurin</div>
+        <span class="ig-arrow">→</span>
       </a>
 
     </div>
-  </section>
-
-  <!-- CAREER -->
-  <section>
-    <p class="sec-label">Career</p>
-    <h2 class="sec-title" data-lang="ja">経歴</h2>
-    <h2 class="sec-title" data-lang="en">Academic Career (Selected)</h2>
-
-    <!-- Career Card List -->
-    <div id="career-card-list" class="reveal">
-      <div id="career-card-filters"></div>
-      <div id="career-card-grid"></div>
-    </div>
-
-    <!-- Career Network -->
-    <div id="career-network" class="network-wrap reveal">
-      <p class="network-label">
-        <span data-lang="ja">経歴トピックネットワーク</span>
-        <span data-lang="en">Career Topic Network</span>
-      </p>
-      <p class="network-hint">
-        <span data-lang="ja">ドラッグで移動 / ホイールでズーム / クリックでフィルタ</span>
-        <span data-lang="en">Drag to move / Scroll to zoom / Click to filter</span>
-      </p>
-      <div id="career-network-container"><svg id="career-network-svg"></svg></div>
-      <div id="career-network-tooltip"></div>
-      <div id="career-network-legend"></div>
-    </div>
-
-    <div id="career-timeline-wrap" class="reveal" style="margin-top: 48px;">
-      <p class="network-label">
-        <span data-lang="ja">経歴タイムライン</span>
-        <span data-lang="en">Career Timeline</span>
-      </p>
-      <div id="career-timeline" style="position: relative;">
-        <svg id="career-timeline-svg"></svg>
-        <div id="career-timeline-tooltip"></div>
-      </div>
-    </div>
-
-    <div class="career-static-list">
-    <div class="career-list" style="margin-top: 56px;">
-      <div class="career-item" data-tenure-end="2053.03">
-        <span class="career-period">2025.04 — <span data-lang="ja">現在</span><span data-lang="en">Present</span></span>
-        <div>
-          <div class="career-body">
-            <span data-lang="ja">大阪大学 大学院人文学研究科 人文学林</span>
-            <span data-lang="en">Interdisciplinary Network in the Humanities, Graduate School of Humanities, The University of Osaka</span>
-          </div>
-          <div class="career-role">
-            <span data-lang="ja">講師（テニュア）</span><span data-lang="en">Lecturer (Tenured)</span>
-          </div>
-          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
-            <span class="topic-tag" data-tag="Humanities">Humanities</span>
-            <span class="topic-tag" data-tag="Digital Humanities">Digital Humanities</span>
-            <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
-          </div>
-        </div>
-      </div>
-      <div class="career-item">
-        <span class="career-period">2022.04 — 2025.03</span>
-        <div>
-          <div class="career-body">
-            <span data-lang="ja">大阪大学 大学院人文学研究科 人文学林</span>
-            <span data-lang="en">Interdisciplinary Network in the Humanities, Graduate School of Humanities, The University of Osaka</span>
-          </div>
-          <div class="career-role">
-            <span data-lang="ja">特任助教（常勤）</span><span data-lang="en">Specially Appointed Assistant Professor</span>
-          </div>
-          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
-            <span class="topic-tag" data-tag="Humanities">Humanities</span>
-            <span class="topic-tag" data-tag="Digital Humanities">Digital Humanities</span>
-            <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
-          </div>
-        </div>
-      </div>
-      <div class="career-item">
-        <span class="career-period">2022.04 — 2024.03</span>
-        <div>
-          <div class="career-body">
-            <span data-lang="ja">慶應義塾大学 理工学部</span>
-            <span data-lang="en">Faculty of Science and Technology, Keio University</span>
-          </div>
-          <div class="career-role">
-            <span data-lang="ja">研究員（非常勤・兼任）</span><span data-lang="en">Researcher (Part-time)</span>
-          </div>
-          <div style="margin-top:6px;"><span class="topic-tag" data-tag="STS">STS</span></div>
-        </div>
-      </div>
-      <div class="career-item">
-        <span class="career-period">2021.07 — 2022.03</span>
-        <div>
-          <div class="career-body">
-            <span data-lang="ja">慶應義塾大学 理工学部</span>
-            <span data-lang="en">Faculty of Science and Technology, Keio University</span>
-          </div>
-          <div class="career-role">
-            <span data-lang="ja">研究員</span><span data-lang="en">Researcher</span>
-          </div>
-          <div style="margin-top:6px;"><span class="topic-tag" data-tag="STS">STS</span></div>
-        </div>
-      </div>
-      <div class="career-item">
-        <span class="career-period">2020.05 — 2021.12</span>
-        <div>
-          <div class="career-body">
-            <span data-lang="ja">大阪大学 大学院人間科学研究科 基礎人間科学講座（科学技術と文化）</span>
-            <span data-lang="en">Graduate School of Human Sciences, Osaka University</span>
-          </div>
-          <div class="career-role">
-            <span data-lang="ja">特任研究員</span><span data-lang="en">Specially Appointed Researcher</span>
-          </div>
-          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
-            <span class="topic-tag" data-tag="STS">STS</span>
-            <span class="topic-tag" data-tag="Anthropology">Anthropology</span>
-          </div>
-        </div>
-      </div>
-      <div class="career-item">
-        <span class="career-period">2017.04 — 2018.03</span>
-        <div>
-          <div class="career-body">
-            <span data-lang="ja">大阪大学 COデザインセンター</span>
-            <span data-lang="en">Center for the Study of Co* Design, Osaka University</span>
-          </div>
-          <div class="career-role">
-            <span data-lang="ja">特任助教（常勤）</span><span data-lang="en">Specially Appointed Assistant Professor</span>
-          </div>
-          <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
-            <span class="topic-tag" data-tag="STS">STS</span>
-            <span class="topic-tag" data-tag="Philosophy of Science">Philosophy of Science</span>
-          </div>
-        </div>
-      </div>
-      <div class="career-item">
-        <span class="career-period">2015.08 — 2017.03</span>
-        <div>
-          <div class="career-body">
-            <span data-lang="ja">国立循環器病研究センター 研究開発基盤センター 医学倫理研究部</span>
-            <span data-lang="en">Department of Medical Ethics, National Cerebral and Cardiovascular Center</span>
-          </div>
-          <div class="career-role">
-            <span data-lang="ja">研究員（非常勤）</span><span data-lang="en">Researcher (Part-time)</span>
-          </div>
-          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Research Ethics">Research Ethics</span></div>
-        </div>
-      </div>
-      <div class="career-item">
-        <span class="career-period">2014.04 — 2015.07</span>
-        <div>
-          <div class="career-body">
-            <span data-lang="ja">日本学術振興会</span>
-            <span data-lang="en">Japan Society for the Promotion of Science</span>
-          </div>
-          <div class="career-role">
-            <span data-lang="ja">特別研究員（DC2）</span><span data-lang="en">JSPS Research Fellow (DC2)</span>
-          </div>
-          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Philosophy of Science">Philosophy of Science</span></div>
-        </div>
-      </div>
-      <div class="career-item">
-        <span class="career-period">2014.04 — 2014.07</span>
-        <div>
-          <div class="career-body">
-            <span data-lang="ja">自然科学研究機構 基礎生物学研究所 光脳回路研究部門</span>
-            <span data-lang="en">Division of Brain Circuit, National Institute for Basic Biology</span>
-          </div>
-          <div class="career-role">
-            <span data-lang="ja">特別共同利用研究員</span><span data-lang="en">Visiting Scientist</span>
-          </div>
-          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Neuroscience">Neuroscience</span></div>
-        </div>
-      </div>
-    </div>
-
-    <div style="margin-top: 64px;">
-      <p class="sec-label" style="margin-bottom: 32px;">
-        <span data-lang="ja">学位</span>
-        <span data-lang="en">Degrees</span>
-      </p>
-      <div class="career-list">
-        <div class="career-item">
-          <span class="career-period">2022.03</span>
-          <div class="career-body">
-            <span data-lang="ja">博士（人間科学）— 大阪大学</span>
-            <span data-lang="en">Ph.D. in Human Sciences — Osaka University</span>
-          </div>
-        </div>
-        <div class="career-item">
-          <span class="career-period">2012.03</span>
-          <div class="career-body">
-            <span data-lang="ja">修士（情報科学）— 名古屋大学</span>
-            <span data-lang="en">M.S. in Information Science — Nagoya University</span>
-          </div>
-        </div>
-        <div class="career-item">
-          <span class="career-period">2010.03</span>
-          <div class="career-body">
-            <span data-lang="ja">学士（学術）— 岩手大学</span>
-            <span data-lang="en">B.A. — Iwate University</span>
-          </div>
-        </div>
-        <div class="career-item">
-          <span class="career-period">2008.03</span>
-          <div class="career-body">
-            <span data-lang="ja">準学士（工学）— 国立秋田高専</span>
-            <span data-lang="en">Associate Degree in Engineering — Akita National College of Technology</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div style="margin-top: 64px;">
-      <p class="sec-label" style="margin-bottom: 32px;">
-        <span data-lang="ja">学歴</span>
-        <span data-lang="en">Education</span>
-      </p>
-      <div class="career-list">
-        <div class="career-item">
-          <span class="career-period">2012.04 — 2015.03</span>
-          <div>
-            <div class="career-body">
-              <span data-lang="ja"><a href="https://www.bun.kyoto-u.ac.jp" target="_blank" rel="noopener noreferrer" style="color:inherit; border-bottom:1px solid var(--line); text-decoration:none;">京都大学 大学院文学研究科</a> 現代文化学専攻 科学哲学科学史専修（博士後期課程）</span>
-              <span data-lang="en">Doctoral Program, Dept. of Philosophy and History of Science, <a href="https://www.bun.kyoto-u.ac.jp" target="_blank" rel="noopener noreferrer" style="color:inherit; border-bottom:1px solid var(--line); text-decoration:none;">Graduate School of Letters, Kyoto University</a></span>
-            </div>
-            <div style="margin-top:6px;"><span class="topic-tag" data-tag="Philosophy of Science">Philosophy of Science</span></div>
-          </div>
-        </div>
-        <div class="career-item">
-          <span class="career-period">2010.04 — 2012.03</span>
-          <div>
-            <div class="career-body">
-              <span data-lang="ja"><a href="https://www.is.nagoya-u.ac.jp" target="_blank" rel="noopener noreferrer" style="color:inherit; border-bottom:1px solid var(--line); text-decoration:none;">名古屋大学 大学院情報科学研究科</a> 社会システム情報学専攻（博士前期課程）</span>
-              <span data-lang="en">Master's Program, Dept. of Social Systems and Informatics, <a href="https://www.is.nagoya-u.ac.jp" target="_blank" rel="noopener noreferrer" style="color:inherit; border-bottom:1px solid var(--line); text-decoration:none;">Graduate School of Information Science, Nagoya University</a></span>
-            </div>
-            <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
-              <span class="topic-tag" data-tag="Philosophy of Science">Philosophy of Science</span>
-              <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
-            </div>
-          </div>
-        </div>
-        <div class="career-item">
-          <span class="career-period">2008.04 — 2010.03</span>
-          <div>
-            <div class="career-body">
-              <span data-lang="ja"><a href="https://jinsha.iwate-u.ac.jp" target="_blank" rel="noopener noreferrer" style="color:inherit; border-bottom:1px solid var(--line); text-decoration:none;">岩手大学 人文社会科学部</a> 人間科学課程（学士課程）</span>
-              <span data-lang="en">Undergraduate Program, Course in Human Sciences, <a href="https://jinsha.iwate-u.ac.jp" target="_blank" rel="noopener noreferrer" style="color:inherit; border-bottom:1px solid var(--line); text-decoration:none;">Faculty of Humanities and Social Sciences, Iwate University</a></span>
-            </div>
-            <div style="margin-top:6px; display:flex; gap:6px; flex-wrap:wrap;">
-              <span class="topic-tag" data-tag="Philosophy of Science">Philosophy of Science</span>
-              <span class="topic-tag" data-tag="Digital Technology">Digital Technology</span>
-            </div>
-          </div>
-        </div>
-        <div class="career-item">
-          <span class="career-period">2003.04 — 2008.03</span>
-          <div>
-            <div class="career-body">
-              <span data-lang="ja"><a href="https://www.akita-nct.ac.jp" target="_blank" rel="noopener noreferrer" style="color:inherit; border-bottom:1px solid var(--line); text-decoration:none;">秋田工業高等専門学校</a> 環境都市工学科</span>
-              <span data-lang="en">Dept. of Environmental and Civil Engineering, <a href="https://www.akita-nct.ac.jp" target="_blank" rel="noopener noreferrer" style="color:inherit; border-bottom:1px solid var(--line); text-decoration:none;">Akita National College of Technology</a></span>
-            </div>
-            <div style="margin-top:6px;"><span class="topic-tag" data-tag="Technology">Technology</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-    </div><!-- /career-static-list -->
   </section>
 
   <!-- CONTACT -->
@@ -4337,14 +4566,6 @@
       el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
     });
 
-    /* ── HERO PARALLAX ── */
-    const heroPhoto = document.querySelector('.hero-photo-wrap');
-    window.addEventListener('scroll', () => {
-      if (heroPhoto) {
-        heroPhoto.style.transform = `translateY(${window.scrollY * 0.18}px)`;
-      }
-    }, { passive: true });
-
     /* ── SCROLL REVEAL ── */
     const revealObserver = new IntersectionObserver((entries) => {
       entries.forEach(entry => {
@@ -4425,6 +4646,16 @@
       revealObserver.observe(el);
     });
 
+    // Observe teaching cards with stagger
+    document.querySelectorAll('.teaching-card').forEach((el, i) => {
+      el.classList.add('reveal', `stagger-${i + 1}`);
+      revealObserver.observe(el);
+    });
+
+    // Observe teaching stats
+    const teachingStatsEl = document.getElementById('teaching-stats');
+    if (teachingStatsEl) revealObserver.observe(teachingStatsEl);
+
     /* ── SCROLL HINT BOUNCE ── */
     const scrollHint = document.querySelector('.scroll-hint-line');
     if (scrollHint) {
@@ -4495,6 +4726,700 @@
       }
       tick();
       setTimeout(() => canvas.classList.add('active'), 100);
+    })();
+
+    /* ── PROJECT STATS DASHBOARD ── */
+    (function() {
+      const statsWrap = document.getElementById('proj-stats');
+      if (!statsWrap) return;
+
+      const TAG_COLORS = {
+        'Anthropology':                 '#c87a5e',
+        'Digital Anthropology':         '#c8a96e',
+        'STS':                          '#6ab08a',
+        'Digital STS':                  '#4dc4a8',
+        'Philosophy of Science':        '#a87cb0',
+        'Digital Philosophy of Science':'#8e7fd4',
+        'Humanities':                   '#4868a8',
+        'Digital Humanities':           '#38b0e8',
+        'Digital Technology':           '#78a8e0',
+        'Technology':                   '#6890c0',
+        'Neuroscience':                 '#e06878',
+        'Research Ethics':              '#d4a84b'
+      };
+
+      /* ── count tags from grant-static-list ── */
+      const tagCounts = {};
+      document.querySelectorAll('#grant-static-list .topic-tag[data-tag]').forEach(t => {
+        const tag = t.dataset.tag;
+        tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+      });
+      const sorted = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
+      const maxCount = sorted.length ? sorted[0][1] : 1;
+
+      /* ── build bar chart ── */
+      const barsEl = document.getElementById('proj-tag-bars');
+      if (barsEl && sorted.length) {
+        sorted.forEach(([tag, count]) => {
+          const color = TAG_COLORS[tag] || '#888';
+          const pct = (count / maxCount * 100).toFixed(1);
+          const row = document.createElement('div');
+          row.className = 'proj-tag-bar-row';
+          row.innerHTML =
+            '<div class="proj-tag-bar-label">' + tag + '</div>' +
+            '<div class="proj-tag-bar-track"><div class="proj-tag-bar-fill" data-pct="' + pct + '" style="background:' + color + ';"></div></div>' +
+            '<div class="proj-tag-bar-count">' + count + '</div>';
+          barsEl.appendChild(row);
+        });
+      }
+
+      /* ── animate on scroll ── */
+      let animated = false;
+      const statsObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !animated) {
+            animated = true;
+            statsObs.unobserve(statsWrap);
+
+            /* counter animation */
+            statsWrap.querySelectorAll('.proj-stat-num[data-target]').forEach(el => {
+              const target = parseInt(el.dataset.target, 10);
+              const start = performance.now();
+              const duration = 1200;
+              function tick(now) {
+                const t = Math.min((now - start) / duration, 1);
+                const ease = 1 - Math.pow(1 - t, 3);
+                el.textContent = Math.round(ease * target);
+                if (t < 1) requestAnimationFrame(tick);
+              }
+              requestAnimationFrame(tick);
+            });
+
+            /* bar animation with stagger */
+            statsWrap.querySelectorAll('.proj-tag-bar-fill').forEach((bar, i) => {
+              setTimeout(() => {
+                bar.style.width = bar.dataset.pct + '%';
+              }, i * 80);
+            });
+          }
+        });
+      }, { threshold: 0.15 });
+      statsObs.observe(statsWrap);
+
+      if (typeof revealObserver !== 'undefined') revealObserver.observe(statsWrap);
+    })();
+
+    /* ── PUBLICATION STATS DASHBOARD ── */
+    (function() {
+      const statsWrap = document.getElementById('pub-stats');
+      if (!statsWrap) return;
+
+      const TAG_COLORS = {
+        'Anthropology':                 '#c87a5e',
+        'Digital Anthropology':         '#c8a96e',
+        'STS':                          '#6ab08a',
+        'Digital STS':                  '#4dc4a8',
+        'Philosophy of Science':        '#a87cb0',
+        'Digital Philosophy of Science':'#8e7fd4',
+        'Humanities':                   '#4868a8',
+        'Digital Humanities':           '#38b0e8',
+        'Digital Technology':           '#78a8e0',
+        'Technology':                   '#6890c0',
+        'Neuroscience':                 '#e06878',
+        'Research Ethics':              '#d4a84b'
+      };
+
+      /* count tags from pub-static-list */
+      const tagCounts = {};
+      document.querySelectorAll('#pub-static-list .topic-tag[data-tag]').forEach(t => {
+        const tag = t.dataset.tag;
+        tagCounts[tag] = (tagCounts[tag] || 0) + 1;
+      });
+      const sorted = Object.entries(tagCounts).sort((a, b) => b[1] - a[1]);
+      const maxCount = sorted.length ? sorted[0][1] : 1;
+
+      /* build bar chart */
+      const barsEl = document.getElementById('pub-tag-bars');
+      if (barsEl && sorted.length) {
+        sorted.forEach(([tag, count]) => {
+          const color = TAG_COLORS[tag] || '#888';
+          const pct = (count / maxCount * 100).toFixed(1);
+          const row = document.createElement('div');
+          row.className = 'proj-tag-bar-row';
+          row.innerHTML =
+            '<div class="proj-tag-bar-label">' + tag + '</div>' +
+            '<div class="proj-tag-bar-track"><div class="proj-tag-bar-fill" data-pct="' + pct + '" style="background:' + color + ';"></div></div>' +
+            '<div class="proj-tag-bar-count">' + count + '</div>';
+          barsEl.appendChild(row);
+        });
+      }
+
+      /* animate on scroll */
+      let animated = false;
+      const statsObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !animated) {
+            animated = true;
+            statsObs.unobserve(statsWrap);
+
+            /* counter animation */
+            statsWrap.querySelectorAll('.proj-stat-num[data-target]').forEach(el => {
+              const target = parseInt(el.dataset.target, 10);
+              const start = performance.now();
+              const duration = 1200;
+              function tick(now) {
+                const t = Math.min((now - start) / duration, 1);
+                const ease = 1 - Math.pow(1 - t, 3);
+                el.textContent = Math.round(ease * target);
+                if (t < 1) requestAnimationFrame(tick);
+              }
+              requestAnimationFrame(tick);
+            });
+
+            /* bar animation with stagger */
+            statsWrap.querySelectorAll('.proj-tag-bar-fill').forEach((bar, i) => {
+              setTimeout(() => {
+                bar.style.width = bar.dataset.pct + '%';
+              }, i * 80);
+            });
+          }
+        });
+      }, { threshold: 0.15 });
+      statsObs.observe(statsWrap);
+
+      if (typeof revealObserver !== 'undefined') revealObserver.observe(statsWrap);
+    })();
+
+    /* ── TEACHING STATS COUNTER ── */
+    (function() {
+      const teachStats = document.getElementById('teaching-stats');
+      if (!teachStats) return;
+
+      let animated = false;
+      const teachStatsObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && !animated) {
+            animated = true;
+            teachStatsObs.unobserve(teachStats);
+
+            teachStats.querySelectorAll('.proj-stat-num[data-target]').forEach(el => {
+              const target = parseInt(el.dataset.target, 10);
+              const start = performance.now();
+              const duration = 1200;
+              function tick(now) {
+                const t = Math.min((now - start) / duration, 1);
+                const ease = 1 - Math.pow(1 - t, 3);
+                el.textContent = Math.round(ease * target);
+                if (t < 1) requestAnimationFrame(tick);
+              }
+              requestAnimationFrame(tick);
+            });
+          }
+        });
+      }, { threshold: 0.15 });
+      teachStatsObs.observe(teachStats);
+    })();
+
+    /* ── CONCEPT MAP (D3 Force) ── */
+    (function() {
+      const svgEl = document.getElementById('concept-map-svg');
+      const container = document.getElementById('concept-map-container');
+      const tooltip = document.getElementById('concept-map-tooltip');
+      const wrap = document.getElementById('concept-map-wrap');
+      if (!svgEl || !container) return;
+
+      const isJa = () => document.body.classList.contains('lang-ja');
+      const typeLabel = {
+        field: { ja: '分野', en: 'Field' }, theme: { ja: 'テーマ', en: 'Theme' },
+        method: { ja: '方法', en: 'Method' }, impl: { ja: '実装', en: 'Impl.' }
+      };
+
+      /* ── nodes ── */
+      const nodes = [
+        /* ─ Fields ─ Digital (large) */
+        { id: 'dsts', type: 'field', r: 18, color: '#4dc4a8', label: { ja: 'デジタルSTS', en: 'Digital STS' },
+          desc: { ja: 'デジタルSTSは、科学技術社会論（STS）の分析枠組みや批判的視点を、アルゴリズム、ビッグデータ、巨大プラットフォームといった現代のデジタル技術に適用する分野です。データ収集やAIによる自動意思決定が、いかにして社会的なバイアスや差別を内包し、既存の権力構造を再生産しているかを解明します。同時に、ネットワーク分析やデータマイニングといった計算論的アプローチを調査手法として活用します。', en: 'Digital STS applies STS analytical frameworks to modern digital technologies, including algorithms, big data, and digital platforms. It critically examines how data collection and automated decision-making by AI embed social biases and reproduce existing power structures, while incorporating computational approaches such as data mining and network analysis into its research methodologies.' }, scrollTo: '.ro-pillar:nth-child(1)' },
+        { id: 'dps', type: 'field', r: 18, color: '#8e7fd4', label: { ja: 'デジタル科学哲学', en: 'Digital Phil. of Science' },
+          desc: { ja: 'デジタル科学哲学は、伝統的な科学哲学の問いに対して、情報技術やデータサイエンスの手法を用いてアプローチする新興の学際分野です。テキストマイニング、ネットワーク分析、コンピュータ・シミュレーションなどの計算論的手法を活用し、膨大な科学論文や歴史的データを計量的に分析することで、科学理論の変遷や研究コミュニティの動態を実証的に解明します。', en: 'Digital Philosophy of Science is an emerging interdisciplinary field that addresses traditional philosophical questions about science using computational methods. By utilizing text mining, network analysis, and computer simulations, researchers quantitatively analyze vast amounts of scientific literature to empirically trace the evolution of scientific theories and community dynamics.' }, scrollTo: '.ro-pillar:nth-child(2)' },
+        { id: 'da', type: 'field', r: 18, color: '#c8a96e', label: { ja: 'デジタル人類学', en: 'Digital Anthropology' },
+          desc: { ja: 'デジタル人類学は、インターネット、SNS、スマートフォン、人工知能、メタバースなどのデジタル技術が、人間の日常生活、文化、社会関係、アイデンティティの形成にどのような影響を与えているかを研究する新しい領域です。オンライン空間でのフィールドワーク（デジタル・エスノグラフィ）などの手法を用いて、サイバースペースにおける人間の行動やコミュニケーションの変容を分析します。', en: 'Digital Anthropology investigates how digital technologies — such as the internet, social media, smartphones, AI, and the metaverse — affect human daily life, culture, social relationships, and identity formation. Utilizing methods like digital ethnography, researchers observe and analyze behavioral patterns and transformations in communication within cyberspace.' }, scrollTo: '.ro-pillar:nth-child(3)' },
+        /* ─ Fields ─ Base (medium) */
+        { id: 'sts', type: 'field', r: 13, color: '#6ab08a', label: { ja: 'STS', en: 'STS' },
+          desc: { ja: '科学技術社会論。科学的知識や技術が社会・文化・政治と相互作用しながら形成される過程を研究する学際分野', en: 'Science & Technology Studies — studying how science and technology shape and are shaped by society' } },
+        { id: 'pos', type: 'field', r: 13, color: '#a87cb0', label: { ja: '科学哲学', en: 'Phil. of Science' },
+          desc: { ja: '科学的知識の性質・基礎・方法論を哲学的に探求する分野。「科学とは何か」という根本的な問いを扱う', en: 'Exploring the nature, foundations, and methodology of scientific knowledge' } },
+        { id: 'anth', type: 'field', r: 13, color: '#c87a5e', label: { ja: '人類学', en: 'Anthropology' },
+          desc: { ja: '人間の文化・社会・言語を研究し、フィールドワークを通じて人間社会の多様性と普遍性を探求する学問', en: 'The study of human cultures through fieldwork, exploring diversity and universality' } },
+
+        /* ─ Themes ─ DSTS / STS */
+        { id: 'climate', type: 'theme', r: 9, color: '#4dc4a8', connects: ['dsts','sts'], label: { ja: '気候変動', en: 'Climate Change' },
+          desc: { ja: '気候変動と社会の関係をデジタル手法で分析', en: 'Analyzing climate change and society through digital methods' } },
+        { id: 'algobias', type: 'theme', r: 9, color: '#4dc4a8', connects: ['dsts'], label: { ja: 'アルゴリズムバイアス', en: 'Algorithmic Bias' },
+          desc: { ja: 'AIアルゴリズムに内在する社会的バイアスの検出と批判的分析', en: 'Detecting and critically analyzing social biases embedded in AI algorithms' } },
+        { id: 'platform', type: 'theme', r: 9, color: '#4dc4a8', connects: ['dsts'], label: { ja: 'プラットフォーム経済', en: 'Platform Economy' },
+          desc: { ja: 'デジタルプラットフォームが経済・労働・社会関係に与える影響', en: 'Impact of digital platforms on economy, labor, and social relations' } },
+        { id: 'diggov', type: 'theme', r: 9, color: '#4dc4a8', connects: ['dsts','sts'], label: { ja: 'デジタルガバナンス', en: 'Digital Governance' },
+          desc: { ja: 'デジタル技術を通じた統治と市民参加の変容', en: 'Transformation of governance and civic participation through digital technology' } },
+        { id: 'surveil', type: 'theme', r: 9, color: '#4dc4a8', connects: ['dsts','sts'], label: { ja: '監視社会', en: 'Surveillance Society' },
+          desc: { ja: 'デジタル監視技術がプライバシーと自由に与える影響', en: 'Impact of digital surveillance on privacy and freedom' } },
+        { id: 'opensc', type: 'theme', r: 9, color: '#6ab08a', connects: ['sts','dsts'], label: { ja: 'オープンサイエンス', en: 'Open Science' },
+          desc: { ja: '科学知識のオープンアクセスと市民科学の推進', en: 'Open access to scientific knowledge and citizen science' } },
+        { id: 'scicomm', type: 'theme', r: 9, color: '#6ab08a', connects: ['sts'], label: { ja: '科学コミュニケーション', en: 'Sci. Communication' },
+          desc: { ja: '科学者と市民の間の対話と知識伝達', en: 'Dialogue and knowledge transfer between scientists and the public' } },
+        { id: 'rri', type: 'theme', r: 9, color: '#6ab08a', connects: ['sts','dsts'], label: { ja: '責任あるイノベーション', en: 'Responsible Innovation' },
+          desc: { ja: '社会的影響を考慮した研究・技術開発のあり方', en: 'Research and technology development considering societal impacts' } },
+        { id: 'synbio', type: 'theme', r: 9, color: '#6ab08a', connects: ['sts','dsts'], label: { ja: '合成生物学', en: 'Synthetic Biology' },
+          desc: { ja: 'ゲノム合成技術と社会的受容の問題', en: 'Genome synthesis technology and issues of social acceptance' } },
+        { id: 'datapri', type: 'theme', r: 9, color: '#4dc4a8', connects: ['dsts'], label: { ja: 'データプライバシー', en: 'Data Privacy' },
+          desc: { ja: 'ビッグデータ時代の個人情報保護と権利', en: 'Personal data protection and rights in the age of big data' } },
+        { id: 'stpolicy', type: 'theme', r: 9, color: '#6ab08a', connects: ['sts'], label: { ja: '科学技術政策', en: 'S&T Policy' },
+          desc: { ja: '科学技術に関する政策形成と評価', en: 'Science and technology policy formation and assessment' } },
+        { id: 'aiethics', type: 'theme', r: 9, color: '#4dc4a8', connects: ['dsts','sts'], label: { ja: 'AI倫理', en: 'AI Ethics' },
+          desc: { ja: '人工知能の開発・運用における倫理的課題', en: 'Ethical challenges in AI development and deployment' } },
+        { id: 'infra', type: 'theme', r: 9, color: '#6ab08a', connects: ['sts','dsts'], label: { ja: 'インフラストラクチャー', en: 'Infrastructure' },
+          desc: { ja: '社会を支える技術的・制度的基盤の研究', en: 'Studies of technological and institutional foundations of society' } },
+        { id: 'pubeng', type: 'theme', r: 9, color: '#6ab08a', connects: ['sts'], label: { ja: '市民参加', en: 'Public Engagement' },
+          desc: { ja: '科学技術政策への市民参加とパブリック・エンゲージメント', en: 'Citizen participation in science and technology decision-making' } },
+        { id: 'genai', type: 'theme', r: 9, color: '#38b0e8', connects: ['dsts','dps','da'], label: { ja: '生成AI', en: 'Generative AI' },
+          desc: { ja: '生成AIの社会的影響と知の再構築', en: "Generative AI's societal impact and knowledge restructuring" } },
+        { id: 'digdiv', type: 'theme', r: 9, color: '#4dc4a8', connects: ['dsts','da'], label: { ja: 'デジタルデバイド', en: 'Digital Divide' },
+          desc: { ja: '情報格差と技術へのアクセス不平等', en: 'Information gap and unequal access to technology' } },
+
+        /* ─ Themes ─ DPoS / PoS */
+        { id: 'neuro', type: 'theme', r: 9, color: '#8e7fd4', connects: ['dps','pos'], label: { ja: '神経科学', en: 'Neuroscience' },
+          desc: { ja: '脳・神経系の構造と機能の解明。科学哲学から説明モデルの多元性を探究', en: 'Study of the nervous system — exploring explanatory model plurality' } },
+        { id: 'paradigm', type: 'theme', r: 9, color: '#a87cb0', connects: ['pos'], label: { ja: 'パラダイムシフト', en: 'Paradigm Shift' },
+          desc: { ja: '科学革命における知のパラダイム転換', en: 'Transformations of knowledge paradigms in scientific revolutions' } },
+        { id: 'realism', type: 'theme', r: 9, color: '#a87cb0', connects: ['pos'], label: { ja: '科学的実在論', en: 'Scientific Realism' },
+          desc: { ja: '科学理論が実在を正しく記述しているかという問い', en: 'Whether scientific theories accurately describe reality' } },
+        { id: 'causal', type: 'theme', r: 9, color: '#a87cb0', connects: ['pos','dps'], label: { ja: '因果推論', en: 'Causal Inference' },
+          desc: { ja: '科学における因果関係の推論と正当化', en: 'Inference and justification of causal relations in science' } },
+        { id: 'interdisc', type: 'theme', r: 9, color: '#8e7fd4', connects: ['dps','pos'], label: { ja: '学際性', en: 'Interdisciplinarity' },
+          desc: { ja: '分野横断的な知の連携と統合', en: 'Cross-disciplinary collaboration and knowledge integration' } },
+        { id: 'mechanism', type: 'theme', r: 9, color: '#a87cb0', connects: ['pos','dps'], label: { ja: 'メカニズム', en: 'Mechanisms' },
+          desc: { ja: '科学的説明におけるメカニズム概念の役割', en: 'Role of mechanism concepts in scientific explanation' } },
+        { id: 'sciexp', type: 'theme', r: 9, color: '#a87cb0', connects: ['pos'], label: { ja: '科学的説明', en: 'Scientific Explanation' },
+          desc: { ja: '科学はいかにして現象を説明するのか', en: 'How science explains phenomena' } },
+        { id: 'knowstr', type: 'theme', r: 9, color: '#8e7fd4', connects: ['dps'], label: { ja: '知識構造', en: 'Knowledge Structure' },
+          desc: { ja: '学術分野の構造と知識の体系化', en: 'Structure of academic fields and knowledge systematization' } },
+        { id: 'scirev', type: 'theme', r: 9, color: '#a87cb0', connects: ['pos'], label: { ja: '科学革命', en: 'Scientific Revolution' },
+          desc: { ja: '科学史における革命的変化の分析', en: 'Analysis of revolutionary changes in the history of science' } },
+        { id: 'natkind', type: 'theme', r: 9, color: '#a87cb0', connects: ['pos'], label: { ja: '自然種', en: 'Natural Kinds' },
+          desc: { ja: '科学的分類における「自然な」カテゴリーの存在', en: 'Existence of "natural" categories in scientific classification' } },
+        { id: 'scival', type: 'theme', r: 9, color: '#a87cb0', connects: ['pos','sts'], label: { ja: '科学と価値', en: 'Science & Values' },
+          desc: { ja: '科学的営みにおける価値判断の役割', en: 'Role of value judgments in scientific practice' } },
+        { id: 'knowprod', type: 'theme', r: 9, color: '#8e7fd4', connects: ['dps','sts'], label: { ja: '知識生産', en: 'Knowledge Production' },
+          desc: { ja: '知識が生産・流通・消費される社会的プロセス', en: 'Social processes of knowledge production and dissemination' } },
+        { id: 'rethics', type: 'theme', r: 9, color: '#6ab08a', connects: ['sts','pos'], label: { ja: '研究倫理', en: 'Research Ethics' },
+          desc: { ja: '研究の誠実性と倫理的規範', en: 'Research integrity and ethical norms' } },
+        { id: 'bioethics', type: 'theme', r: 9, color: '#6ab08a', connects: ['sts','pos'], label: { ja: 'バイオエシックス', en: 'Bioethics' },
+          desc: { ja: '生命科学・医療技術の倫理的課題', en: 'Ethical issues in life sciences and medical technology' } },
+        { id: 'posthum', type: 'theme', r: 9, color: '#a87cb0', connects: ['pos','da'], label: { ja: 'ポスト・ヒューマン', en: 'Post-Human' },
+          desc: { ja: '技術による人間の拡張と人間性の再定義', en: 'Human enhancement through technology and redefining humanity' } },
+
+        /* ─ Themes ─ DA / Anth */
+        { id: 'disaster', type: 'theme', r: 9, color: '#c8a96e', connects: ['da','anth'], label: { ja: '災害復興', en: 'Disaster Recovery' },
+          desc: { ja: '東日本大震災からの復興過程の人類学的研究', en: 'Anthropological research on recovery from the Great East Japan Earthquake' } },
+        { id: 'onlinecom', type: 'theme', r: 9, color: '#c8a96e', connects: ['da'], label: { ja: 'オンラインコミュニティ', en: 'Online Communities' },
+          desc: { ja: 'デジタル空間における共同体の形成と実践', en: 'Community formation and practices in digital spaces' } },
+        { id: 'migration', type: 'theme', r: 9, color: '#c87a5e', connects: ['anth','da'], label: { ja: '移住と定住', en: 'Migration' },
+          desc: { ja: '被災地移住者の生活実践と定住プロセス', en: 'Living practices and settlement processes of disaster-area migrants' } },
+        { id: 'glocal', type: 'theme', r: 9, color: '#c87a5e', connects: ['anth'], label: { ja: 'グローカリゼーション', en: 'Glocalization' },
+          desc: { ja: 'ローカルな価値とグローバルな視点の共存', en: 'Coexistence of local values and global perspectives' } },
+        { id: 'coexist', type: 'theme', r: 9, color: '#c87a5e', connects: ['anth','da'], label: { ja: '共生社会', en: 'Coexistence' },
+          desc: { ja: '多様な人々が共に生きる社会モデルの構築', en: 'Building social models where diverse people coexist' } },
+        { id: 'digid', type: 'theme', r: 9, color: '#c8a96e', connects: ['da'], label: { ja: 'デジタルアイデンティティ', en: 'Digital Identity' },
+          desc: { ja: 'オンライン空間におけるアイデンティティの構築', en: 'Identity construction in online spaces' } },
+        { id: 'multiling', type: 'theme', r: 9, color: '#c8a96e', connects: ['da','anth'], label: { ja: '多言語教育', en: 'Multilingual Ed.' },
+          desc: { ja: '文化的言語的に多様な子どもの教育支援', en: 'Educational support for culturally and linguistically diverse children' } },
+        { id: 'cultdiv', type: 'theme', r: 9, color: '#c87a5e', connects: ['anth'], label: { ja: '文化的多様性', en: 'Cultural Diversity' },
+          desc: { ja: '多文化共存と文化間理解の促進', en: 'Multicultural coexistence and intercultural understanding' } },
+        { id: 'medanth', type: 'theme', r: 9, color: '#c87a5e', connects: ['anth'], label: { ja: '医療人類学', en: 'Medical Anth.' },
+          desc: { ja: '医療実践と健康を文化的文脈から分析', en: 'Analyzing medical practice and health from cultural contexts' } },
+        { id: 'envanth', type: 'theme', r: 9, color: '#c87a5e', connects: ['anth'], label: { ja: '環境人類学', en: 'Environmental Anth.' },
+          desc: { ja: '人間と自然環境の関係を人類学的に研究', en: 'Anthropological study of human-environment relations' } },
+
+        /* ─ Methods ─ DSTS */
+        { id: 'nw', type: 'method', r: 8, color: '#4dc4a8', connects: ['dsts'], label: { ja: 'ネットワーク分析', en: 'Network Analysis' },
+          desc: { ja: '引用・共著ネットワークの構造分析', en: 'Structural analysis of citation/co-authorship networks' } },
+        { id: 'socio', type: 'method', r: 8, color: '#4dc4a8', connects: ['dsts'], label: { ja: '社会技術的分析', en: 'Sociotechnical Analysis' },
+          desc: { ja: 'テクノロジーの社会的影響分析', en: 'Analysis of social impacts of technology' } },
+        { id: 'datamine', type: 'method', r: 8, color: '#4dc4a8', connects: ['dsts','dps'], label: { ja: 'データマイニング', en: 'Data Mining' },
+          desc: { ja: '大規模データからのパターン抽出', en: 'Extracting patterns from large-scale datasets' } },
+        { id: 'webscrape', type: 'method', r: 8, color: '#4dc4a8', connects: ['dsts'], label: { ja: 'ウェブスクレイピング', en: 'Web Scraping' },
+          desc: { ja: 'ウェブ上のデータ自動収集', en: 'Automated data collection from the web' } },
+        { id: 'sentanal', type: 'method', r: 8, color: '#4dc4a8', connects: ['dsts'], label: { ja: '感情分析', en: 'Sentiment Analysis' },
+          desc: { ja: 'テキストから感情・意見を計量的に分析', en: 'Quantitative analysis of emotions and opinions from text' } },
+        { id: 'socsim', type: 'method', r: 8, color: '#4dc4a8', connects: ['dsts'], label: { ja: '社会シミュレーション', en: 'Social Simulation' },
+          desc: { ja: 'エージェントベースの社会動態モデリング', en: 'Agent-based modeling of social dynamics' } },
+        /* ─ Methods ─ DPoS */
+        { id: 'ml', type: 'method', r: 8, color: '#8e7fd4', connects: ['dps'], label: { ja: '機械学習', en: 'Machine Learning' },
+          desc: { ja: 'テキスト分類・トピックモデリング', en: 'Text classification and topic modeling' } },
+        { id: 'corpus', type: 'method', r: 8, color: '#8e7fd4', connects: ['dps'], label: { ja: 'コーパス分析', en: 'Corpus Analysis' },
+          desc: { ja: '大規模テキストの計量的分析', en: 'Quantitative analysis of large text corpora' } },
+        { id: 'topicmod', type: 'method', r: 8, color: '#8e7fd4', connects: ['dps'], label: { ja: 'トピックモデリング', en: 'Topic Modeling' },
+          desc: { ja: '文書集合からの潜在トピック抽出', en: 'Extracting latent topics from document collections' } },
+        { id: 'nlp', type: 'method', r: 8, color: '#8e7fd4', connects: ['dps'], label: { ja: '自然言語処理', en: 'NLP' },
+          desc: { ja: 'テキストデータの計算論的処理', en: 'Computational processing of text data' } },
+        { id: 'textmine', type: 'method', r: 8, color: '#8e7fd4', connects: ['dps'], label: { ja: 'テキストマイニング', en: 'Text Mining' },
+          desc: { ja: 'テキストからの知識発見', en: 'Knowledge discovery from text' } },
+        { id: 'distread', type: 'method', r: 8, color: '#8e7fd4', connects: ['dps'], label: { ja: '遠読', en: 'Distant Reading' },
+          desc: { ja: '大規模テキストの俯瞰的読解', en: 'Panoramic reading of large-scale texts' } },
+        { id: 'deepl', type: 'method', r: 8, color: '#8e7fd4', connects: ['dps','dsts'], label: { ja: '深層学習', en: 'Deep Learning' },
+          desc: { ja: 'ニューラルネットワークによる高次特徴抽出', en: 'Higher-order feature extraction with neural networks' } },
+        { id: 'datavis', type: 'method', r: 8, color: '#8e7fd4', connects: ['dps','dsts'], label: { ja: 'データ可視化', en: 'Data Visualization' },
+          desc: { ja: 'データの視覚的表現と探索', en: 'Visual representation and exploration of data' } },
+        { id: 'gnn', type: 'method', r: 8, color: '#8e7fd4', connects: ['dps'], label: { ja: 'GNN', en: 'GNN' },
+          desc: { ja: 'グラフニューラルネットワーク', en: 'Graph Neural Networks' } },
+        { id: 'bertopic', type: 'method', r: 8, color: '#8e7fd4', connects: ['dps'], label: { ja: 'BERTopic', en: 'BERTopic' },
+          desc: { ja: 'BERT埋め込みベースのトピックモデリング', en: 'BERT-based topic modeling' } },
+        { id: 'xai', type: 'method', r: 8, color: '#8e7fd4', connects: ['dps'], label: { ja: 'XAI', en: 'XAI' },
+          desc: { ja: '説明可能AI', en: 'Explainable AI' } },
+        { id: 'cv', type: 'method', r: 8, color: '#8e7fd4', connects: ['dps'], label: { ja: 'コンピュータビジョン', en: 'Computer Vision' },
+          desc: { ja: '画像認識・画像分析', en: 'Image recognition and visual analysis' } },
+        { id: 'biblio', type: 'method', r: 8, color: '#8e7fd4', connects: ['dps','dsts'], label: { ja: '計量書誌学', en: 'Bibliometrics' },
+          desc: { ja: '論文・引用の計量的分析', en: 'Quantitative analysis of publications and citations' } },
+        { id: 'statsan', type: 'method', r: 8, color: '#8e7fd4', connects: ['dps','dsts'], label: { ja: '統計分析', en: 'Statistical Analysis' },
+          desc: { ja: 'データの統計的検定と推論', en: 'Statistical testing and inference' } },
+        /* ─ Methods ─ DA */
+        { id: 'dethno', type: 'method', r: 8, color: '#c8a96e', connects: ['da'], label: { ja: 'デジタル・エスノグラフィ', en: 'Digital Ethnography' },
+          desc: { ja: 'オンラインコミュニティの参与観察', en: 'Participant observation in online communities' } },
+        { id: 'hethno', type: 'method', r: 8, color: '#c8a96e', connects: ['da'], label: { ja: 'ハイパーリンク・エスノグラフィ', en: 'Hyperlink Ethno.' },
+          desc: { ja: 'ウェブリンク構造からの文化分析', en: 'Cultural analysis from web link structures' } },
+        { id: 'digarc', type: 'method', r: 8, color: '#c8a96e', connects: ['da'], label: { ja: 'デジタルアーカイブ', en: 'Digital Archiving' },
+          desc: { ja: '文化資源のデジタル保存と公開', en: 'Digital preservation and publication of cultural resources' } },
+        { id: 'gis', type: 'method', r: 8, color: '#c8a96e', connects: ['da','anth'], label: { ja: 'GIS', en: 'GIS' },
+          desc: { ja: '地理情報システムによる空間分析', en: 'Spatial analysis using Geographic Information Systems' } },
+        /* ─ Methods ─ STS */
+        { id: 'contanal', type: 'method', r: 8, color: '#6ab08a', connects: ['sts','dsts'], label: { ja: 'コンテンツ分析', en: 'Content Analysis' },
+          desc: { ja: 'メディア・テキストの体系的分析', en: 'Systematic analysis of media and text content' } },
+        { id: 'discourse', type: 'method', r: 8, color: '#6ab08a', connects: ['sts'], label: { ja: '言説分析', en: 'Discourse Analysis' },
+          desc: { ja: '言語使用と権力関係の分析', en: 'Analysis of language use and power relations' } },
+        { id: 'compan', type: 'method', r: 8, color: '#6ab08a', connects: ['sts'], label: { ja: '比較分析', en: 'Comparative Analysis' },
+          desc: { ja: '異なる文脈・事例間の体系的比較', en: 'Systematic comparison across contexts and cases' } },
+        { id: 'interview', type: 'method', r: 8, color: '#6ab08a', connects: ['sts','anth'], label: { ja: 'インタビュー調査', en: 'Interview Research' },
+          desc: { ja: '半構造化インタビューによるデータ収集', en: 'Data collection through semi-structured interviews' } },
+        { id: 'ant', type: 'method', r: 8, color: '#6ab08a', connects: ['sts'], label: { ja: 'アクターネットワーク理論', en: 'ANT' },
+          desc: { ja: '人間と非人間のアクターが形成するネットワーク', en: 'Networks formed by human and non-human actors' } },
+        { id: 'grounded', type: 'method', r: 8, color: '#6ab08a', connects: ['sts'], label: { ja: 'グラウンデッドセオリー', en: 'Grounded Theory' },
+          desc: { ja: 'データに根差した理論構築', en: 'Theory building grounded in data' } },
+        { id: 'qual', type: 'method', r: 8, color: '#6ab08a', connects: ['anth','sts'], label: { ja: '質的分析', en: 'Qualitative Analysis' },
+          desc: { ja: 'インタビュー・語りの質的データ分析', en: 'Qualitative data analysis of interviews and narratives' } },
+        /* ─ Methods ─ PoS */
+        { id: 'conceptan', type: 'method', r: 8, color: '#a87cb0', connects: ['pos'], label: { ja: '概念分析', en: 'Conceptual Analysis' },
+          desc: { ja: '哲学的概念の精密な分析と再構築', en: 'Precise analysis and reconstruction of philosophical concepts' } },
+        { id: 'logican', type: 'method', r: 8, color: '#a87cb0', connects: ['pos'], label: { ja: '論理分析', en: 'Logical Analysis' },
+          desc: { ja: '論理的構造の形式的分析', en: 'Formal analysis of logical structures' } },
+        { id: 'thoughtex', type: 'method', r: 8, color: '#a87cb0', connects: ['pos'], label: { ja: '思考実験', en: 'Thought Experiment' },
+          desc: { ja: '仮想的シナリオによる概念的探究', en: 'Conceptual inquiry through hypothetical scenarios' } },
+        /* ─ Methods ─ Anth */
+        { id: 'fw', type: 'method', r: 8, color: '#c87a5e', connects: ['anth'], label: { ja: 'フィールドワーク', en: 'Fieldwork' },
+          desc: { ja: '現地調査・参与観察', en: 'Field research and participant observation' } },
+        { id: 'partobs', type: 'method', r: 8, color: '#c87a5e', connects: ['anth'], label: { ja: '参与観察', en: 'Participant Obs.' },
+          desc: { ja: '対象コミュニティへの参加による調査', en: 'Research through participation in the target community' } },
+        { id: 'lifehist', type: 'method', r: 8, color: '#c87a5e', connects: ['anth'], label: { ja: 'ライフヒストリー', en: 'Life History' },
+          desc: { ja: '個人の生活史の記録と分析', en: 'Recording and analyzing personal life histories' } },
+        { id: 'narrative', type: 'method', r: 8, color: '#c87a5e', connects: ['anth','da'], label: { ja: 'ナラティブ分析', en: 'Narrative Analysis' },
+          desc: { ja: '語りの構造と意味の分析', en: 'Analysis of narrative structures and meanings' } },
+        { id: 'visethno', type: 'method', r: 8, color: '#c87a5e', connects: ['anth','da'], label: { ja: '映像エスノグラフィ', en: 'Visual Ethnography' },
+          desc: { ja: '映像メディアを用いた民族誌的記録', en: 'Ethnographic documentation using visual media' } },
+        { id: 'multisite', type: 'method', r: 8, color: '#c87a5e', connects: ['anth'], label: { ja: 'マルチサイテッド・エスノグラフィ', en: 'Multi-sited Ethno.' },
+          desc: { ja: '複数のフィールドを横断する民族誌', en: 'Ethnography across multiple field sites' } },
+
+        /* ─ Impl ─ */
+        { id: 'impl', type: 'impl', r: 15, color: '#c8a96e',
+          label: { ja: '実装', en: 'Impl.' },
+          desc: { ja: '実装する人文学', en: 'Implementing Humanities' }, scrollTo: '.ro-impl' }
+      ];
+
+      /* ── links ── */
+      /* structural links (hand-defined) */
+      const links = [
+        { source: 'dsts', target: 'sts',  color: '#6ab08a', width: 1, dash: '4,3' },
+        { source: 'dps',  target: 'pos',  color: '#a87cb0', width: 1, dash: '4,3' },
+        { source: 'da',   target: 'anth', color: '#c87a5e', width: 1, dash: '4,3' },
+        { source: 'impl', target: 'dsts', color: '#c8a96e', width: 1, dash: '2,3' },
+        { source: 'impl', target: 'dps',  color: '#c8a96e', width: 1, dash: '2,3' },
+        { source: 'impl', target: 'da',   color: '#c8a96e', width: 1, dash: '2,3' },
+        { source: 'sts',  target: 'pos',  color: '#555', width: 0.5, dash: '2,4' },
+        { source: 'sts',  target: 'anth', color: '#555', width: 0.5, dash: '2,4' },
+        { source: 'pos',  target: 'anth', color: '#555', width: 0.5, dash: '2,4' }
+      ];
+      /* auto-generate links from connects[] property */
+      const nodeMap = {};
+      nodes.forEach(n => { nodeMap[n.id] = n; });
+      nodes.forEach(n => {
+        if (!n.connects) return;
+        n.connects.forEach(fid => {
+          const f = nodeMap[fid];
+          if (!f) return;
+          links.push({
+            source: fid, target: n.id,
+            color: f.color,
+            width: n.type === 'theme' ? 0.8 : 0.7,
+            dash: n.type === 'theme' ? '6,3' : null
+          });
+        });
+      });
+
+      /* ── cross-links: theme↔theme, method↔method, theme↔method ── */
+      const crossDefs = [
+        /* theme ↔ theme */
+        ['algobias','aiethics'], ['genai','aiethics'], ['genai','knowstr'],
+        ['genai','posthum'], ['platform','surveil'], ['datapri','surveil'],
+        ['diggov','datapri'], ['opensc','scicomm'], ['opensc','knowprod'],
+        ['rri','rethics'], ['rri','aiethics'], ['paradigm','scirev'],
+        ['causal','mechanism'], ['sciexp','mechanism'], ['realism','natkind'],
+        ['interdisc','knowstr'], ['interdisc','knowprod'],
+        ['scival','rethics'], ['bioethics','rethics'], ['bioethics','medanth'],
+        ['disaster','migration'], ['disaster','coexist'],
+        ['migration','multiling'], ['coexist','cultdiv'],
+        ['onlinecom','digid'], ['stpolicy','pubeng'], ['stpolicy','rri'],
+        ['scicomm','pubeng'], ['climate','envanth'],
+        /* method ↔ method */
+        ['ml','deepl'], ['ml','nlp'], ['nlp','textmine'], ['nlp','corpus'],
+        ['nlp','sentanal'], ['corpus','distread'], ['topicmod','bertopic'],
+        ['deepl','gnn'], ['deepl','cv'], ['nw','biblio'], ['nw','datavis'],
+        ['datamine','textmine'], ['datamine','webscrape'],
+        ['fw','partobs'], ['fw','visethno'], ['dethno','hethno'],
+        ['interview','qual'], ['interview','narrative'],
+        ['discourse','contanal'], ['conceptan','logican'],
+        ['lifehist','narrative'], ['statsan','biblio'], ['grounded','qual'],
+        /* theme ↔ method */
+        ['algobias','xai'], ['genai','deepl'], ['genai','nlp'],
+        ['knowstr','biblio'], ['knowstr','nw'], ['knowprod','biblio'],
+        ['onlinecom','dethno'], ['digid','dethno'],
+        ['disaster','fw'], ['disaster','narrative'],
+        ['causal','statsan'], ['climate','socsim'], ['climate','datavis'],
+        ['neuro','cv'], ['paradigm','distread'],
+        ['migration','lifehist'], ['cultdiv','fw'],
+        ['medanth','qual'], ['envanth','gis'],
+        ['surveil','webscrape'], ['datapri','datamine'],
+        ['pubeng','interview'], ['scicomm','contanal']
+      ];
+      crossDefs.forEach(([a, b]) => {
+        if (nodeMap[a] && nodeMap[b]) {
+          links.push({ source: a, target: b, cross: true, color: '#555', width: 0.4, dash: '1,3' });
+        }
+      });
+
+      /* ── adjacency map ── */
+      const adj = {};
+      nodes.forEach(n => { adj[n.id] = new Set(); });
+      links.forEach(l => {
+        const s = typeof l.source === 'object' ? l.source.id : l.source;
+        const t = typeof l.target === 'object' ? l.target.id : l.target;
+        adj[s].add(t); adj[t].add(s);
+      });
+
+      /* ── D3 setup ── */
+      const width = container.clientWidth;
+      const height = container.clientHeight;
+      const svg = d3.select(svgEl);
+      svg.attr('viewBox', [0, 0, width, height]);
+      const g = svg.append('g');
+
+      const zoom = d3.zoom().scaleExtent([0.3, 4])
+        .on('zoom', (event) => g.attr('transform', event.transform));
+      svg.call(zoom);
+
+      /* edges */
+      const linkG = g.selectAll('.cmap-edge-g').data(links).enter().append('line')
+        .attr('class', d => 'cmap-edge cmap-entering' + (d.dash && !d.cross ? ' cmap-edge-flow' : ''))
+        .attr('stroke', d => d.color)
+        .attr('stroke-width', d => d.width)
+        .attr('stroke-dasharray', d => d.dash || 'none')
+        .attr('stroke-opacity', d => d.cross ? 0.25 : null);
+
+      /* node groups */
+      const nodeG = g.selectAll('.cmap-node-g').data(nodes).enter().append('g')
+        .attr('class', d => 'cmap-node cmap-type-' + d.type + ' cmap-entering')
+        .style('cursor', d => d.scrollTo ? 'pointer' : 'default');
+
+      /* draw shapes per type */
+      nodeG.each(function(d, i) {
+        const el = d3.select(this);
+        var shape;
+        if (d.type === 'field') {
+          shape = el.append('circle').attr('r', d.r)
+            .attr('fill', d.color).attr('fill-opacity', 0.18)
+            .attr('stroke', d.color).attr('stroke-width', d.r >= 16 ? 1.5 : 1);
+          /* pulse: stagger phase per field node */
+          shape.classed('cmap-shape-pulse', true)
+            .style('animation-delay', (i * 0.6) + 's');
+        } else if (d.type === 'theme') {
+          var w = d.r * 2.4, h = d.r * 1.4;
+          shape = el.append('rect').attr('width', w).attr('height', h)
+            .attr('x', -w/2).attr('y', -h/2).attr('rx', 4).attr('ry', 4)
+            .attr('fill', d.color).attr('fill-opacity', 0.18)
+            .attr('stroke', d.color).attr('stroke-width', 1);
+        } else if (d.type === 'method') {
+          var s = d.r * 1.5;
+          shape = el.append('rect').attr('width', s).attr('height', s)
+            .attr('x', -s/2).attr('y', -s/2).attr('transform', 'rotate(45)')
+            .attr('rx', 2).attr('fill', d.color).attr('fill-opacity', 0.15)
+            .attr('stroke', d.color).attr('stroke-width', 0.8);
+        } else if (d.type === 'impl') {
+          shape = el.append('circle').attr('r', d.r)
+            .attr('fill', d.color).attr('fill-opacity', 0.25)
+            .attr('stroke', d.color).attr('stroke-width', 1.5);
+          shape.classed('cmap-shape-pulse', true)
+            .style('animation-delay', '1.8s');
+        }
+      });
+
+      /* labels */
+      nodeG.append('text')
+        .attr('text-anchor', 'middle')
+        .attr('dy', d => {
+          if (d.type === 'theme') return d.r * 0.7 + 11;
+          if (d.type === 'method') return d.r * 1.1 + 12;
+          return d.r + 13;
+        })
+        .attr('fill', d => d.color)
+        .attr('font-size', d => d.type === 'method' ? 7.5 : d.type === 'theme' ? 8 : (d.type === 'field' && d.r < 16) ? 9 : 10)
+        .attr('font-weight', 300)
+        .attr('opacity', d => (d.type === 'field' || d.type === 'impl') ? 1 : 0.7)
+        .text(d => isJa() ? d.label.ja : d.label.en);
+
+      /* update labels on lang switch */
+      const langObserver = new MutationObserver(() => {
+        nodeG.select('text').text(d => isJa() ? d.label.ja : d.label.en);
+      });
+      langObserver.observe(document.body, { attributes: true, attributeFilter: ['class'] });
+
+      /* ── hover ── */
+      nodeG.on('mouseenter', function(event, d) {
+        svgEl.classList.add('has-hover');
+        d3.select(this).classed('node-active', true);
+        adj[d.id].forEach(nid => {
+          nodeG.filter(n => n.id === nid).classed('node-active', true);
+        });
+        linkG.each(function(l) {
+          const sid = typeof l.source === 'object' ? l.source.id : l.source;
+          const tid = typeof l.target === 'object' ? l.target.id : l.target;
+          if (sid === d.id || tid === d.id) d3.select(this).classed('edge-active', true);
+        });
+        const lang = isJa() ? 'ja' : 'en';
+        const tl = typeLabel[d.type] ? typeLabel[d.type][lang] : '';
+        tooltip.innerHTML = '<strong>' + d.label[lang] + '</strong>' +
+          (tl ? '<span style="display:inline-block;font-size:9px;color:#c05b8a;border:1px solid rgba(192,91,138,0.3);border-radius:2px;padding:1px 6px;margin-left:8px;letter-spacing:0.1em;vertical-align:middle;">' + tl + '</span>' : '') +
+          '<br><span style="display:block;margin-top:6px;opacity:0.85;">' + d.desc[lang] + '</span>';
+        tooltip.classList.add('visible');
+        const rect = container.getBoundingClientRect();
+        tooltip.style.left = (event.clientX - rect.left + 14) + 'px';
+        tooltip.style.top = (event.clientY - rect.top - 10) + 'px';
+      })
+      .on('mousemove', function(event) {
+        const rect = container.getBoundingClientRect();
+        tooltip.style.left = (event.clientX - rect.left + 14) + 'px';
+        tooltip.style.top = (event.clientY - rect.top - 10) + 'px';
+      })
+      .on('mouseleave', function() {
+        svgEl.classList.remove('has-hover');
+        nodeG.classed('node-active', false);
+        linkG.classed('edge-active', false);
+        tooltip.classList.remove('visible');
+      });
+
+      /* ── click to scroll ── */
+      nodeG.on('click', function(event, d) {
+        if (!d.scrollTo) return;
+        const target = document.querySelector(d.scrollTo);
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          target.style.transition = 'box-shadow 0.4s';
+          target.style.boxShadow = '0 0 0 2px ' + d.color;
+          setTimeout(() => { target.style.boxShadow = 'none'; }, 1500);
+        }
+      });
+
+      /* ── drag ── */
+      nodeG.call(d3.drag()
+        .on('start', (event, d) => {
+          if (!event.active) sim.alphaTarget(0.3).restart();
+          d.fx = d.x; d.fy = d.y;
+        })
+        .on('drag', (event, d) => { d.fx = event.x; d.fy = event.y; })
+        .on('end', (event, d) => {
+          if (!event.active) sim.alphaTarget(0);
+          d.fx = null; d.fy = null;
+        })
+      );
+
+      /* ── force simulation ── */
+      const sim = d3.forceSimulation(nodes)
+        .force('link', d3.forceLink(links).id(d => d.id)
+          .distance(d => {
+            if (d.cross) return 55;
+            if (d.dash === '4,3') return 110;
+            if (d.dash === '2,3') return 120;
+            if (d.dash === '2,4') return 90;
+            if (d.dash === '6,3') return 80;
+            return 70;
+          })
+          .strength(d => d.cross ? 0.15 : 0.4))
+        .force('charge', d3.forceManyBody().strength(d => {
+          if (d.type === 'field' && d.r >= 16) return -260;
+          if (d.type === 'field') return -190;
+          if (d.type === 'impl') return -210;
+          if (d.type === 'theme') return -100;
+          return -85;
+        }))
+        .force('center', d3.forceCenter(width / 2, height / 2))
+        .force('collision', d3.forceCollide().radius(d => {
+          if (d.type === 'theme') return d.r * 1.5 + 16;
+          if (d.type === 'method') return d.r * 1.5 + 16;
+          return d.r + 20;
+        }).strength(0.9))
+        .velocityDecay(0.55)
+        .alphaMin(0.005)
+        .alphaDecay(0.003)
+        .on('tick', () => {
+          linkG
+            .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+            .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+          nodeG.attr('transform', d => 'translate(' + d.x + ',' + d.y + ')');
+        });
+
+      /* gentle perpetual drift — keeps the graph alive */
+      function keepAlive() {
+        if (sim.alpha() < 0.02) {
+          sim.alpha(0.03).restart();
+        }
+        requestAnimationFrame(keepAlive);
+      }
+
+      /* ── lazy start with staggered reveal ── */
+      sim.stop();
+      function staggeredReveal() {
+        sim.alpha(1).restart();
+        /* reveal order: field → impl → theme → method */
+        const delays = { field: 0, impl: 200, theme: 400, method: 700 };
+        nodeG.each(function(d, i) {
+          const el = d3.select(this);
+          const base = delays[d.type] || 400;
+          const jitter = Math.random() * 300;
+          setTimeout(() => {
+            el.classed('cmap-entering', false).classed('cmap-entered', true);
+          }, base + jitter);
+        });
+        /* edges fade in after nodes start appearing */
+        linkG.each(function(d, i) {
+          setTimeout(() => {
+            d3.select(this).classed('cmap-entering', false).classed('cmap-entered', true);
+          }, 500 + Math.random() * 600);
+        });
+        /* start perpetual drift after initial layout settles */
+        setTimeout(keepAlive, 2500);
+      }
+      const mapObs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) { staggeredReveal(); mapObs.unobserve(wrap); }
+        });
+      }, { threshold: 0.1 });
+      if (wrap) mapObs.observe(wrap);
+      if (typeof revealObserver !== 'undefined' && wrap) revealObserver.observe(wrap);
     })();
 
     /* ── RESEARCH TOPIC NETWORK ── */
@@ -4980,8 +5905,16 @@
         .force('collision', d3.forceCollide().radius(d => d.type === 'tag' ? 28 : 18))
         .force('x', d3.forceX(W / 2).strength(0.04))
         .force('y', d3.forceY(H / 2).strength(0.04))
-        .alphaDecay(0.02)
-        .stop(); // will start on IntersectionObserver
+        .alphaDecay(0.005)
+        .alphaMin(0.005)
+        .velocityDecay(0.55)
+        .stop();
+
+      /* gentle perpetual drift */
+      function keepAlive1() {
+        if (simulation.alpha() < 0.02) simulation.alpha(0.03).restart();
+        requestAnimationFrame(keepAlive1);
+      }
 
       /* ── draw edges ── */
       const link = g.append('g')
@@ -5371,6 +6304,7 @@
           if (entry.isIntersecting && !started) {
             started = true;
             simulation.restart();
+            setTimeout(keepAlive1, 2000);
             netObserver.unobserve(entry.target);
           }
         });
@@ -5687,6 +6621,70 @@
         'Research Ethics':              '#d4a84b'
       };
 
+      /* ── tag descriptions (ja / en) ── */
+      const TAG_DESCS = {
+        'Philosophy of Science': {
+          ja: '科学哲学',
+          descJa: '科学哲学は、科学的知識の性質、科学の基礎、およびその方法論を哲学的な視点から探求する学問分野です。「科学とは何か」「科学的知識はどのようにして正当化されるのか」といった根本的な問いを扱います。科学理論が現実をどのように記述しているのか、因果関係や推論の妥当性、理論と観察の関係、そして科学の発展メカニズム（パラダイムシフトなど）を考察します。科学の客観性や権威の本質を解き明かし、科学が現代社会や倫理に与える影響をメタ的な視点から批判的に分析する役割を担っています。',
+          descEn: 'Philosophy of Science is a branch of philosophy that critically examines the foundations, methods, and implications of scientific inquiry. It addresses fundamental questions such as "What is science?" and "How is scientific knowledge justified?" This field explores how scientific theories describe reality, analyzing concepts like causality, the validity of scientific reasoning, and the mechanisms of scientific development, such as paradigm shifts. By unpacking the essence of scientific objectivity and authority, it plays a crucial role in providing a meta-perspective on how science influences modern society, culture, and ethics.'
+        },
+        'Digital Philosophy of Science': {
+          ja: 'デジタル科学哲学',
+          descJa: 'デジタル科学哲学は、伝統的な科学哲学の問いに対して、情報技術やデータサイエンスの手法を用いてアプローチする新興の学際分野です。テキストマイニング、ネットワーク分析、コンピュータ・シミュレーションなどの計算論的手法を活用し、膨大な科学論文や歴史的データを計量的に分析することで、科学理論の変遷や研究コミュニティの動態を実証的に解明します。さらに、人工知能（AI）やビッグデータを用いたデータ駆動型の研究手法が、科学的知識の客観性や正当性にどのような影響を与えるかといった現代的な課題も考察します。',
+          descEn: 'Digital Philosophy of Science is an emerging interdisciplinary field that addresses traditional philosophical questions about science using computational methods and digital tools. By utilizing techniques such as text mining, network analysis, and computer simulations, researchers quantitatively analyze vast amounts of scientific literature to empirically trace the evolution of scientific theories and community dynamics. Furthermore, it investigates the unique epistemological and ethical challenges of the modern era, questioning how data-driven research methods, artificial intelligence, and algorithmic decision-making impact the objectivity and justification of scientific knowledge.'
+        },
+        'Anthropology': {
+          ja: '人類学',
+          descJa: '人類学は、人間の進化、行動、文化、社会、言語を時間的・空間的に幅広く研究し、「人間とは何か」という根源的な問いに挑む総合的な学問分野です。大きく分けて、生物学的な進化を探求する自然人類学と、社会構造や多様な文化を研究する文化人類学などがあります。特に文化人類学では、研究対象となるコミュニティに長期間滞在する「フィールドワーク（参与観察）」を重視します。多様な人々の生活様式や価値観を内側から深く理解することで、自文化の常識を相対化し、人間社会の多様性と普遍性を探求します。',
+          descEn: 'Anthropology is the comprehensive study of human evolution, behavior, culture, society, and language across time and space, fundamentally seeking to answer what it means to be human. It is primarily divided into physical anthropology, which explores human biological evolution, and cultural anthropology, which investigates diverse social structures and lifestyles. Cultural anthropology, in particular, emphasizes fieldwork and participant observation, where researchers immerse themselves in communities for extended periods. By understanding diverse values from an insider\'s perspective, anthropology relativizes our own cultural assumptions and explores both the vast diversity and underlying universality of human societies.'
+        },
+        'Digital Anthropology': {
+          ja: 'デジタル人類学',
+          descJa: 'デジタル人類学は、インターネット、SNS、スマートフォン、人工知能、メタバースなどのデジタル技術が、人間の日常生活、文化、社会関係、アイデンティティの形成にどのような影響を与えているかを研究する新しい領域です。オンライン空間でのフィールドワーク（デジタル・エスノグラフィ）などの手法を用いて、サイバースペースにおける人間の行動やコミュニケーションの変容を分析します。オンラインとオフラインの境界が曖昧になる現代社会において、テクノロジーがいかに文化実践を再構築しているかを解明する学問です。',
+          descEn: 'Digital Anthropology is a relatively new subfield of anthropology that investigates how digital technologies\u2014such as the internet, social media, smartphones, artificial intelligence, and the metaverse\u2014affect human daily life, culture, social relationships, and identity formation. Utilizing methods like digital ethnography, researchers observe and analyze behavioral patterns and transformations in communication within cyberspace. In a contemporary society where the boundary between online and offline worlds is increasingly blurred, this vital discipline illuminates how the ubiquitous presence of technology continuously reshapes our cultural practices and redefines what it means to be human in the digital age.'
+        },
+        'STS': {
+          ja: '科学技術社会論',
+          descJa: 'STS（Science and Technology Studies）は、科学的知識や技術的イノベーションが、社会、文化、政治、歴史の文脈とどのように相互作用しながら形成されているかを研究する学際的な分野です。科学や技術を単なる客観的な真理や中立的な道具としてではなく、人間の価値観、経済的利益、権力関係が複雑に絡み合った「社会的な構築物」として捉えます。気候変動、生命倫理、新技術の社会的受容など、現代社会が直面する複雑な課題に対し批判的な視点を提供し、専門家と市民の対話のあり方や民主的な科学技術政策の構築を模索します。',
+          descEn: 'STS (Science and Technology Studies) is an interdisciplinary field that investigates how scientific knowledge and technological innovations are shaped by, and in turn shape, society, culture, politics, and history. Instead of viewing science and technology as purely objective truths or neutral tools, STS understands them as "social constructs" intricately entangled with human values, economic interests, and power dynamics. The field provides critical perspectives on complex contemporary challenges such as climate change, bioethics, and the societal acceptance of new technologies, striving to foster better dialogue between experts and citizens and to build more democratic science and technology policies.'
+        },
+        'Digital STS': {
+          ja: 'デジタルSTS',
+          descJa: 'デジタルSTSは、科学技術社会論（STS）の分析枠組みや批判的視点を、アルゴリズム、ビッグデータ、巨大プラットフォームといった現代のデジタル技術に適用する分野です。データ収集やAIによる自動意思決定が、いかにして社会的なバイアスや差別を内包し、既存の権力構造を再生産しているかを解明します。同時に、ネットワーク分析やデータマイニングといった計算論的アプローチを調査手法として活用します。見えにくいデジタルインフラのブラックボックスを解体し、データ駆動型社会における倫理やガバナンスを問い直します。',
+          descEn: 'Digital STS is a specialized branch of Science and Technology Studies that applies STS analytical frameworks specifically to modern digital technologies, including algorithms, big data, and digital platforms. It critically examines how data collection and automated decision-making by AI embed social biases and reproduce existing power structures and inequalities. Simultaneously, it actively incorporates computational approaches\u2014such as data mining and network analysis\u2014into its research methodologies. By unpacking the opaque "black boxes" of digital infrastructures, this advanced research area fundamentally questions the ethics, governance, and societal impacts inherent in our increasingly data-driven society.'
+        },
+        'Humanities': {
+          ja: '人文学',
+          descJa: '人文学（ヒューマニティーズ）は、文学、歴史学、哲学、言語学、宗教学、芸術学などの多様なアプローチを通じて、人間の思想、文化、歴史、精神的所産を深く理解しようとする学問領域の総称です。自然科学が客観的なデータに基づく普遍的な法則の発見を目指すのに対し、人文学は人間の主観的な経験、価値観の多様性、そして意味の解釈に重きを置きます。過去から受け継がれてきたテキストや史料の批判的な読解を通じて人類の営みを詳細に分析し、「私たちは何者なのか」「どう生きるべきか」という根源的な問いに向き合い続けます。',
+          descEn: 'The Humanities encompass a broad group of academic disciplines\u2014including literature, history, philosophy, linguistics, religious studies, and the arts\u2014dedicated to the profound understanding of human thought, culture, history, and spiritual endeavors. While the natural sciences strive to objectively discover universal laws, the humanities emphasize subjective human experiences, the diversity of values, and the critical interpretation of meaning. Through the meticulous analysis of historical texts, primary documents, and artistic works inherited from the past, the humanities continuously address fundamental questions about human existence, exploring "who we are" and "how we ought to live."'
+        },
+        'Digital Technology': {
+          ja: 'デジタルテクノロジー',
+          descJa: 'デジタルテクノロジー（デジタル技術）は、音声や画像、テキストなどの連続的なアナログ情報を「0」と「1」の離散的な二進数データに変換して処理、保存、通信を行う技術体系全般を指します。コンピュータ科学や情報工学を基盤とし、ソフトウェア開発、インターネット、人工知能（AI）、クラウドコンピューティング、IoTなどが含まれます。膨大なデータを高速かつ正確に処理できる点が特徴であり、現代のあらゆる産業やインフラを根底から支え、社会課題の解決とイノベーションを牽引する極めて実践的な分野です。',
+          descEn: 'Digital Technology refers to the comprehensive system of technologies that process, store, and transmit continuous analog information by converting it into discrete binary data (zeros and ones). Rooted in computer science and information engineering, this field encompasses software development, the internet, artificial intelligence (AI), cloud computing, and the Internet of Things (IoT). Characterized by its unprecedented ability to process massive amounts of data rapidly and accurately, digital technology forms the indispensable backbone of all modern industries and societal infrastructures, driving innovation and providing practical solutions to complex contemporary challenges.'
+        },
+        'Technology': {
+          ja: 'テクノロジー / 技術・工学',
+          descJa: 'テクノロジー（技術・工学）は、科学的な知識や実証的な経験則を応用して、人間の生活を向上させ、社会的な課題を解決するための手段、道具、機械、システムを創出する分野です。学術的なタグとしては、機械、電子、材料、土木、バイオテクノロジーなどの工学領域全般を包含します。新しいハードウェアの開発やインフラの構築にとどまらず、製造プロセスの最適化、エネルギー効率の向上、技術革新が環境や社会構造に与える影響の評価なども重要なテーマです。理論を現実世界で安全かつ効果的に機能する形へと変換する実践的な領域です。',
+          descEn: 'Technology, often categorized under engineering and applied sciences, is the broad field dedicated to applying scientific knowledge and empirical principles to create tools, machines, and systems that improve human life and solve practical societal challenges. As an academic tag, it encompasses a vast array of disciplines, including mechanical, electrical, civil, and biotechnology engineering. Important themes extend beyond developing new hardware to include optimizing manufacturing processes, enhancing energy efficiency, and rigorously assessing the environmental and social impacts of innovations. It is a highly practical domain focused on translating theories into functional and effective real-world applications.'
+        },
+        'Digital Humanities': {
+          ja: 'デジタル人文学',
+          descJa: 'デジタルヒューマニティーズ（デジタル人文学）は、歴史学や文学といった伝統的な人文学の研究手法に、最新のデジタル技術や計算論的アプローチを融合させた革新的な学際分野です。歴史的文書や芸術作品などの膨大な文化資源をデジタルデータ化し、テキストマイニング、ネットワーク分析、地理情報システム（GIS）、3Dモデリングなどを用いて解析します。これにより、人間の目視だけでは発見できなかった大規模なパターン（遠読）や新たな知見を抽出し、人文学の知識生産のあり方を革新し、可能性を大きく広げています。',
+          descEn: 'Digital Humanities is an innovative, interdisciplinary field that merges traditional humanistic research\u2014such as history and literature\u2014with cutting-edge digital technologies and computational approaches. Researchers digitize vast collections of cultural resources, including historical manuscripts and artworks, and analyze them using advanced techniques like text mining, network analysis, Geographic Information Systems (GIS), and 3D modeling. This computational power enables scholars to engage in "distant reading," extracting new insights and uncovering large-scale patterns impossible to detect through manual analysis alone. By synergizing technological capabilities with humanistic insight, it revolutionizes knowledge production in the humanities.'
+        },
+        'Research Ethics': {
+          ja: '研究倫理',
+          descJa: '研究倫理は、科学的探求や学術活動において研究者が遵守すべき行動規範や道徳的原則を探求・実践する分野です。研究の誠実性（インテグリティ）を確保し、科学に対する社会の信頼を維持・構築することを最大の目的としています。具体的には、データの捏造、改ざん、盗用といった研究不正行為の防止をはじめ、研究データの適切な取り扱い、論文の正当な著者資格（オーサーシップ）、資金提供元との利益相反の透明化など、研究活動全般に関わる規範を扱います。',
+          descEn: 'Research Ethics is an academic field that explores and implements the codes of conduct and moral principles that researchers must observe in their scientific inquiry and scholarly activities. Its primary objective is to ensure research integrity and maintain public trust in science. Specifically, it addresses norms related to overall research practices, including the prevention of research misconduct—such as fabrication, falsification, and plagiarism—as well as proper data management, fair authorship allocation, and the transparent disclosure of conflicts of interest.'
+        },
+        'Neuroscience': {
+          ja: '神経科学',
+          descJa: '神経科学は、脳、脊髄、末梢神経からなる神経系の構造、機能、発達、および病理を解明しようとする学際的な学問分野です。遺伝子やタンパク質、神経細胞（ニューロン）が連携するミクロなレベルの働きから、複雑な神経回路のネットワーク、さらには知覚、学習、記憶、感情、意思決定、そして「意識」といったマクロな精神活動に至るまで、幅広いスケールで「物質である脳がいかにして心や行動を生み出すのか」という根源的な問いに挑みます。',
+          descEn: 'Neuroscience is an interdisciplinary academic field dedicated to uncovering the structure, function, development, and pathology of the nervous system, encompassing the brain, spinal cord, and peripheral nerves. It tackles the fundamental question of how the physical brain generates the mind and behavior across a vast spectrum of scales.'
+        }
+      };
+
       /* ── language helper ── */
       function getLang() {
         return document.body.classList.contains('lang-en') ? 'en' : 'ja';
@@ -5979,7 +6977,7 @@
         })
         .attr('fill-opacity', 1);
 
-      /* ── tenure end labels ── */
+      /* ── tenure end labels (hidden) ── */
       const ctTenureLabels = barsG.selectAll('text.tl-tenure-label')
         .data(tenureData)
         .join('text')
@@ -5989,10 +6987,7 @@
         .attr('dominant-baseline', 'central')
         .attr('font-size', '9px')
         .attr('opacity', 0)
-        .text(d => {
-          const lang = getLang();
-          return lang === 'ja' ? `${Math.floor(d.tenureEnd)} 定年` : `${Math.floor(d.tenureEnd)} retirement`;
-        });
+        .text('');
 
       /* ── degree diamond markers ── */
       // map each degree to the corresponding education bar row (by index)
@@ -6023,10 +7018,7 @@
       const ctLangObs = new MutationObserver(() => {
         careerLabel.text(getCareerGroupLabel());
         eduLabel.text(getEduGroupLabel());
-        ctTenureLabels.text(d => {
-          const lang = getLang();
-          return lang === 'ja' ? `${Math.floor(d.tenureEnd)} 定年` : `${Math.floor(d.tenureEnd)} retirement`;
-        });
+        ctTenureLabels.text('');
       });
       ctLangObs.observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
@@ -6064,12 +7056,6 @@
         h += `<div class="tip-title">${title}</div>`;
         if (role) {
           h += `<div class="tip-grant" style="border-top:none;padding-top:0;margin-top:0;">${role}</div>`;
-        }
-        if (d.tenureEnd) {
-          const tenureNote = lang === 'ja'
-            ? `定年 ${Math.floor(d.tenureEnd)} 年まで（テニュア）`
-            : `Tenured — until retirement (${Math.floor(d.tenureEnd)})`;
-          h += `<div class="tip-grant" style="color:var(--accent);">${tenureNote}</div>`;
         }
         if (d.tags.length) {
           h += '<div class="tip-tags">';
@@ -6301,7 +7287,6 @@
         /* combine all items for display (newest first) */
         const allDisplay = [
           ...careerSorted.map(d => Object.assign({}, d)),
-          ...degreeItems.slice().sort((a, b) => b.start - a.start).map(d => Object.assign({}, d)),
           ...eduSorted.map(d => Object.assign({}, d))
         ];
 
@@ -6462,8 +7447,44 @@
           nodes.push({ id: id, type: 'tag', label: tag, color: TAG_COLORS[tag] || '#888' });
         });
 
-        /* career + education items (not degree — no tags) */
-        const netItems = [...careerSorted, ...eduSorted];
+        /* career items — merge same-institution into single node */
+        const instGroups = {};
+        careerSorted.forEach(d => {
+          const key = d.ja;
+          if (!instGroups[key]) instGroups[key] = [];
+          instGroups[key].push(d);
+        });
+
+        const mergedCareer = [];
+        Object.values(instGroups).forEach(group => {
+          if (group.length === 1) {
+            mergedCareer.push(group[0]);
+          } else {
+            const chrono = [...group].sort((a, b) => a.start - b.start);
+            const newest = group[0]; // careerSorted is newest-first
+            const oldest = chrono[0];
+            const latest = chrono[chrono.length - 1];
+            const mergedTags = [];
+            const seen = new Set();
+            chrono.forEach(d => d.tags.forEach(t => { if (!seen.has(t)) { seen.add(t); mergedTags.push(t); } }));
+            mergedCareer.push({
+              group: 'career',
+              start: oldest.start,
+              end: latest.end,
+              ja: newest.ja,
+              en: newest.en,
+              roleJa: chrono.map(d => d.roleJa).join(' → '),
+              roleEn: chrono.map(d => d.roleEn).join(' → '),
+              tags: mergedTags,
+              url: newest.url,
+              isPoint: false,
+              tenureEnd: latest.tenureEnd || 0,
+              num: newest.num
+            });
+          }
+        });
+
+        const netItems = [...mergedCareer, ...eduSorted];
         netItems.forEach(d => {
           const id = 'career-' + d.num;
           nodes.push({
@@ -6506,8 +7527,16 @@
           .force('collision', d3.forceCollide().radius(d => d.type === 'tag' ? 28 : 18))
           .force('x', d3.forceX(W / 2).strength(0.04))
           .force('y', d3.forceY(H / 2).strength(0.04))
-          .alphaDecay(0.02)
+          .alphaDecay(0.005)
+          .alphaMin(0.005)
+          .velocityDecay(0.55)
           .stop();
+
+        /* gentle perpetual drift */
+        function keepAlive2() {
+          if (simulation.alpha() < 0.02) simulation.alpha(0.03).restart();
+          requestAnimationFrame(keepAlive2);
+        }
 
         /* edges */
         const link = g.append('g')
@@ -6621,8 +7650,20 @@
         }
 
         function buildTagNetTip(label) {
+          const lang = getLang();
           const color = TAG_COLORS[label] || '#888';
-          return `<span style="color:${color}">${label}</span>`;
+          const info = TAG_DESCS[label];
+          if (!info) return `<span style="color:${color}">${label}</span>`;
+          const jaName = info.ja || '';
+          const desc = lang === 'en' ? (info.descEn || info.descJa) : (info.descJa || info.descEn);
+
+          let h = '<div class="tip-tag-head">';
+          h += `<span class="tip-tag-dot" style="background:${color}"></span>`;
+          h += `<span class="tip-tag-name" style="color:${color}">${label}`;
+          if (jaName) h += `<span class="tip-tag-name-ja">（${jaName}）</span>`;
+          h += '</span></div>';
+          if (desc) h += `<div class="tip-desc">${desc}</div>`;
+          return h;
         }
 
         /* hover */
@@ -6808,6 +7849,7 @@
             if (entry.isIntersecting && !started) {
               started = true;
               simulation.restart();
+              setTimeout(keepAlive2, 2000);
               careerNetObserver.unobserve(entry.target);
             }
           });
@@ -7402,8 +8444,16 @@
         .force('collision', d3.forceCollide().radius(d => d.type === 'tag' ? 28 : 18))
         .force('x', d3.forceX(W / 2).strength(0.04))
         .force('y', d3.forceY(H / 2).strength(0.04))
-        .alphaDecay(0.02)
+        .alphaDecay(0.005)
+        .alphaMin(0.005)
+        .velocityDecay(0.55)
         .stop();
+
+      /* gentle perpetual drift */
+      function keepAlive3() {
+        if (simulation.alpha() < 0.02) simulation.alpha(0.03).restart();
+        requestAnimationFrame(keepAlive3);
+      }
 
       /* ── draw edges ── */
       const link = g.append('g')
@@ -7809,6 +8859,7 @@
           if (entry.isIntersecting && !started) {
             started = true;
             simulation.restart();
+            setTimeout(keepAlive3, 2000);
             pubNetObserver.unobserve(entry.target);
           }
         });
