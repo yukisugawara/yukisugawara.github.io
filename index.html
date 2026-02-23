@@ -588,7 +588,7 @@
     }
     #network-container {
       width: 100%;
-      height: 420px;
+      height: 700px;
       background: var(--bg);
       border: 1px solid var(--line);
       border-radius: 2px;
@@ -714,7 +714,7 @@
     /* ── PUB NETWORK ── */
     #pub-network-container {
       width: 100%;
-      height: 420px;
+      height: 588px;
       background: var(--bg);
       border: 1px solid var(--line);
       border-radius: 2px;
@@ -796,6 +796,219 @@
     }
     #pub-timeline-tooltip.visible { opacity: 1; }
     #pub-timeline-tooltip.tip-interactive { pointer-events: auto; }
+
+    /* ── PUB CARD LIST ── */
+    #pub-card-list {
+      margin-top: 48px;
+    }
+    #pub-card-filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 24px;
+      align-items: center;
+    }
+    .pub-filter-btn {
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      padding: 5px 14px;
+      border-radius: 1px;
+      display: inline-block;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      background: transparent;
+      cursor: pointer;
+      transition: color 0.3s, border-color 0.3s, background 0.3s;
+      font-family: inherit;
+    }
+    .pub-filter-btn:hover {
+      color: var(--text);
+      border-color: var(--text);
+    }
+    .pub-filter-btn.active {
+      color: var(--bg);
+      border-color: var(--filter-color, var(--accent));
+      background: var(--filter-color, var(--accent));
+    }
+    #pub-card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .pub-card {
+      position: relative;
+      overflow: hidden;
+      padding: 28px 28px 24px;
+      border: 1px solid var(--line);
+      background: var(--bg);
+      transition: background 0.4s ease, opacity 0.4s ease;
+      cursor: default;
+      display: flex;
+      flex-direction: column;
+    }
+    .pub-card[data-link] { cursor: pointer; }
+    .pub-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--card-accent, var(--accent));
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .pub-card:hover::before { width: 100%; }
+    .pub-card::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; right: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, var(--card-glow, rgba(200,169,110,0.08)) 0%, transparent 70%);
+      transform: scale(0);
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .pub-card:hover::after { transform: scale(1); }
+    .pub-card:hover { background: var(--bg2); }
+    .pub-card > * { position: relative; z-index: 1; }
+    #pub-card-grid:has(.pub-card:hover) .pub-card:not(:hover) { opacity: 0.06; }
+    .pub-card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .pub-card-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      font-size: 10px;
+      font-weight: 500;
+      line-height: 1;
+      color: var(--bg);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .pub-card-title {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.55;
+    }
+    .pub-card-year {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+    .pub-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .pub-card-tags .topic-tag {
+      font-size: 9px;
+      padding: 2px 8px;
+      cursor: pointer;
+    }
+    .pub-card-summary {
+      font-size: 12px;
+      color: var(--text);
+      line-height: 1.75;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      transition: max-height 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                  -webkit-line-clamp 0s;
+      max-height: 3.5em;
+    }
+    .pub-card:hover .pub-card-summary {
+      -webkit-line-clamp: unset;
+      max-height: 600px;
+      overflow: visible;
+    }
+    .pub-card-cover {
+      width: 48px;
+      height: auto;
+      border-radius: 2px;
+      margin-top: 10px;
+      opacity: 0.85;
+      transition: opacity 0.3s;
+    }
+    .pub-card:hover .pub-card-cover { opacity: 1; }
+    .pub-card-detail {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+    body.lang-ja .pub-card-summary[data-lang="ja"],
+    body.lang-en .pub-card-summary[data-lang="en"] {
+      display: -webkit-box;
+    }
+    .pub-card.filtered-out {
+      opacity: 0;
+      max-height: 0;
+      padding-top: 0;
+      padding-bottom: 0;
+      margin: 0;
+      border-width: 0;
+      overflow: hidden;
+      transition: opacity 0.3s, max-height 0.4s 0.1s, padding 0.4s 0.1s, margin 0.4s 0.1s, border-width 0s 0.4s;
+    }
+
+    @media (max-width: 768px) {
+      #pub-card-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .pub-card { padding: 20px 18px 18px; }
+      #pub-card-grid:has(.pub-card:hover) .pub-card:not(:hover) { opacity: 1; }
+    }
+    @media (pointer: coarse) {
+      .pub-card-summary {
+        -webkit-line-clamp: unset;
+        max-height: none;
+        overflow: visible;
+      }
+      #pub-card-grid:has(.pub-card:hover) .pub-card:not(:hover) { opacity: 1; }
+    }
+
+    /* ── PROJ CARD LIST ── */
+    #proj-card-list { margin-top: 48px; }
+    #proj-card-filters {
+      display: flex; flex-wrap: wrap; gap: 8px;
+      margin-bottom: 24px; align-items: center;
+    }
+    #proj-card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+    .pub-card-group {
+      display: inline-block;
+      font-size: 9px;
+      letter-spacing: 0.06em;
+      padding: 2px 8px;
+      border-radius: 1px;
+      border: 1px solid var(--line);
+      color: var(--muted);
+      margin-left: 6px;
+      vertical-align: middle;
+    }
+    #proj-card-grid:has(.pub-card:hover) .pub-card:not(:hover) { opacity: 0.06; }
+    @media (max-width: 768px) {
+      #proj-card-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      #proj-card-grid:has(.pub-card:hover) .pub-card:not(:hover) { opacity: 1; }
+    }
+    @media (pointer: coarse) {
+      #proj-card-grid:has(.pub-card:hover) .pub-card:not(:hover) { opacity: 1; }
+    }
 
     /* ── CAREER TIMELINE ── */
     .career-static-list { display: none; }
@@ -1720,8 +1933,8 @@
       .lang-bar { padding: 16px 24px; }
       .pub-item { gap: 20px; }
       .pub-item-book { gap: 20px; }
-      #network-container { height: 350px; }
-      #pub-network-container { height: 350px; }
+      #network-container { height: 560px; }
+      #pub-network-container { height: 480px; }
     }
     @media (max-width: 560px) {
       .hero { padding: 0 20px 56px; }
@@ -1738,8 +1951,8 @@
       .topic-tag { font-size: 9px; padding: 2px 8px; }
       .hero-tag { font-size: 9px; padding: 4px 10px; }
       .grant-group-label { margin-top: 36px !important; }
-      #network-container { height: 280px; }
-      #pub-network-container { height: 280px; }
+      #network-container { height: 440px; }
+      #pub-network-container { height: 380px; }
       .network-wrap { margin-bottom: 32px; }
     }
     /* タッチデバイスではホバー非表示コンテンツを常時表示 */
@@ -1805,9 +2018,15 @@
     .values-text-title[data-lang],
     .values-text-body[data-lang],
     .strengths-card-title[data-lang],
+    .pub-card-title[data-lang],
+    .pub-card-summary[data-lang],
+    .pub-card-detail[data-lang],
+    .pub-card-group[data-lang],
     p[data-lang] {
       display: none;
     }
+    body.lang-ja .pub-card-title[data-lang="ja"],
+    body.lang-ja .pub-card-detail[data-lang="ja"],
     body.lang-ja .mvv-card-body[data-lang="ja"],
     body.lang-ja .strengths-card-body[data-lang="ja"],
     body.lang-ja .mvv-card-title[data-lang="ja"],
@@ -1825,6 +2044,9 @@
     body.lang-ja .values-text-body[data-lang="ja"],
     body.lang-ja .strengths-card-title[data-lang="ja"],
     body.lang-ja p[data-lang="ja"] { display: block; }
+    body.lang-ja .pub-card-group[data-lang="ja"] { display: inline-block; }
+    body.lang-en .pub-card-title[data-lang="en"],
+    body.lang-en .pub-card-detail[data-lang="en"],
     body.lang-en .mvv-card-body[data-lang="en"],
     body.lang-en .strengths-card-body[data-lang="en"],
     body.lang-en .mvv-card-title[data-lang="en"],
@@ -1842,6 +2064,7 @@
     body.lang-en .values-text-body[data-lang="en"],
     body.lang-en .strengths-card-title[data-lang="en"],
     body.lang-en p[data-lang="en"] { display: block; }
+    body.lang-en .pub-card-group[data-lang="en"] { display: inline-block; }
 
     /* fade transition */
     .lang-fade {
@@ -2486,6 +2709,11 @@
     <h2 class="sec-title" data-lang="ja">主要業績（抜粋）</h2>
     <h2 class="sec-title" data-lang="en">Selected Publications</h2>
 
+    <div id="pub-card-list" class="reveal">
+      <div id="pub-card-filters"></div>
+      <div id="pub-card-grid"></div>
+    </div>
+
     <div id="pub-network" class="network-wrap reveal">
       <p class="network-label">
         <span data-lang="ja">業績トピックネットワーク</span>
@@ -2746,6 +2974,11 @@
     <h2 class="sec-title" data-lang="ja">研究課題・競争的資金</h2>
     <h2 class="sec-title" data-lang="en">Research Projects &amp; Grants</h2>
 
+    <div id="proj-card-list" class="reveal">
+      <div id="proj-card-filters"></div>
+      <div id="proj-card-grid"></div>
+    </div>
+
     <div id="research-network" class="network-wrap reveal">
       <p class="network-label">
         <span data-lang="ja">研究トピックネットワーク</span>
@@ -2926,10 +3159,52 @@
     <div class="pub-list" style="margin-top: 16px;">
 
       <div class="pub-item">
+        <span class="pub-year">2025.09—2026.03</span>
+        <div>
+          <a href="https://www.mext.go.jp/a_menu/shotou/zyouhou/detail/1416148_00009.htm" target="_blank" rel="noopener noreferrer" class="pub-title-link">
+            <div class="pub-title" data-lang="ja">学びの充実など教育課題の解決に向けた教育分野特化の生成AIの実証研究事業</div>
+            <div class="pub-title" data-lang="en">Demonstration Research Project on Generative AI Specialized in Education for Solving Educational Challenges</div>
+          </a>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Digital Technology">Digital Technology</span></div>
+          <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+            <span class="grant-tag" data-lang="ja">文部科学省（令和6年度補正予算事業）/ 富士通Japan株式会社受託</span>
+            <span class="grant-tag" data-lang="en">MEXT (FY2024 Supplementary Budget) / Commissioned by Fujitsu Japan Ltd.</span>
+          </div>
+          <div class="member-info" style="margin-top:6px;">
+            <span class="grant-tag" style="font-size:11px; color:var(--muted);">
+              <span data-lang="ja">推進委員長：櫻井 千穂 / 副委員長：小島 祥美, 佐野 愛子 / 委員：清水 政明, 筒井 佐代, 酒井 裕美, 菅原 由美, 村上 忠良, 横井 幸子, 江口 清子, 大塚 行誠, 矢元 貴美, 近藤 美佳, 鳥越 慎太郎, 菅原 裕輝, 他41名</span>
+              <span data-lang="en">Chair: Chiho Sakurai / Vice-Chairs: Yoshimi Kojima, Aiko Sano / Members: Masaaki Shimizu, Sayo Tsutsui, Hiromi Sakai, Yumi Sugawara, Tadayoshi Murakami, Sachiko Yokoi, Kiyoko Eguchi, Gyosei Otsuka, Takami Yamoto, Mika Kondo, Shintaro Torigoe, Yuki Sugawara, and 41 others</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2025.06—2026.03</span>
+        <div>
+          <a href="https://www.osaka-u.ac.jp/ja/guide/public-relations/press_release/6e1h2u/ftis5q/20250630_01" target="_blank" rel="noopener noreferrer" class="pub-title-link">
+            <div class="pub-title" data-lang="ja">生成AIによる「多文化多言語の子ども」への教育支援システムの共同研究事業</div>
+            <div class="pub-title" data-lang="en">Joint Research on Generative AI-Based Educational Support Systems for Multicultural and Multilingual Children</div>
+          </a>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Digital Technology">Digital Technology</span></div>
+          <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+            <span class="grant-tag" data-lang="ja">富士通Japan株式会社 共同研究 / 大阪大学大学院人文学研究科附属複言語・複文化共存社会研究センター</span>
+            <span class="grant-tag" data-lang="en">Fujitsu Japan Ltd. Joint Research / Osaka University Research Center for Multilingual and Multicultural Coexistence</span>
+          </div>
+          <div class="member-info" style="margin-top:6px;">
+            <span class="grant-tag" style="font-size:11px; color:var(--muted);">
+              <span data-lang="ja">代表者：櫻井 千穂 / 共同研究者：清水 政明, 筒井 佐代, 酒井 裕美, 菅原 由美, 村上 忠良, 横井 幸子, 江口 清子, 大塚 行誠, 矢元 貴美, 近藤 美佳, 鳥越 慎太郎, 菅原 裕輝</span>
+              <span data-lang="en">PI: Chiho Sakurai / Co-Researchers: Masaaki Shimizu, Sayo Tsutsui, Hiromi Sakai, Yumi Sugawara, Tadayoshi Murakami, Sachiko Yokoi, Kiyoko Eguchi, Gyosei Otsuka, Takami Yamoto, Mika Kondo, Shintaro Torigoe, Yuki Sugawara</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item">
         <span class="pub-year">2025.04—2030.03</span>
         <div>
-          <div class="pub-title" data-lang="ja">文化的言語的に多様な子どもの複数言語アセスメントの実証研究</div>
-          <div class="pub-title" data-lang="en">Empirical Research on Multilingual Assessment of Culturally and Linguistically Diverse Children</div>
+          <a href="https://kaken.nii.ac.jp/ja/grant/KAKENHI-PROJECT-25K00467/" target="_blank" rel="noopener noreferrer" class="pub-title-link" data-lang="ja"><div class="pub-title" data-lang="ja">文化的言語的に多様な子どもの複数言語アセスメントの実証研究</div></a>
+          <a href="https://kaken.nii.ac.jp/en/grant/KAKENHI-PROJECT-25K00467/" target="_blank" rel="noopener noreferrer" class="pub-title-link" data-lang="en"><div class="pub-title" data-lang="en">Empirical Research on Multilingual Assessment of Culturally and Linguistically Diverse Children</div></a>
           <div style="margin-top:6px;"><span class="topic-tag" data-tag="Digital Technology">Digital Technology</span></div>
           <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
             <span class="grant-tag" data-lang="ja">日本学術振興会 科学研究費助成事業 基盤研究(B)</span>
@@ -2954,6 +3229,63 @@
           </div>
           <div class="member-info" style="margin-top:6px;">
             <span class="grant-tag" style="font-size:11px; color:var(--muted);">Jane Calvert, Erika Szymanski, Koichi Mikami, Robert Smith, Yuki Sugawara, Maya Hey, Tomohiro Inokuchi, Cookie Egre</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2020.04—2023.03</span>
+        <div>
+          <div class="pub-title" data-lang="ja">東日本大震災の復興過程に関する公共人類学的研究－レジリエントな社会モデルの構築</div>
+          <div class="pub-title" data-lang="en">Public Anthropological Research on the Recovery Process of the Great East Japan Earthquake: Building a Resilient Social Model</div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Digital Anthropology">Digital Anthropology</span></div>
+          <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+            <span class="grant-tag" data-lang="ja">日本学術振興会 科学研究費助成事業 基盤研究(B)</span>
+            <span class="grant-tag" data-lang="en">JSPS Grant-in-Aid for Scientific Research (B)</span>
+          </div>
+          <div class="member-info" style="margin-top:6px;">
+            <span class="grant-tag" style="font-size:11px; color:var(--muted);">
+              <span data-lang="ja">代表者：関谷 雄一 / 分担者：木村 周平, 市野澤 潤平, 内尾 太一, 田中 孝枝, 山下 晋司, 菅原 裕輝</span>
+              <span data-lang="en">PI: Yuichi Sekiya / Co-I: Shuhei Kimura, Junpei Ichinozawa, Taichi Uchio, Takae Tanaka, Shinji Yamashita, Yuki Sugawara</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2016.04—2019.03</span>
+        <div>
+          <div class="pub-title" data-lang="ja">哲学分野における男女共同参画と若手研究者育成に関する理論・実践的研究</div>
+          <div class="pub-title" data-lang="en">Theoretical and Practical Research on Gender Equality and Early-Career Researcher Development in Philosophy</div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Research Ethics">Research Ethics</span></div>
+          <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+            <span class="grant-tag" data-lang="ja">日本学術振興会 科学研究費助成事業 基盤研究(B)</span>
+            <span class="grant-tag" data-lang="en">JSPS Grant-in-Aid for Scientific Research (B)</span>
+          </div>
+          <div class="member-info" style="margin-top:6px;">
+            <span class="grant-tag" style="font-size:11px; color:var(--muted);">
+              <span data-lang="ja">代表者：和泉 ちえ / 分担者：森 一郎, 飯田 隆, 小手川 正二郎, 秋葉 剛史, 河野 哲也, 笠木 雅史, 池田 喬, 鈴木 伸国, 村上 祐子, 大河内 泰樹, 佐藤 靜, 加藤 泰史, 吉原 雅子, 小島 優子, 菅原 裕輝, 金澤 修, 筒井 晴香</span>
+              <span data-lang="en">PI: Chie Izumi / Co-I: Ichiro Mori, Takashi Iida, Shojiro Kotegawa, Takeshi Akiba, Tetsuya Kono, Masafumi Kasagi, Takashi Ikeda, Nobukuni Suzuki, Yuko Murakami, Taiki Okochi, Shizuka Sato, Yasushi Kato, Masako Yoshihara, Yuko Kojima, Yuki Sugawara, Osamu Kanazawa, Haruka Tsutsui</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="pub-item">
+        <span class="pub-year">2015.04—2019.03</span>
+        <div>
+          <div class="pub-title" data-lang="ja">研究倫理の質向上、機能強化、支援促進のための共有・共通基盤の整備に関する研究</div>
+          <div class="pub-title" data-lang="en">Research on Developing Shared and Common Infrastructure for Improving Quality, Strengthening Functions, and Promoting Support of Research Ethics</div>
+          <div style="margin-top:6px;"><span class="topic-tag" data-tag="Research Ethics">Research Ethics</span></div>
+          <div class="grant-info" style="margin-top:6px; display:flex; gap:16px; flex-wrap:wrap; align-items:center;">
+            <span class="grant-tag" data-lang="ja">日本学術振興会 科学研究費助成事業 基盤研究(A)</span>
+            <span class="grant-tag" data-lang="en">JSPS Grant-in-Aid for Scientific Research (A)</span>
+          </div>
+          <div class="member-info" style="margin-top:6px;">
+            <span class="grant-tag" style="font-size:11px; color:var(--muted);">
+              <span data-lang="ja">代表者：松井 健志 / 分担者：田代 志門, 井上 悠輔, 丸 祐一, 大北 全俊, 伊吹 友秀, 會澤 久仁子, 武藤 香織, 菅原 裕輝, 遠矢 和希</span>
+              <span data-lang="en">PI: Takeshi Matsui / Co-I: Shimon Tashiro, Yusuke Inoue, Yuichi Maru, Masatoshi Okita, Tomohide Ibuki, Kuniko Aizawa, Kaori Muto, Yuki Sugawara, Kazuki Toya</span>
+            </span>
           </div>
         </div>
       </div>
@@ -3781,6 +4113,62 @@
         'Future Organisms: Synthetic Genomics and Responsible Innovation in the UK, the USA and Japan': {
           ja: '合成ゲノミクスは、全ゲノム規模でDNAを設計・構築し、未知の生命体を世界にもたらす可能性を秘めた新興分野です。本プロジェクトは、英国、米国、日本の3カ国を舞台に、この先端科学に対する社会科学的調査を実施し、「責任ある研究・イノベーション（RRI）」の新たなアプローチを開発することを目的とします。科学者や政策立案者、アーティストなど多様なステークホルダーを巻き込んだ実験的ワークショップを通じ、未来の生命創造を巡る根源的な対話と議論を社会に開く野心的な試みです。',
           en: 'Synthetic genomics is an emerging field capable of designing DNA at the whole-genome scale, potentially bringing unprecedented organisms into the world. This project conducts a social scientific investigation into this frontier science across the UK, the USA, and Japan to pioneer new approaches to Responsible Research and Innovation (RRI). By collaborating with diverse stakeholders—including scientists, policymakers, and artists—through experimental workshops, this ambitious initiative aims to actively foster and open up crucial public debates surrounding the creation of future life forms.'
+        },
+        '機械学習を用いた学術分野の俯瞰的分析': {
+          ja: '人文学分野では伝統的に「概念分析」や「事例研究」が重視されてきましたが、私はこれらに潜む分析者のバイアスや事例の偏りという課題に着目しました。本プロジェクトでは、スタンフォード哲学百科事典（SEP）などをコーパスとして活用し、機械学習技術による「俯瞰的分析（遠読）」を試みています。人間の処理能力を超える大規模データを計算的に処理し可視化することで、学術分野の構造を客観的かつダイナミックに解き明かす研究です。',
+          en: 'While the humanities have traditionally emphasized qualitative methods like "concept analysis" and "case studies," I focused on addressing the inherent limitations of researcher bias and case selection. In this project, utilizing platforms like the Stanford Encyclopedia of Philosophy (SEP) as text corpora, I apply machine learning techniques to conduct "panoramic analysis" (distant reading). By computationally processing and visualizing massive datasets beyond human capacity, I believe this research objectively and dynamically reveals the hidden structures of academic disciplines.'
+        },
+        '津波被災自治体移住者の語りの記録と分析を基にした共生型地域社会のモデル構築': {
+          ja: '東日本大震災の被災地では、ハード面の復旧が進む一方で、ソフト面（社会活動など）の復興が課題となっています。私は、南三陸町や陸前高田市などの地域において、地元住民だけでなく「移住者」が復興の重要な担い手であることに着目しました。本プロジェクトでは、マルチサイテッド・エスノグラフィの手法を用い、移住者の語りをデジタルアーカイブ化して分析しています。被災者中心の一面的な復興観を問い直し、移住者と地域社会が共に生きる「共生的な地域社会モデル」の構築を目指す研究です。',
+          en: 'While physical infrastructure recovery has progressed in tsunami-affected areas of the Great East Japan Earthquake, the revitalization of social and economic activities remains a challenge. I focused on the crucial role that "migrants"—not just original residents—play in the recovery of municipalities like Minamisanriku and Rikuzentakata. In this project, using multi-sited ethnography, I record and digitally archive the narratives of these migrants for qualitative analysis. I believe this research challenges the conventional victim-centered view of recovery and aims to construct a new "coexistent community model" where migrants and local residents thrive together.'
+        },
+        '津波被災地域の持続可能なまちづくりへ向けたグローカルな未来像の分析': {
+          ja: '東日本大震災から時が経ち、被災地の目標は元の生活に戻る「復興」から「持続可能な未来」へとシフトしています。私は、復興の新たな担い手である「移住者」に着目しました。彼らは単なる田園回帰ではなく、地域のビジョンに共鳴しつつ現実的な「未来像」を抱いています。本プロジェクトでは、南三陸町などでの長期フィールドワークを通じ、ローカルな価値とグローバルな視点が共存する「グローカル」な未来像を分析しています。被災地の希望あるまちづくりに寄与する実践的な研究です。',
+          en: 'As time has passed since the Great East Japan Earthquake, the goals of affected areas have shifted from mere "recovery" to building a "sustainable future". I focused on "migrants" as the new key players in this process. Rather than simply seeking a rural retreat, they hold realistic "future visions" that resonate with the local communities\' goals. Through long-term fieldwork in towns like Minamisanriku, this project analyzes these "glocal" visions—where local values coexist with global perspectives. I believe this practical research significantly contributes to the hopeful and sustainable urban development of disaster-affected areas.'
+        },
+        'ゲノム合成分野におけるバイオベンチャーの動向に関する調査研究': {
+          ja: '近年、全ゲノム規模でのDNA合成が可能となり、国内外でバイオベンチャーが急増しています。私は科学技術社会論の視点から、この最先端産業において科学者がどのような役割を果たし、社会からどのような「期待」を集めているかを調査しています。本プロジェクトでは、日本と米国の動向を比較分析することで、単なる技術の追随ではなく、日本の歴史や文脈を踏まえたバイオベンチャーの理想的なあり方と、その実現に向けた方向性を提示することを目指しています。',
+          en: 'With recent advancements enabling whole-genome DNA synthesis, bio-ventures are rapidly emerging globally. From the perspective of Science and Technology Studies (STS), I am investigating the evolving roles of scientists within this cutting-edge industry and the societal "expectations" surrounding them. By conducting a comparative analysis between Japan and the USA, this project aims to go beyond merely following technological trends. Instead, it proposes an ideal model for Japanese bio-ventures and strategies for its realization, grounded in Japan\'s unique historical and cultural context.'
+        },
+        '機械学習を用いた学際分野の俯瞰的分析': {
+          ja: '科学技術の急速な発展に伴い、学際分野の全容を人間が把握することは困難になっています。本プロジェクトでは、最先端の情報科学（機械学習、自然言語処理、コンピュータビジョン）と「科学技術社会論（STS）」の知見を融合させる共創研究を行いました。学術論文の「テキスト」「図」「引用関係」を紐づけて大規模に収集・分類・可視化することで、人間の処理能力を超えた俯瞰的な理解を可能にし、デジタル人文学の新たな次元を切り拓く挑戦です。',
+          en: 'As science and technology rapidly advance, it has become exceedingly difficult for humans to grasp the entirety of interdisciplinary fields. In this project, I initiated collaborative research that integrates cutting-edge information science (machine learning, natural language processing, and computer vision) with the profound insights of Science and Technology Studies (STS). By linking, classifying, and visualizing massive amounts of "texts," "figures," and "citation relationships" from academic papers, this ambitious challenge transcends human processing limits, offering a comprehensive panoramic understanding and pioneering a new dimension in the digital humanities.'
+        },
+        '深層学習を用いた社会技術的現象の分析': {
+          ja: '科学技術と社会が複雑に絡み合う「社会技術的現象」を、私は最新の機械学習（特に深層学習）を用いて解明することに挑んでいます。本プロジェクトでは、災害復興や技術革新に関する大量のテキストデータと画像データを収集し、BERTopicによるトピック抽出や、説明可能AI（XAI）を用いた画像キャプション生成を行いました。これらを統合的に分析することで、従来の人文学的アプローチでは捉えきれなかった社会のダイナミクスを定量的かつ質的に描き出す、科学技術社会論（STS）の新たな枠組みを提案します。',
+          en: 'I am tackling the complex "socio-technical phenomena" where science, technology, and society intertwine by utilizing cutting-edge machine learning, specifically deep learning. In this project, I collected massive amounts of text and image data related to disaster recovery and technological innovation. I then applied BERTopic for topic extraction and Explainable AI (XAI) for generating image captions. By integrating these analyses, I propose a new framework for Science and Technology Studies (STS) that quantitatively and qualitatively depicts social dynamics that traditional humanistic approaches could not fully capture.'
+        },
+        'デジタル人類学で拓く「デジタル日本学」教育のグローバル展開': {
+          ja: 'データサイエンスの素養が必須となる現代において、私は伝統的な人文学とデジタル技術の架け橋となる教育基盤の構築に取り組んでいます。本プロジェクトでは、基礎的なITツールから「デジタル人類学」の高度な分析手法までを体系化した教育コンテンツを開発します。欧州屈指の拠点であるアムステルダム大学と連携し、学内外の教員や学生が実践的に学べる国際水準の教材を広く共有することで、デジタル人文学教育を牽引します。',
+          en: 'As data science literacy becomes increasingly essential, I am working to build an educational foundation that bridges traditional humanities and digital technology. In this project, I am developing comprehensive educational content that ranges from basic IT tools to advanced analytical methods in "digital anthropology." By collaborating with the University of Amsterdam, a leading hub in Europe, I aim to create and widely share world-class, practical learning materials with educators and students, thereby leading the advancement of digital humanities education.'
+        },
+        '機械学習を用いた知識構造と社会技術的現象の俯瞰的分析': {
+          ja: '気候変動や地域社会における「ローカルな抵抗」といった複雑な社会技術的課題に対し、私はデータサイエンスの最先端手法を用いて挑んでいます。本プロジェクトでは、大規模なテキスト・画像・ネットワークデータをGNN（グラフニューラルネットワーク）やCNNなどの機械学習で統合的に解析します。人文学の質的深さと情報科学の量的俯瞰を高度に融合させ、グローバルな科学知とローカルな生活世界の分断を埋める、新たな学際研究のモデルを構築する挑戦です。',
+          en: 'To address complex socio-technical challenges such as climate change and "local resistance" within communities, I am applying cutting-edge data science methodologies. In this project, I comprehensively analyze massive text, visual, and network datasets using advanced machine learning models like GNNs and CNNs. By deeply integrating the qualitative depth of the humanities with the quantitative panorama of information science, this ambitious endeavor aims to bridge the disconnect between global scientific knowledge and local lifeworlds, pioneering a new model for interdisciplinary research.'
+        },
+        '文化的言語的に多様な子どもの複数言語アセスメントの実証研究': {
+          ja: '日本で急増する「文化的言語的に多様な子ども（CLD児）」に対し、従来の日本語中心の能力評価は教育的不平等を招いています。私たちはこの課題を解決すべく、子どもが持つ全ての言語リソースを測る「複数言語評価モデル」の実証研究に挑んでいます。全国の教育現場でのアセスメント検証、家庭・地域と連携した支援法の開発、そしてそれらを統合したWebプラットフォームの公開を通じ、言語的マイノリティの公正な教育機会を保障する新たな実践モデルを社会に実装します。',
+          en: 'For the rapidly increasing number of Culturally and Linguistically Diverse (CLD) children in Japan, traditional Japanese-centric assessments have caused educational inequalities. To resolve this, our research team is conducting empirical research on a "Multilingual Assessment Model" that comprehensively evaluates all of a child\'s linguistic resources. By verifying assessments in educational settings nationwide, developing support methods in collaboration with families and communities, and launching an integrated Web platform, we aim to implement a new practical model in society that ensures fair educational opportunities for linguistic minorities.'
+        },
+        '学びの充実など教育課題の解決に向けた教育分野特化の生成AIの実証研究事業': {
+          ja: '文部科学省の令和6年度補正予算事業として、教育分野に特化した生成AIの実証研究に取り組んでいます。文化的言語的に多様な子どもたちの学びを支援するため、生成AIを活用した教育ツールの開発と実証を行い、教育現場における言語的障壁の解消と学習機会の公平な保障を目指しています。富士通Japan株式会社が受託し、全国の研究者・教育者が参画する大規模プロジェクトです。',
+          en: 'As part of MEXT\'s FY2024 supplementary budget initiative, we are conducting demonstration research on generative AI specialized in education. To support the learning of culturally and linguistically diverse children, we are developing and testing AI-powered educational tools, aiming to eliminate language barriers in educational settings and ensure equitable learning opportunities. This large-scale project, commissioned to Fujitsu Japan Ltd., involves researchers and educators from across the country.'
+        },
+        '生成AIによる「多文化多言語の子ども」への教育支援システムの共同研究事業': {
+          ja: '富士通Japan株式会社と大阪大学大学院人文学研究科附属複言語・複文化共存社会研究センターによる共同研究プロジェクトです。文化的言語的に多様な子どもたちの教育支援に向けて、デジタルテクノロジーを活用した実践的な研究を推進しています。産学連携による知見の社会実装を目指す取り組みです。',
+          en: 'This is a joint research project between Fujitsu Japan Ltd. and Osaka University\'s Research Center for Multilingual and Multicultural Coexistence. We are advancing practical research leveraging digital technology to support the education of culturally and linguistically diverse children. This industry-academia collaboration aims to implement research findings into society.'
+        },
+        '東日本大震災の復興過程に関する公共人類学的研究－レジリエントな社会モデルの構築': {
+          ja: '東日本大震災からの復興過程を公共人類学の視点から総合的に研究するプロジェクトです。被災地のコミュニティが災害からどのように立ち直り、社会的な絆を再構築してきたかを長期的なフィールドワークを通じて記録・分析しています。復興の多様な経験から「レジリエントな社会モデル」を構築し、将来の災害に対する社会的備えに貢献することを目指しています。',
+          en: 'This project comprehensively investigates the recovery process from the Great East Japan Earthquake through the lens of public anthropology. Through long-term fieldwork, we document and analyze how affected communities have rebuilt and restored social bonds after the disaster. By drawing on diverse recovery experiences, the project aims to construct a "resilient social model" that contributes to societal preparedness for future disasters.'
+        },
+        '哲学分野における男女共同参画と若手研究者育成に関する理論・実践的研究': {
+          ja: '哲学分野における男女共同参画の現状と課題を理論的・実践的に研究するプロジェクトです。日本の哲学研究コミュニティにおけるジェンダー不均衡の構造的要因を分析し、若手研究者の育成環境の改善に向けた具体的な提言を行っています。研究倫理やダイバーシティの観点から、学問の健全な発展に不可欠な包括的な研究環境の構築を目指しています。',
+          en: 'This project conducts both theoretical and practical research on gender equality and early-career researcher development in the field of philosophy. By analyzing the structural factors behind gender imbalance in Japan\'s philosophical research community, the project provides concrete recommendations for improving the development environment for early-career researchers. From the perspectives of research ethics and diversity, it aims to build an inclusive research environment essential for the sound advancement of scholarship.'
+        },
+        '研究倫理の質向上、機能強化、支援促進のための共有・共通基盤の整備に関する研究': {
+          ja: '研究倫理の実効性を高めるための共有・共通基盤の整備に取り組むプロジェクトです。日本の研究機関における倫理審査体制の現状を調査し、質の向上と機能強化のための方策を検討しています。研究倫理委員会の運営支援ツールの開発や、倫理審査の標準化に向けたガイドラインの策定を通じ、研究者が安心して研究に取り組める環境づくりを目指しています。',
+          en: 'This project works to develop shared and common infrastructure for enhancing the effectiveness of research ethics. By investigating the current state of ethics review systems in Japanese research institutions, it examines measures for quality improvement and functional strengthening. Through the development of operational support tools for research ethics committees and the formulation of guidelines for standardizing ethics reviews, the project aims to create an environment where researchers can pursue their work with confidence.'
         }
       };
 
@@ -3873,6 +4261,185 @@
           yearSpan.parentNode.insertBefore(badge, yearSpan);
         }
       });
+
+      /* ── build project card list ── */
+      (function buildProjCards() {
+        const cardGrid = document.getElementById('proj-card-grid');
+        const filterBar = document.getElementById('proj-card-filters');
+        const cardListWrap = document.getElementById('proj-card-list');
+        if (!cardGrid || !filterBar) return;
+
+        const isJa = () => document.body.classList.contains('lang-ja');
+
+        /* tag order (same as legend) */
+        const tagOrder = [
+          'Digital STS', 'Digital Philosophy of Science', 'Digital Anthropology',
+          'STS', 'Philosophy of Science', 'Anthropology',
+          'Digital Humanities', 'Digital Technology',
+          'Humanities', 'Technology'
+        ];
+
+        /* filter bar */
+        const allBtn = document.createElement('button');
+        allBtn.className = 'pub-filter-btn active';
+        allBtn.textContent = 'All';
+        allBtn.addEventListener('click', () => { projCardClearFilter(); });
+        filterBar.appendChild(allBtn);
+
+        tagOrder.forEach(tag => {
+          if (!tagSet.has(tag)) return;
+          const btn = document.createElement('button');
+          btn.className = 'pub-filter-btn';
+          btn.textContent = tag;
+          btn.dataset.tag = tag;
+          btn.style.setProperty('--filter-color', TAG_COLORS[tag] || '#888');
+          btn.addEventListener('click', () => {
+            const tagId = 'tag-' + tag;
+            if (activeFilter === tagId) {
+              projCardClearFilter();
+            } else {
+              activeFilter = tagId;
+              projCardApplyFilter(tagId);
+            }
+          });
+          filterBar.appendChild(btn);
+        });
+
+        /* generate cards — newest first */
+        const displayOrder = [...projects].sort((a, b) => b.startYear - a.startYear);
+        displayOrder.forEach(p => {
+          const card = document.createElement('div');
+          card.className = 'pub-card';
+          card.dataset.projId = p.id;
+          if (p.link) card.dataset.link = p.link;
+          const color = TAG_COLORS[p.tags[0]] || '#888';
+          const glowColor = color.replace('#', '');
+          const r = parseInt(glowColor.substring(0, 2), 16);
+          const g = parseInt(glowColor.substring(2, 4), 16);
+          const b = parseInt(glowColor.substring(4, 6), 16);
+          card.style.setProperty('--card-accent', color);
+          card.style.setProperty('--card-glow', `rgba(${r},${g},${b},0.08)`);
+
+          let html = '';
+          /* header: number + title + PI/CoI badge */
+          html += '<div class="pub-card-header">';
+          html += `<span class="pub-card-num" style="background:${color}">${p.num}</span>`;
+          html += '<div>';
+          if (p.ja) html += `<div class="pub-card-title" data-lang="ja">${p.ja}</div>`;
+          if (p.en) html += `<div class="pub-card-title" data-lang="en">${p.en}</div>`;
+          html += '</div></div>';
+
+          /* year (period) + PI/CoI badge */
+          html += '<div class="pub-card-year">';
+          html += p.year;
+          if (p.group === 'pi') {
+            html += '<span class="pub-card-group" data-lang="ja">代表</span>';
+            html += '<span class="pub-card-group" data-lang="en">PI</span>';
+          } else {
+            html += '<span class="pub-card-group" data-lang="ja">分担</span>';
+            html += '<span class="pub-card-group" data-lang="en">Co-I</span>';
+          }
+          html += '</div>';
+
+          /* grant info */
+          if (p.grantJa || p.grantEn) {
+            if (p.grantJa) html += `<div class="pub-card-detail" data-lang="ja">${p.grantJa}</div>`;
+            if (p.grantEn) html += `<div class="pub-card-detail" data-lang="en">${p.grantEn}</div>`;
+            if (p.grantJa && !p.grantEn) html += `<div class="pub-card-detail" data-lang="en">${p.grantJa}</div>`;
+            if (!p.grantJa && p.grantEn) html += `<div class="pub-card-detail" data-lang="ja">${p.grantEn}</div>`;
+          }
+
+          /* tags */
+          html += '<div class="pub-card-tags">';
+          p.tags.forEach(tag => {
+            html += `<span class="topic-tag" data-tag="${tag}">${tag}</span>`;
+          });
+          html += '</div>';
+
+          /* summary */
+          if (p.summaryJa) html += `<div class="pub-card-summary" data-lang="ja">${p.summaryJa}</div>`;
+          if (p.summaryEn) html += `<div class="pub-card-summary" data-lang="en">${p.summaryEn}</div>`;
+
+          card.innerHTML = html;
+
+          /* click → open link */
+          if (p.link) {
+            card.addEventListener('click', (e) => {
+              if (e.target.closest('.topic-tag')) return;
+              window.open(p.link, '_blank', 'noopener,noreferrer');
+            });
+          }
+
+          /* tag chip click → filter */
+          card.querySelectorAll('.topic-tag').forEach(chip => {
+            chip.style.cursor = 'pointer';
+            chip.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const tagId = 'tag-' + chip.dataset.tag;
+              if (activeFilter === tagId) {
+                projCardClearFilter();
+              } else {
+                activeFilter = tagId;
+                projCardApplyFilter(tagId);
+              }
+            });
+          });
+
+          cardGrid.appendChild(card);
+        });
+
+        /* ── filter logic for card list ── */
+        function updateFilterBar(tagId) {
+          filterBar.querySelectorAll('.pub-filter-btn').forEach(btn => {
+            if (!btn.dataset.tag) {
+              btn.classList.toggle('active', !tagId);
+            } else {
+              btn.classList.toggle('active', ('tag-' + btn.dataset.tag) === tagId);
+            }
+          });
+        }
+
+        function filterCards(tagId) {
+          const tagLabel = tagId ? tagId.replace('tag-', '') : null;
+          cardGrid.querySelectorAll('.pub-card').forEach(card => {
+            const projId = card.dataset.projId;
+            const p = projects.find(x => x.id === projId);
+            if (!tagLabel || (p && p.tags.includes(tagLabel))) {
+              card.classList.remove('filtered-out');
+            } else {
+              card.classList.add('filtered-out');
+            }
+          });
+        }
+
+        /* called from network/legend/timeline to sync card list */
+        window.__projCardApplyFilter = function(tagId) {
+          updateFilterBar(tagId);
+          filterCards(tagId);
+        };
+        window.__projCardClearFilter = function() {
+          updateFilterBar(null);
+          filterCards(null);
+        };
+
+        function projCardApplyFilter(tagId) {
+          updateFilterBar(tagId);
+          filterCards(tagId);
+          if (typeof window.__projNetworkApplyFilter === 'function') {
+            window.__projNetworkApplyFilter(tagId);
+          }
+        }
+        function projCardClearFilter() {
+          updateFilterBar(null);
+          filterCards(null);
+          if (typeof window.__projNetworkClearFilter === 'function') {
+            window.__projNetworkClearFilter();
+          }
+        }
+
+        /* reveal observer */
+        if (cardListWrap) revealObserver.observe(cardListWrap);
+      })();
 
       let tlBars = null;
       let tlBarLabels = null;
@@ -4158,6 +4725,8 @@
         if (activeFilter) clearFilter();
       });
 
+      let _projSyncing = false;
+
       function applyFilter(tagId) {
         const neighbors = getNeighbors(tagId);
         svgEl.classList.remove('has-hover');
@@ -4192,6 +4761,10 @@
         if (tlBarLabels) {
           tlBarLabels.attr('opacity', d => connectedProjects.has(d.id) ? 1 : 0.12);
         }
+        // sync card list
+        if (!_projSyncing && typeof window.__projCardApplyFilter === 'function') {
+          window.__projCardApplyFilter(tagId);
+        }
       }
 
       function clearFilter() {
@@ -4210,7 +4783,24 @@
         if (tlBarLabels) {
           tlBarLabels.attr('opacity', 1);
         }
+        // sync card list
+        if (!_projSyncing && typeof window.__projCardClearFilter === 'function') {
+          window.__projCardClearFilter();
+        }
       }
+
+      /* ── card ↔ network bidirectional sync ── */
+      window.__projNetworkApplyFilter = function(tagId) {
+        _projSyncing = true;
+        activeFilter = tagId;
+        applyFilter(tagId);
+        _projSyncing = false;
+      };
+      window.__projNetworkClearFilter = function() {
+        _projSyncing = true;
+        clearFilter();
+        _projSyncing = false;
+      };
 
       /* ── zoom ── */
       const zoom = d3.zoom()
@@ -5402,6 +5992,186 @@
         }
       });
 
+      /* ── build card list ── */
+      (function buildPubCards() {
+        const cardGrid = document.getElementById('pub-card-grid');
+        const filterBar = document.getElementById('pub-card-filters');
+        const cardListWrap = document.getElementById('pub-card-list');
+        if (!cardGrid || !filterBar) return;
+
+        const isJa = () => document.body.classList.contains('lang-ja');
+
+        /* tag order (same as legend) */
+        const tagOrder = [
+          'Digital STS', 'Digital Philosophy of Science', 'Digital Anthropology',
+          'STS', 'Philosophy of Science', 'Anthropology',
+          'Digital Humanities', 'Digital Technology',
+          'Humanities', 'Technology',
+          'Neuroscience', 'Research Ethics'
+        ];
+
+        /* filter bar */
+        const allBtn = document.createElement('button');
+        allBtn.className = 'pub-filter-btn active';
+        allBtn.textContent = 'All';
+        allBtn.addEventListener('click', () => {
+          pubCardClearFilter();
+        });
+        filterBar.appendChild(allBtn);
+
+        tagOrder.forEach(tag => {
+          if (!tagSet.has(tag)) return;
+          const btn = document.createElement('button');
+          btn.className = 'pub-filter-btn';
+          btn.textContent = tag;
+          btn.dataset.tag = tag;
+          btn.style.setProperty('--filter-color', TAG_COLORS[tag] || '#888');
+          btn.addEventListener('click', () => {
+            const tagId = 'tag-' + tag;
+            if (activeFilter === tagId) {
+              pubCardClearFilter();
+            } else {
+              activeFilter = tagId;
+              pubCardApplyFilter(tagId);
+            }
+          });
+          filterBar.appendChild(btn);
+        });
+
+        /* generate cards — newest first */
+        const displayOrder = [...pubs].sort((a, b) => b.sortYear - a.sortYear);
+        displayOrder.forEach(p => {
+          const card = document.createElement('div');
+          card.className = 'pub-card';
+          card.dataset.pubId = p.id;
+          if (p.link) card.dataset.link = p.link;
+          const color = TAG_COLORS[p.tags[0]] || '#888';
+          const glowColor = color.replace('#', '');
+          const r = parseInt(glowColor.substring(0, 2), 16);
+          const g = parseInt(glowColor.substring(2, 4), 16);
+          const b = parseInt(glowColor.substring(4, 6), 16);
+          card.style.setProperty('--card-accent', color);
+          card.style.setProperty('--card-glow', `rgba(${r},${g},${b},0.08)`);
+
+          let html = '';
+          /* header: number + title */
+          html += '<div class="pub-card-header">';
+          html += `<span class="pub-card-num" style="background:${color}">${p.num}</span>`;
+          html += '<div>';
+          if (p.ja) html += `<div class="pub-card-title" data-lang="ja">${p.ja}</div>`;
+          if (p.en) html += `<div class="pub-card-title" data-lang="en">${p.en}</div>`;
+          html += '</div></div>';
+
+          /* year */
+          html += `<div class="pub-card-year">${p.year}${p.isBook ? (isJa() ? '　' : ' — ') : ''}</div>`;
+
+          /* detail */
+          if (p.detailJa || p.detailEn) {
+            if (p.detailJa) html += `<div class="pub-card-detail" data-lang="ja">${p.detailJa}</div>`;
+            if (p.detailEn) html += `<div class="pub-card-detail" data-lang="en">${p.detailEn}</div>`;
+            if (!p.detailJa && !p.detailEn && p.detailJa === p.detailEn) {
+              html += `<div class="pub-card-detail">${p.detailJa}</div>`;
+            }
+          }
+
+          /* tags */
+          html += '<div class="pub-card-tags">';
+          p.tags.forEach(tag => {
+            html += `<span class="topic-tag" data-tag="${tag}">${tag}</span>`;
+          });
+          html += '</div>';
+
+          /* summary */
+          if (p.summaryJa) html += `<div class="pub-card-summary" data-lang="ja">${p.summaryJa}</div>`;
+          if (p.summaryEn) html += `<div class="pub-card-summary" data-lang="en">${p.summaryEn}</div>`;
+
+          /* book cover */
+          if (p.isBook && p.coverImg) {
+            html += `<img class="pub-card-cover" src="${p.coverImg}" alt="">`;
+          }
+
+          card.innerHTML = html;
+
+          /* click → open link */
+          if (p.link) {
+            card.addEventListener('click', (e) => {
+              if (e.target.closest('.topic-tag')) return;
+              window.open(p.link, '_blank', 'noopener,noreferrer');
+            });
+          }
+
+          /* tag chip click → filter */
+          card.querySelectorAll('.topic-tag').forEach(chip => {
+            chip.style.cursor = 'pointer';
+            chip.addEventListener('click', (e) => {
+              e.stopPropagation();
+              const tagId = 'tag-' + chip.dataset.tag;
+              if (activeFilter === tagId) {
+                pubCardClearFilter();
+              } else {
+                activeFilter = tagId;
+                pubCardApplyFilter(tagId);
+              }
+            });
+          });
+
+          cardGrid.appendChild(card);
+        });
+
+        /* ── filter logic for card list ── */
+        function updateFilterBar(tagId) {
+          filterBar.querySelectorAll('.pub-filter-btn').forEach(btn => {
+            if (!btn.dataset.tag) {
+              btn.classList.toggle('active', !tagId);
+            } else {
+              btn.classList.toggle('active', ('tag-' + btn.dataset.tag) === tagId);
+            }
+          });
+        }
+
+        function filterCards(tagId) {
+          const tagLabel = tagId ? tagId.replace('tag-', '') : null;
+          cardGrid.querySelectorAll('.pub-card').forEach(card => {
+            const pubId = card.dataset.pubId;
+            const p = pubs.find(x => x.id === pubId);
+            if (!tagLabel || (p && p.tags.includes(tagLabel))) {
+              card.classList.remove('filtered-out');
+            } else {
+              card.classList.add('filtered-out');
+            }
+          });
+        }
+
+        /* these functions call the network's applyFilter / clearFilter once they exist */
+        window.__pubCardApplyFilter = function(tagId) {
+          updateFilterBar(tagId);
+          filterCards(tagId);
+        };
+        window.__pubCardClearFilter = function() {
+          updateFilterBar(null);
+          filterCards(null);
+        };
+
+        function pubCardApplyFilter(tagId) {
+          updateFilterBar(tagId);
+          filterCards(tagId);
+          /* delegate to network/timeline filter once available */
+          if (typeof window.__pubNetworkApplyFilter === 'function') {
+            window.__pubNetworkApplyFilter(tagId);
+          }
+        }
+        function pubCardClearFilter() {
+          updateFilterBar(null);
+          filterCards(null);
+          if (typeof window.__pubNetworkClearFilter === 'function') {
+            window.__pubNetworkClearFilter();
+          }
+        }
+
+        /* reveal observer */
+        if (cardListWrap) revealObserver.observe(cardListWrap);
+      })();
+
       let pubTlBars = null;
       let pubTlBarLabels = null;
 
@@ -5720,6 +6490,8 @@
         if (activeFilter) clearFilter();
       });
 
+      let _pubSyncing = false;
+
       function applyFilter(tagId) {
         const neighbors = getNeighbors(tagId);
         svgEl.classList.remove('has-hover');
@@ -5745,13 +6517,15 @@
             p.el.classList.remove('net-highlight');
           }
         });
-        // timeline bars
         if (pubTlBars) {
           pubTlBars.classed('tl-dimmed', d => !connectedPubs.has(d.id))
                    .classed('tl-highlight', d => connectedPubs.has(d.id));
         }
         if (pubTlBarLabels) {
           pubTlBarLabels.attr('opacity', d => connectedPubs.has(d.id) ? 1 : 0.12);
+        }
+        if (!_pubSyncing && typeof window.__pubCardApplyFilter === 'function') {
+          window.__pubCardApplyFilter(tagId);
         }
       }
 
@@ -5764,14 +6538,29 @@
         pubs.forEach(p => {
           p.el.classList.remove('net-dimmed', 'net-highlight');
         });
-        // timeline bars
         if (pubTlBars) {
           pubTlBars.classed('tl-dimmed', false).classed('tl-highlight', false);
         }
         if (pubTlBarLabels) {
           pubTlBarLabels.attr('opacity', 1);
         }
+        if (!_pubSyncing && typeof window.__pubCardClearFilter === 'function') {
+          window.__pubCardClearFilter();
+        }
       }
+
+      /* expose for card list to call into network */
+      window.__pubNetworkApplyFilter = function(tagId) {
+        _pubSyncing = true;
+        activeFilter = tagId;
+        applyFilter(tagId);
+        _pubSyncing = false;
+      };
+      window.__pubNetworkClearFilter = function() {
+        _pubSyncing = true;
+        clearFilter();
+        _pubSyncing = false;
+      };
 
       /* ── zoom ── */
       const zoom = d3.zoom()
