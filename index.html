@@ -402,13 +402,70 @@
     /* sibling dimming */
     .strengths-grid:has(.strengths-card:hover) .strengths-card:not(:hover) { opacity: 0.06; }
     .strengths-card-icon {
-      width: 32px;
-      height: 1px;
-      background: var(--accent);
-      margin-bottom: 32px;
-      transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      width: 36px;
+      height: 36px;
+      margin-bottom: 28px;
+      color: var(--muted);
+      transition: color 0.4s ease, transform 0.4s ease;
     }
-    .strengths-card:hover .strengths-card-icon { width: 56px; }
+    .strengths-card:hover .strengths-card-icon { color: var(--accent); transform: translateY(-2px); }
+    .strengths-card-icon svg { width: 100%; height: 100%; }
+    /* skill tags inside strengths card */
+    .str-skills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+    .str-skill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      color: var(--muted);
+      padding: 7px 14px;
+      border: 1px solid var(--line);
+      border-radius: 1px;
+      transition: border-color 0.3s ease, color 0.3s ease;
+      letter-spacing: 0.02em;
+    }
+    .strengths-card:hover .str-skill {
+      border-color: rgba(200,169,110,0.35);
+      color: var(--text);
+    }
+    .str-skill-icon {
+      width: 13px;
+      height: 13px;
+      flex-shrink: 0;
+      opacity: 0.6;
+      transition: opacity 0.3s ease;
+    }
+    .strengths-card:hover .str-skill-icon { opacity: 1; }
+    .str-skill-icon svg { width: 100%; height: 100%; }
+    /* working style structured sections */
+    .str-section {
+      margin-top: 20px;
+    }
+    .str-section:first-child { margin-top: 0; }
+    .str-section-label {
+      font-size: 10px;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-bottom: 10px;
+    }
+    .str-section-label.str-plus { color: var(--accent); }
+    .str-section-label.str-delta { color: var(--muted); }
+    .str-section-body {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.95;
+    }
+    .str-divider {
+      width: 24px;
+      height: 1px;
+      background: var(--line);
+      margin: 20px 0;
+    }
     .strengths-card-title {
       font-size: 18px;
       font-weight: 400;
@@ -450,40 +507,6 @@
     }
 
     /* ── RESEARCH ── */
-    .research-two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-    }
-    .research-block-label {
-      font-size: 10px;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 28px;
-    }
-    .research-block-body {
-      font-size: 14px;
-      color: var(--text);
-      line-height: 2;
-    }
-    .kw-list {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 8px;
-      margin-top: 16px;
-    }
-    .kw {
-      font-size: 12px;
-      border: 1px solid var(--line);
-      padding: 6px 14px;
-      color: var(--muted);
-      transition: all 0.2s;
-    }
-    .kw:hover { border-color: var(--accent); color: var(--accent); }
-    .kw[data-tag="Digital STS"]                  { color: #4dc4a8; border-color: rgba(77, 196, 168, 0.35); }
-    .kw[data-tag="Digital Philosophy of Science"] { color: #8e7fd4; border-color: rgba(142, 127, 212, 0.35); }
-    .kw[data-tag="Digital Anthropology"]          { color: #c8a96e; border-color: rgba(200, 169, 110, 0.35); }
     .topic-tag {
       font-size: 10px;
       letter-spacing: 0.08em;
@@ -891,6 +914,15 @@
       padding-top: 5px;
       margin-top: 2px;
     }
+    .tip-summary {
+      font-size: 11px;
+      color: var(--text);
+      line-height: 1.7;
+      border-top: 1px solid var(--line);
+      padding-top: 6px;
+      margin-top: 6px;
+      opacity: 0.85;
+    }
     .tip-book-row {
       display: flex;
       gap: 12px;
@@ -1018,72 +1050,140 @@
       #pub-timeline-svg { min-width: 450px; }
     }
 
-    /* ── RESEARCH CARD ── */
-    .research-card {
+    /* ── RESEARCH OVERVIEW INFOGRAPHIC ── */
+    .ro-vision {
+      max-width: 760px;
+      margin-bottom: 56px;
+    }
+    .ro-vision-title {
+      font-size: 22px;
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+    .ro-vision-body {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 2;
+    }
+    /* 3 pillar cards */
+    .ro-pillars {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border: 1px solid var(--line);
+    }
+    .ro-pillar {
       position: relative;
       overflow: hidden;
-      padding: 48px 40px;
-      border: 1px solid var(--line);
+      padding: 44px 36px;
+      border-right: 1px solid var(--line);
       background: var(--bg);
-      transition: background 0.4s ease;
+      transition: background 0.4s ease, opacity 0.4s ease;
       cursor: default;
-      max-width: 760px;
+      display: flex;
+      flex-direction: column;
     }
-    .research-card::before {
+    .ro-pillar:last-child { border-right: none; }
+    /* top accent line — color from CSS var */
+    .ro-pillar::before {
       content: '';
       position: absolute;
       top: 0; left: 0;
-      width: 0; height: 1px;
-      background: var(--accent);
+      width: 0; height: 2px;
+      background: var(--pillar-color, var(--accent));
       transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
-    .research-card:hover::before { width: 100%; }
-    .research-card::after {
+    .ro-pillar:hover::before { width: 100%; }
+    /* corner glow */
+    .ro-pillar::after {
       content: '';
       position: absolute;
       bottom: -60px; right: -60px;
       width: 200px; height: 200px;
-      background: radial-gradient(circle, rgba(200,169,110,0.10) 0%, transparent 70%);
+      background: radial-gradient(circle, var(--pillar-glow, rgba(200,169,110,0.08)) 0%, transparent 70%);
       transform: scale(0);
       transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
       pointer-events: none;
       z-index: 0;
     }
-    .research-card:hover::after { transform: scale(1); }
-    .research-card:hover { background: var(--bg2); }
-    .research-card > * { position: relative; z-index: 1; }
-    .research-card-title {
-      font-size: 18px;
+    .ro-pillar:hover::after { transform: scale(1); }
+    .ro-pillar:hover { background: var(--bg2); }
+    .ro-pillar > * { position: relative; z-index: 1; }
+    /* sibling dimming */
+    .ro-pillars:has(.ro-pillar:hover) .ro-pillar:not(:hover) { opacity: 0.06; }
+    .ro-pillar-num {
+      font-size: 11px;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      margin-bottom: 20px;
+    }
+    .ro-pillar-tag {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 0.08em;
+      padding: 3px 10px;
+      border: 1px solid;
+      border-radius: 1px;
+      margin-bottom: 20px;
+      align-self: flex-start;
+    }
+    .ro-pillar-name {
+      font-size: 16px;
       font-weight: 400;
       color: var(--white);
       line-height: 1.5;
       margin-bottom: 0;
     }
-    .research-card-title::after {
+    .ro-pillar-name::after {
       content: '';
       display: block;
       width: 20px;
       height: 1px;
       background: var(--accent);
-      margin-top: 18px;
+      margin-top: 16px;
       opacity: 0.45;
       transition: opacity 0.35s ease, width 0.35s ease;
     }
-    .research-card:hover .research-card-title::after { opacity: 0; width: 0; }
-    .research-card-body {
+    .ro-pillar:hover .ro-pillar-name::after { opacity: 0; width: 0; }
+    .ro-pillar-body {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.9;
       max-height: 0;
       overflow: hidden;
       opacity: 0;
-      transform: translateY(18px);
-      transition: max-height 1.2s cubic-bezier(0.16, 1, 0.3, 1),
-                  opacity 0.9s ease 0.15s,
-                  transform 0.9s cubic-bezier(0.16, 1, 0.3, 1) 0.15s;
+      transform: translateY(14px);
+      transition: max-height 1s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.7s ease 0.1s,
+                  transform 0.7s cubic-bezier(0.16, 1, 0.3, 1) 0.1s;
     }
-    .research-card:hover .research-card-body {
-      max-height: 600px;
+    .ro-pillar:hover .ro-pillar-body {
+      max-height: 400px;
       opacity: 1;
       transform: translateY(0);
-      margin-top: 28px;
+      margin-top: 20px;
+    }
+    /* implementation highlight */
+    .ro-impl {
+      margin-top: 48px;
+      max-width: 760px;
+      padding: 36px 40px;
+      border-left: 2px solid var(--accent);
+      background: rgba(200,169,110,0.03);
+    }
+    .ro-impl-label {
+      font-size: 10px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 16px;
+    }
+    .ro-impl-body {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 2;
     }
 
     /* ── PUBLICATIONS ── */
@@ -1606,7 +1706,10 @@
       .mvv-grid { grid-template-columns: 1fr; }
       .strengths-grid { grid-template-columns: 1fr; }
       .ig-grid { grid-template-columns: 1fr; }
-      .research-two-col { grid-template-columns: 1fr; gap: 48px; }
+      .ro-pillars { grid-template-columns: 1fr; }
+      .ro-pillar { border-right: none; border-bottom: 1px solid var(--line); }
+      .ro-pillar:last-child { border-bottom: none; }
+      .ro-impl { padding: 28px 24px; }
       .career-item { grid-template-columns: 1fr; gap: 6px; }
       .contact-cards { grid-template-columns: 1fr; }
       .contact-card { padding: 36px 28px; }
@@ -1650,6 +1753,24 @@
         transition: none;
       }
       .pub-item > div::after { display: none; }
+      .ro-pillar-body {
+        max-height: none;
+        opacity: 1;
+        transform: none;
+        margin-top: 16px;
+        transition: none;
+      }
+      .ro-pillar-name::after { display: none; }
+      .ro-pillars:has(.ro-pillar:hover) .ro-pillar:not(:hover) { opacity: 1; }
+      .strengths-card-body {
+        max-height: none;
+        opacity: 1;
+        transform: none;
+        margin-top: 20px;
+        transition: none;
+      }
+      .strengths-card-title::after { display: none; }
+      .strengths-grid:has(.strengths-card:hover) .strengths-card:not(:hover) { opacity: 1; }
     }
 
     /* ── LANGUAGE SWITCH ── */
@@ -1671,12 +1792,16 @@
     .mvv-card-body[data-lang],
     .strengths-card-body[data-lang],
     .mvv-card-title[data-lang],
-    .research-card-title[data-lang],
+    .ro-vision-title[data-lang],
+    .ro-vision-body[data-lang],
+    .ro-pillar-name[data-lang],
+    .ro-pillar-body[data-lang],
+    .ro-impl-label[data-lang],
+    .ro-impl-body[data-lang],
     .hero-affil[data-lang],
     .hero-name-sub[data-lang],
     .sec-title[data-lang],
     .sec-title-jp[data-lang],
-    .research-block-body[data-lang],
     .values-text-title[data-lang],
     .values-text-body[data-lang],
     .strengths-card-title[data-lang],
@@ -1686,12 +1811,16 @@
     body.lang-ja .mvv-card-body[data-lang="ja"],
     body.lang-ja .strengths-card-body[data-lang="ja"],
     body.lang-ja .mvv-card-title[data-lang="ja"],
-    body.lang-ja .research-card-title[data-lang="ja"],
+    body.lang-ja .ro-vision-title[data-lang="ja"],
+    body.lang-ja .ro-vision-body[data-lang="ja"],
+    body.lang-ja .ro-pillar-name[data-lang="ja"],
+    body.lang-ja .ro-pillar-body[data-lang="ja"],
+    body.lang-ja .ro-impl-label[data-lang="ja"],
+    body.lang-ja .ro-impl-body[data-lang="ja"],
     body.lang-ja .hero-affil[data-lang="ja"],
     body.lang-ja .hero-name-sub[data-lang="ja"],
     body.lang-ja .sec-title[data-lang="ja"],
     body.lang-ja .sec-title-jp[data-lang="ja"],
-    body.lang-ja .research-block-body[data-lang="ja"],
     body.lang-ja .values-text-title[data-lang="ja"],
     body.lang-ja .values-text-body[data-lang="ja"],
     body.lang-ja .strengths-card-title[data-lang="ja"],
@@ -1699,12 +1828,16 @@
     body.lang-en .mvv-card-body[data-lang="en"],
     body.lang-en .strengths-card-body[data-lang="en"],
     body.lang-en .mvv-card-title[data-lang="en"],
-    body.lang-en .research-card-title[data-lang="en"],
+    body.lang-en .ro-vision-title[data-lang="en"],
+    body.lang-en .ro-vision-body[data-lang="en"],
+    body.lang-en .ro-pillar-name[data-lang="en"],
+    body.lang-en .ro-pillar-body[data-lang="en"],
+    body.lang-en .ro-impl-label[data-lang="en"],
+    body.lang-en .ro-impl-body[data-lang="en"],
     body.lang-en .hero-affil[data-lang="en"],
     body.lang-en .hero-name-sub[data-lang="en"],
     body.lang-en .sec-title[data-lang="en"],
     body.lang-en .sec-title-jp[data-lang="en"],
-    body.lang-en .research-block-body[data-lang="en"],
     body.lang-en .values-text-title[data-lang="en"],
     body.lang-en .values-text-body[data-lang="en"],
     body.lang-en .strengths-card-title[data-lang="en"],
@@ -1943,7 +2076,7 @@
     }
 
     /* ── CARD TILT (3-D) ── */
-    .mvv-card, .strengths-card, .research-card { will-change: transform; }
+    .mvv-card, .strengths-card, .ro-pillar { will-change: transform; }
   </style>
 </head>
 <body class="lang-ja">
@@ -2151,32 +2284,119 @@
     </div>
     <div style="max-width:1100px; margin:0 auto; padding:0 48px;">
       <div class="strengths-grid">
+
+        <!-- Strengths Card -->
         <div class="strengths-card">
-          <div class="strengths-card-icon"></div>
+          <div class="strengths-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M2 4h8v5a3 3 0 0 1 0 6v5H2z"/>
+              <path d="M12 4h10v16H12v-5a3 3 0 0 0 0-6V4z" opacity="0.5"/>
+            </svg>
+          </div>
           <div class="strengths-card-title" data-lang="ja">強み：デジタルと人文学を架橋する「実践力」</div>
-          <div class="strengths-card-title" data-lang="en">Core Strengths: Bridging Digital Technology and the Humanities</div>
+          <div class="strengths-card-title" data-lang="en">Core Strengths: Bridging Digital &amp; Humanities</div>
           <div class="strengths-card-body" data-lang="ja">
-            最先端のデジタル技術と、人文社会科学が大切にしてきたアナログな思考法を融合させるアプローチを得意としています。理論的な研究・教育にとどまらず、デザイン、プログラミング、ソーシャルメディアの運営、ウェブサイト構築、AIの活用、データ分析などを、実務レベルで実装・運用できるハンズオンなスキルが強みです。アイディアを形にし、社会に発信するまでのプロセスをワンストップで伴走・実行することができます。
+            最先端のデジタル技術と、人文社会科学が大切にしてきたアナログな思考法を融合させるアプローチを得意としています。アイディアを形にし、社会に発信するまでのプロセスをワンストップで実行することができます。
+            <div class="str-skills">
+              <span class="str-skill">
+                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/></svg></span>
+                <span data-lang="ja">プログラミング</span><span data-lang="en">Programming</span>
+              </span>
+              <span class="str-skill">
+                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2A15.3 15.3 0 0 1 15.54 12 15.3 15.3 0 0 1 12 22 15.3 15.3 0 0 1 8.46 12 15.3 15.3 0 0 1 12 2Z"/></svg></span>
+                <span data-lang="ja">ウェブ開発</span><span data-lang="en">Web Dev</span>
+              </span>
+              <span class="str-skill">
+                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="7.5 4.21 12 6.81 16.5 4.21"/><polyline points="7.5 19.79 7.5 14.6 3 12"/><polyline points="21 12 16.5 14.6 16.5 19.79"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
+                <span data-lang="ja">AI・生成AI</span><span data-lang="en">AI / GenAI</span>
+              </span>
+              <span class="str-skill">
+                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+                <span data-lang="ja">データ分析</span><span data-lang="en">Data Analysis</span>
+              </span>
+              <span class="str-skill">
+                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20H2"/><path d="M12 20V10"/><circle cx="12" cy="7" r="3"/><path d="M22 20H12"/><path d="M19 17V14"/><path d="M22 14H16"/></svg></span>
+                <span data-lang="ja">デザイン</span><span data-lang="en">Design</span>
+              </span>
+              <span class="str-skill">
+                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></span>
+                <span data-lang="ja">SNS運用</span><span data-lang="en">Social Media</span>
+              </span>
+            </div>
           </div>
           <div class="strengths-card-body" data-lang="en">
-            My primary strength lies in harmonizing cutting-edge digital tools with the deeply analytical, "analog" thinking that is foundational to the humanities and social sciences. Beyond academic research and education, I possess highly practical, hands-on skills. I am capable of seamlessly executing tasks across design, programming, social media management, web development, AI implementation, and data analysis in real-world applications.
+            My primary strength lies in harmonizing cutting-edge digital tools with the deeply analytical, "analog" thinking foundational to the humanities. I can seamlessly execute from ideation through to public delivery in a one-stop workflow.
+            <div class="str-skills">
+              <span class="str-skill">
+                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/></svg></span>
+                Programming
+              </span>
+              <span class="str-skill">
+                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2A15.3 15.3 0 0 1 15.54 12 15.3 15.3 0 0 1 12 22 15.3 15.3 0 0 1 8.46 12 15.3 15.3 0 0 1 12 2Z"/></svg></span>
+                Web Dev
+              </span>
+              <span class="str-skill">
+                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="7.5 4.21 12 6.81 16.5 4.21"/><polyline points="7.5 19.79 7.5 14.6 3 12"/><polyline points="21 12 16.5 14.6 16.5 19.79"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg></span>
+                AI / GenAI
+              </span>
+              <span class="str-skill">
+                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></span>
+                Data Analysis
+              </span>
+              <span class="str-skill">
+                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20H2"/><path d="M12 20V10"/><circle cx="12" cy="7" r="3"/><path d="M22 20H12"/><path d="M19 17V14"/><path d="M22 14H16"/></svg></span>
+                Design
+              </span>
+              <span class="str-skill">
+                <span class="str-skill-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg></span>
+                Social Media
+              </span>
+            </div>
           </div>
         </div>
+
+        <!-- Working Style Card -->
         <div class="strengths-card">
-          <div class="strengths-card-icon"></div>
+          <div class="strengths-card-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2C6.48 2 2 6 2 10.5c0 3 2.5 5.5 5 7.5V22l3.5-2 3.5 2v-4c2.5-2 5-4.5 5-7.5C19 6 15.52 2 12 2z"/>
+              <path d="M12 6v4"/><path d="M10 8h4"/>
+            </svg>
+          </div>
           <div class="strengths-card-title" data-lang="ja">仕事のスタイルと課題：「欲」ではなく「熱」で駆動する</div>
-          <div class="strengths-card-title" data-lang="en">Working Style &amp; Areas for Growth: Driven by Passion, Not Profit</div>
+          <div class="strengths-card-title" data-lang="en">Working Style: Driven by Passion, Not Profit</div>
           <div class="strengths-card-body" data-lang="ja">
-            地位や利益といった「欲」ではなく、純粋な「熱（情熱）」を原動力として動く人間です。自分の心が動くテーマや好きなことに対しては爆発的なエネルギーを注ぎ、どこまでも頑張ることができますが、そうでないものに対してはモチベーションの維持に苦労しがちです。
-            <br><br>
-            プロジェクトにおいては「熱量」を共有できる方との協働では大きな相乗効果を生みますが、熱意を感じられない環境や、熱を失ってしまった人との仕事は、正直なところ少し不器用になってしまう面があります。
+            <div class="str-section">
+              <div class="str-section-label str-plus" data-lang="ja">Synergy &mdash; 熱量が合うとき</div>
+              <div class="str-section-body">
+                純粋な「熱（情熱）」を原動力として動きます。自分の心が動くテーマには爆発的なエネルギーを注ぎ、どこまでも頑張ることができます。「熱量」を共有できる方との協働では大きな相乗効果を生みます。
+              </div>
+            </div>
+            <div class="str-divider"></div>
+            <div class="str-section">
+              <div class="str-section-label str-delta" data-lang="ja">Challenge &mdash; 課題</div>
+              <div class="str-section-body">
+                熱意を感じられない環境や、情熱を失ってしまった人との仕事では、正直なところ少し不器用になってしまう面があります。モチベーションの維持に苦労することも。
+              </div>
+            </div>
           </div>
           <div class="strengths-card-body" data-lang="en">
-            I am fundamentally driven by "passion" rather than external desires or status. Consequently, I can pour boundless energy into projects that spark my curiosity and deeply resonate with me. Conversely, I struggle to maintain motivation for tasks that lack that internal spark.
-            <br><br>
-            While I thrive and create strong synergy in collaborative environments with passionate individuals, I find it quite challenging to work effectively with those who lack enthusiasm or have lost their drive.
+            <div class="str-section">
+              <div class="str-section-label str-plus">Synergy &mdash; When Passion Aligns</div>
+              <div class="str-section-body">
+                I am driven by genuine passion. I pour boundless energy into projects that spark my curiosity, and I create strong synergy in collaborative environments with passionate individuals.
+              </div>
+            </div>
+            <div class="str-divider"></div>
+            <div class="str-section">
+              <div class="str-section-label str-delta">Challenge &mdash; Areas for Growth</div>
+              <div class="str-section-body">
+                I struggle to maintain motivation for tasks that lack an internal spark, and find it challenging to work effectively in environments where enthusiasm has faded.
+              </div>
+            </div>
           </div>
         </div>
+
       </div>
     </div>
   </div>
@@ -2188,31 +2408,75 @@
     <h2 class="sec-title" data-lang="en">Research Overview</h2>
 
     <div style="margin-top: 56px;">
-      <div class="research-card">
-        <div class="research-card-title" data-lang="ja">生成AI時代の「知の再編成」と実装</div>
-        <div class="research-card-title" data-lang="en">Reorganizing and Implementing Knowledge in the Age of Generative AI</div>
-        <div class="research-card-body">
-          <div class="research-block-body" data-lang="ja">
-            AIが流暢に言葉を紡ぎ、自律的にコンテンツを生成する時代において、「知」のあり方は根本的な転換点を迎えています。私は、高度に専門化・タコツボ化した現代の科学技術と知識構造を連携させ、生成AI時代にふさわしい動的な「百学連環（西周）」の再構築に挑んでいます。
-            <br><br>
-            「デジタルSTS」「デジタル科学哲学」「デジタル人類学（Digital Anthropology）」の3領域を柱とし、AIを単なる効率化のツールとして消費するのではなく、テクノロジーと人間社会がどう共創し得るのか、その望ましい関係性を探求しています。
-            <br><br>
-            私の最大の特徴は、人文学的な深い思索にとどまらず、自らプログラミングやデータ分析、生成AIの活用を行い、デザインやウェブ構築を通じて「実装」する点にあります。AIが答えを出せる時代だからこそ、人文学が培ってきた「アナログな思考」と「本質的な問い」を実践的に融合させ、異なる分野の知を繋ぐ新たな対話のプラットフォームを構築しています。
-          </div>
-          <div class="research-block-body" data-lang="en">
-            In an era where AI fluently weaves words and autonomously generates content, the very nature of "knowledge" has reached a fundamental turning point. I am taking on the challenge of connecting the highly specialized and siloed structures of contemporary science and knowledge, aiming to reconstruct a dynamic "Hyakugaku Renkan" (Amane Nishi's Encyclopedia of the Sciences) suited for the age of Generative AI.
-            <br><br>
-            Anchored by three core pillars—Digital STS, Digital Philosophy of Science, and Digital Anthropology—I explore the ideal relationship between technology and human society, focusing on how we can co-create with AI rather than merely consuming it as a tool for efficiency.
-            <br><br>
-            My defining characteristic is my focus on "implementation." I do not stop at deep humanistic contemplation; I actively bring ideas to life through programming, data analysis, the practical application of generative AI, design, and web development. Precisely because we live in an age where AI can readily provide answers, I practically fuse the "analog thinking" and "essential questioning" cultivated by the humanities to build new interactive platforms that bridge knowledge across diverse disciplines.
-          </div>
-          <div class="kw-list">
-            <span class="kw" data-tag="Digital STS">Digital STS</span>
-            <span class="kw" data-tag="Digital Philosophy of Science">Digital Philosophy of Science</span>
-            <span class="kw" data-tag="Digital Anthropology">Digital Anthropology</span>
-          </div>
+
+      <!-- Vision statement -->
+      <div class="ro-vision">
+        <div class="ro-vision-title" data-lang="ja">生成AI時代の「知の再編成」と実装</div>
+        <div class="ro-vision-title" data-lang="en">Reorganizing and Implementing Knowledge in the Age of Generative AI</div>
+        <div class="ro-vision-body" data-lang="ja">
+          AIが流暢に言葉を紡ぎ、自律的にコンテンツを生成する時代において、「知」のあり方は根本的な転換点を迎えています。高度に専門化・タコツボ化した現代の科学技術と知識構造を連携させ、生成AI時代にふさわしい動的な「百学連環（西周）」の再構築に挑んでいます。
+        </div>
+        <div class="ro-vision-body" data-lang="en">
+          In an era where AI fluently weaves words and autonomously generates content, the very nature of "knowledge" has reached a fundamental turning point. I am taking on the challenge of connecting the highly specialized and siloed structures of contemporary science and knowledge, aiming to reconstruct a dynamic "Hyakugaku Renkan" suited for the age of Generative AI.
         </div>
       </div>
+
+      <!-- 3 Pillars -->
+      <div class="ro-pillars">
+
+        <div class="ro-pillar" style="--pillar-color:#4dc4a8; --pillar-glow:rgba(77,196,168,0.10)">
+          <div class="ro-pillar-num">01</div>
+          <span class="ro-pillar-tag" style="color:#4dc4a8; border-color:rgba(77,196,168,0.35)">Digital STS</span>
+          <div class="ro-pillar-name" data-lang="ja">テクノロジーと社会の共創</div>
+          <div class="ro-pillar-name" data-lang="en">Co-creating Technology &amp; Society</div>
+          <div class="ro-pillar-body" data-lang="ja">
+            AIを単なる効率化のツールとして消費するのではなく、テクノロジーと人間社会がどう共創し得るのか、その望ましい関係性を探求する。技術の開発・導入・運用をめぐる社会的動態をデジタル手法で分析し、科学技術と社会の接点を可視化する。
+          </div>
+          <div class="ro-pillar-body" data-lang="en">
+            Rather than merely consuming AI as a tool for efficiency, exploring how technology and human society can co-create and what desirable relationships look like. Analyzing social dynamics around technology through digital methods to visualize the intersection of science, technology, and society.
+          </div>
+        </div>
+
+        <div class="ro-pillar" style="--pillar-color:#8e7fd4; --pillar-glow:rgba(142,127,212,0.10)">
+          <div class="ro-pillar-num">02</div>
+          <span class="ro-pillar-tag" style="color:#8e7fd4; border-color:rgba(142,127,212,0.35)">Digital Philosophy of Science</span>
+          <div class="ro-pillar-name" data-lang="ja">知識構造の俯瞰と再編</div>
+          <div class="ro-pillar-name" data-lang="en">Surveying &amp; Reorganizing Knowledge</div>
+          <div class="ro-pillar-body" data-lang="ja">
+            高度に専門化した知識構造を俯瞰し、機械学習やコーパス分析を用いて科学の概念的基盤を再検討する。分野横断的な知の地図を描き出し、生成AI時代にふさわしい学問連携の新たなモデルを構築する。
+          </div>
+          <div class="ro-pillar-body" data-lang="en">
+            Surveying highly specialized knowledge structures and re-examining the conceptual foundations of science through machine learning and corpus analysis. Mapping interdisciplinary knowledge to build new models of academic collaboration for the age of Generative AI.
+          </div>
+        </div>
+
+        <div class="ro-pillar" style="--pillar-color:#c8a96e; --pillar-glow:rgba(200,169,110,0.10)">
+          <div class="ro-pillar-num">03</div>
+          <span class="ro-pillar-tag" style="color:#c8a96e; border-color:rgba(200,169,110,0.35)">Digital Anthropology</span>
+          <div class="ro-pillar-name" data-lang="ja">デジタル空間の人類学的探究</div>
+          <div class="ro-pillar-name" data-lang="en">Anthropological Inquiry in Digital Spaces</div>
+          <div class="ro-pillar-body" data-lang="ja">
+            被災地移住者のデジタル空間における生活実践を記録し、ハイパーリンク・エスノグラフィなど新たな方法論で人間の経験を描き出す。デジタルとフィジカルが交差する現場で、テクノロジーがもたらす社会変容を人類学的に捉える。
+          </div>
+          <div class="ro-pillar-body" data-lang="en">
+            Documenting digital practices of disaster-area migrants and depicting human experiences through novel methodologies like hyperlink ethnography. Capturing the social transformations brought by technology from an anthropological perspective at the intersection of digital and physical worlds.
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Implementation highlight -->
+      <div class="ro-impl">
+        <div class="ro-impl-label" data-lang="ja">実装する人文学</div>
+        <div class="ro-impl-label" data-lang="en">Humanities in Practice</div>
+        <div class="ro-impl-body" data-lang="ja">
+          人文学的な深い思索にとどまらず、自らプログラミングやデータ分析、生成AIの活用を行い、デザインやウェブ構築を通じて「実装」する。AIが答えを出せる時代だからこそ、人文学が培ってきた「アナログな思考」と「本質的な問い」を実践的に融合させ、異なる分野の知を繋ぐ新たな対話のプラットフォームを構築しています。
+        </div>
+        <div class="ro-impl-body" data-lang="en">
+          Beyond deep humanistic contemplation, I actively bring ideas to life through programming, data analysis, the practical application of generative AI, design, and web development. Precisely because we live in an age where AI can readily provide answers, I practically fuse the "analog thinking" and "essential questioning" cultivated by the humanities to build new interactive platforms that bridge knowledge across diverse disciplines.
+        </div>
+      </div>
+
     </div>
   </section>
 
@@ -2331,8 +2595,10 @@
       <div class="pub-item">
         <span class="pub-year">2023.05</span>
         <div>
-          <div class="pub-title" data-lang="ja">南三陸の復興に関するハイパーリンク・エスノグラフィ</div>
-          <div class="pub-title" data-lang="en">Hyperlink Ethnography Regarding Reconstruction in Minamisanriku</div>
+          <a href="https://ir.library.osaka-u.ac.jp/repo/ouka/all/91699/" target="_blank" rel="noopener noreferrer" class="pub-title-link">
+            <div class="pub-title" data-lang="ja">南三陸の復興に関するハイパーリンク・エスノグラフィ</div>
+            <div class="pub-title" data-lang="en">Hyperlink Ethnography Regarding Reconstruction in Minamisanriku</div>
+          </a>
           <div class="pub-detail">
             <span data-lang="ja">菅原裕輝 / 『テクストマイニングとデジタルヒューマニティーズ』2022, pp.5–18</span>
             <span data-lang="en">Yuki Sugawara / <i>Text Mining and Digital Humanities</i> 2022, pp.5–18</span>
@@ -3329,9 +3595,9 @@
       revealObserver.observe(el);
     });
 
-    // Observe research block
-    document.querySelectorAll('.research-block-body, .kw-list').forEach(el => {
-      el.classList.add('reveal');
+    // Observe research overview
+    document.querySelectorAll('.ro-vision, .ro-pillar, .ro-impl').forEach((el, i) => {
+      el.classList.add('reveal', `stagger-${i + 1}`);
       revealObserver.observe(el);
     });
 
@@ -4886,63 +5152,91 @@
       const TAG_DESCS = {
         'Philosophy of Science': {
           ja: '科学哲学',
-          descJa: '科学哲学は、科学的知識の性質、科学の基礎、およびその方法論を哲学的な視点から探求する学問分野です。',
-          descEn: 'Philosophy of Science is a branch of philosophy that critically examines the foundations, methods, and implications of scientific inquiry.'
+          descJa: '科学哲学は、科学的知識の性質、科学の基礎、およびその方法論を哲学的な視点から探求する学問分野です。「科学とは何か」「科学的知識はどのようにして正当化されるのか」といった根本的な問いを扱います。科学理論が現実をどのように記述しているのか、因果関係や推論の妥当性、理論と観察の関係、そして科学の発展メカニズム（パラダイムシフトなど）を考察します。科学の客観性や権威の本質を解き明かし、科学が現代社会や倫理に与える影響をメタ的な視点から批判的に分析する役割を担っています。',
+          descEn: 'Philosophy of Science is a branch of philosophy that critically examines the foundations, methods, and implications of scientific inquiry. It addresses fundamental questions such as "What is science?" and "How is scientific knowledge justified?" This field explores how scientific theories describe reality, analyzing concepts like causality, the validity of scientific reasoning, and the mechanisms of scientific development, such as paradigm shifts. By unpacking the essence of scientific objectivity and authority, it plays a crucial role in providing a meta-perspective on how science influences modern society, culture, and ethics.'
         },
         'Digital Philosophy of Science': {
           ja: 'デジタル科学哲学',
-          descJa: 'デジタル科学哲学は、伝統的な科学哲学の問いに対して、情報技術やデータサイエンスの手法を用いてアプローチする新興の学際分野です。',
-          descEn: 'Digital Philosophy of Science is an emerging interdisciplinary field that addresses traditional philosophical questions about science using computational methods and digital tools.'
+          descJa: 'デジタル科学哲学は、伝統的な科学哲学の問いに対して、情報技術やデータサイエンスの手法を用いてアプローチする新興の学際分野です。テキストマイニング、ネットワーク分析、コンピュータ・シミュレーションなどの計算論的手法を活用し、膨大な科学論文や歴史的データを計量的に分析することで、科学理論の変遷や研究コミュニティの動態を実証的に解明します。さらに、人工知能（AI）やビッグデータを用いたデータ駆動型の研究手法が、科学的知識の客観性や正当性にどのような影響を与えるかといった現代的な課題も考察します。',
+          descEn: 'Digital Philosophy of Science is an emerging interdisciplinary field that addresses traditional philosophical questions about science using computational methods and digital tools. By utilizing techniques such as text mining, network analysis, and computer simulations, researchers quantitatively analyze vast amounts of scientific literature to empirically trace the evolution of scientific theories and community dynamics. Furthermore, it investigates the unique epistemological and ethical challenges of the modern era, questioning how data-driven research methods, artificial intelligence, and algorithmic decision-making impact the objectivity and justification of scientific knowledge.'
         },
         'Anthropology': {
           ja: '人類学',
-          descJa: '人類学は、人間の進化、行動、文化、社会、言語を時間的・空間的に幅広く研究し、「人間とは何か」という根源的な問いに挑む総合的な学問分野です。',
-          descEn: 'Anthropology is the comprehensive study of human evolution, behavior, culture, society, and language across time and space, fundamentally seeking to answer what it means to be human.'
+          descJa: '人類学は、人間の進化、行動、文化、社会、言語を時間的・空間的に幅広く研究し、「人間とは何か」という根源的な問いに挑む総合的な学問分野です。大きく分けて、生物学的な進化を探求する自然人類学と、社会構造や多様な文化を研究する文化人類学などがあります。特に文化人類学では、研究対象となるコミュニティに長期間滞在する「フィールドワーク（参与観察）」を重視します。多様な人々の生活様式や価値観を内側から深く理解することで、自文化の常識を相対化し、人間社会の多様性と普遍性を探求します。',
+          descEn: 'Anthropology is the comprehensive study of human evolution, behavior, culture, society, and language across time and space, fundamentally seeking to answer what it means to be human. It is primarily divided into physical anthropology, which explores human biological evolution, and cultural anthropology, which investigates diverse social structures and lifestyles. Cultural anthropology, in particular, emphasizes fieldwork and participant observation, where researchers immerse themselves in communities for extended periods. By understanding diverse values from an insider\'s perspective, anthropology relativizes our own cultural assumptions and explores both the vast diversity and underlying universality of human societies.'
         },
         'Digital Anthropology': {
           ja: 'デジタル人類学',
-          descJa: 'デジタル人類学は、インターネット、SNS、スマートフォン、人工知能、メタバースなどのデジタル技術が、人間の日常生活、文化、社会関係、アイデンティティの形成にどのような影響を与えているかを研究する新しい領域です。',
-          descEn: 'Digital Anthropology is a relatively new subfield of anthropology that investigates how digital technologies affect human daily life, culture, social relationships, and identity formation.'
+          descJa: 'デジタル人類学は、インターネット、SNS、スマートフォン、人工知能、メタバースなどのデジタル技術が、人間の日常生活、文化、社会関係、アイデンティティの形成にどのような影響を与えているかを研究する新しい領域です。オンライン空間でのフィールドワーク（デジタル・エスノグラフィ）などの手法を用いて、サイバースペースにおける人間の行動やコミュニケーションの変容を分析します。オンラインとオフラインの境界が曖昧になる現代社会において、テクノロジーがいかに文化実践を再構築しているかを解明する学問です。',
+          descEn: 'Digital Anthropology is a relatively new subfield of anthropology that investigates how digital technologies\u2014such as the internet, social media, smartphones, artificial intelligence, and the metaverse\u2014affect human daily life, culture, social relationships, and identity formation. Utilizing methods like digital ethnography, researchers observe and analyze behavioral patterns and transformations in communication within cyberspace. In a contemporary society where the boundary between online and offline worlds is increasingly blurred, this vital discipline illuminates how the ubiquitous presence of technology continuously reshapes our cultural practices and redefines what it means to be human in the digital age.'
         },
         'STS': {
           ja: '科学技術社会論',
-          descJa: 'STS（Science and Technology Studies）は、科学的知識や技術的イノベーションが、社会、文化、政治、歴史の文脈とどのように相互作用しながら形成されているかを研究する学際的な分野です。',
-          descEn: 'STS (Science and Technology Studies) is an interdisciplinary field that investigates how scientific knowledge and technological innovations are shaped by, and in turn shape, society, culture, politics, and history.'
+          descJa: 'STS（Science and Technology Studies）は、科学的知識や技術的イノベーションが、社会、文化、政治、歴史の文脈とどのように相互作用しながら形成されているかを研究する学際的な分野です。科学や技術を単なる客観的な真理や中立的な道具としてではなく、人間の価値観、経済的利益、権力関係が複雑に絡み合った「社会的な構築物」として捉えます。気候変動、生命倫理、新技術の社会的受容など、現代社会が直面する複雑な課題に対し批判的な視点を提供し、専門家と市民の対話のあり方や民主的な科学技術政策の構築を模索します。',
+          descEn: 'STS (Science and Technology Studies) is an interdisciplinary field that investigates how scientific knowledge and technological innovations are shaped by, and in turn shape, society, culture, politics, and history. Instead of viewing science and technology as purely objective truths or neutral tools, STS understands them as "social constructs" intricately entangled with human values, economic interests, and power dynamics. The field provides critical perspectives on complex contemporary challenges such as climate change, bioethics, and the societal acceptance of new technologies, striving to foster better dialogue between experts and citizens and to build more democratic science and technology policies.'
         },
         'Digital STS': {
           ja: 'デジタルSTS',
-          descJa: 'デジタルSTSは、科学技術社会論（STS）の分析枠組みや批判的視点を、アルゴリズム、ビッグデータ、巨大プラットフォームといった現代のデジタル技術に適用する分野です。',
-          descEn: 'Digital STS is a specialized branch of Science and Technology Studies that applies STS analytical frameworks specifically to modern digital technologies, including algorithms, big data, and digital platforms.'
+          descJa: 'デジタルSTSは、科学技術社会論（STS）の分析枠組みや批判的視点を、アルゴリズム、ビッグデータ、巨大プラットフォームといった現代のデジタル技術に適用する分野です。データ収集やAIによる自動意思決定が、いかにして社会的なバイアスや差別を内包し、既存の権力構造を再生産しているかを解明します。同時に、ネットワーク分析やデータマイニングといった計算論的アプローチを調査手法として活用します。見えにくいデジタルインフラのブラックボックスを解体し、データ駆動型社会における倫理やガバナンスを問い直します。',
+          descEn: 'Digital STS is a specialized branch of Science and Technology Studies that applies STS analytical frameworks specifically to modern digital technologies, including algorithms, big data, and digital platforms. It critically examines how data collection and automated decision-making by AI embed social biases and reproduce existing power structures and inequalities. Simultaneously, it actively incorporates computational approaches\u2014such as data mining and network analysis\u2014into its research methodologies. By unpacking the opaque "black boxes" of digital infrastructures, this advanced research area fundamentally questions the ethics, governance, and societal impacts inherent in our increasingly data-driven society.'
         },
         'Humanities': {
           ja: '人文学',
-          descJa: '人文学は、文学、歴史学、哲学、言語学、宗教学、芸術学などを通じて、人間の思想、文化、歴史、精神的所産を深く理解しようとする学問領域の総称です。',
-          descEn: 'The Humanities encompass a broad group of academic disciplines dedicated to the profound understanding of human thought, culture, history, and spiritual endeavors.'
+          descJa: '人文学（ヒューマニティーズ）は、文学、歴史学、哲学、言語学、宗教学、芸術学などの多様なアプローチを通じて、人間の思想、文化、歴史、精神的所産を深く理解しようとする学問領域の総称です。自然科学が客観的なデータに基づく普遍的な法則の発見を目指すのに対し、人文学は人間の主観的な経験、価値観の多様性、そして意味の解釈に重きを置きます。過去から受け継がれてきたテキストや史料の批判的な読解を通じて人類の営みを詳細に分析し、「私たちは何者なのか」「どう生きるべきか」という根源的な問いに向き合い続けます。',
+          descEn: 'The Humanities encompass a broad group of academic disciplines\u2014including literature, history, philosophy, linguistics, religious studies, and the arts\u2014dedicated to the profound understanding of human thought, culture, history, and spiritual endeavors. While the natural sciences strive to objectively discover universal laws, the humanities emphasize subjective human experiences, the diversity of values, and the critical interpretation of meaning. Through the meticulous analysis of historical texts, primary documents, and artistic works inherited from the past, the humanities continuously address fundamental questions about human existence, exploring "who we are" and "how we ought to live."'
         },
         'Digital Humanities': {
           ja: 'デジタル人文学',
-          descJa: 'デジタルヒューマニティーズは、伝統的な人文学の研究手法に、最新のデジタル技術や計算論的アプローチを融合させた革新的な学際分野です。',
-          descEn: 'Digital Humanities is an innovative, interdisciplinary field that merges traditional humanistic research with cutting-edge digital technologies and computational approaches.'
+          descJa: 'デジタルヒューマニティーズ（デジタル人文学）は、歴史学や文学といった伝統的な人文学の研究手法に、最新のデジタル技術や計算論的アプローチを融合させた革新的な学際分野です。歴史的文書や芸術作品などの膨大な文化資源をデジタルデータ化し、テキストマイニング、ネットワーク分析、地理情報システム（GIS）、3Dモデリングなどを用いて解析します。これにより、人間の目視だけでは発見できなかった大規模なパターン（遠読）や新たな知見を抽出し、人文学の知識生産のあり方を革新し、可能性を大きく広げています。',
+          descEn: 'Digital Humanities is an innovative, interdisciplinary field that merges traditional humanistic research\u2014such as history and literature\u2014with cutting-edge digital technologies and computational approaches. Researchers digitize vast collections of cultural resources, including historical manuscripts and artworks, and analyze them using advanced techniques like text mining, network analysis, Geographic Information Systems (GIS), and 3D modeling. This computational power enables scholars to engage in "distant reading," extracting new insights and uncovering large-scale patterns impossible to detect through manual analysis alone. By synergizing technological capabilities with humanistic insight, it revolutionizes knowledge production in the humanities.'
         },
         'Digital Technology': {
           ja: 'デジタルテクノロジー',
-          descJa: 'デジタルテクノロジーは、連続的なアナログ情報を二進数データに変換して処理、保存、通信を行う技術体系全般を指します。',
-          descEn: 'Digital Technology refers to the comprehensive system of technologies that process, store, and transmit information by converting it into discrete binary data.'
+          descJa: 'デジタルテクノロジー（デジタル技術）は、音声や画像、テキストなどの連続的なアナログ情報を「0」と「1」の離散的な二進数データに変換して処理、保存、通信を行う技術体系全般を指します。コンピュータ科学や情報工学を基盤とし、ソフトウェア開発、インターネット、人工知能（AI）、クラウドコンピューティング、IoTなどが含まれます。膨大なデータを高速かつ正確に処理できる点が特徴であり、現代のあらゆる産業やインフラを根底から支え、社会課題の解決とイノベーションを牽引する極めて実践的な分野です。',
+          descEn: 'Digital Technology refers to the comprehensive system of technologies that process, store, and transmit continuous analog information by converting it into discrete binary data (zeros and ones). Rooted in computer science and information engineering, this field encompasses software development, the internet, artificial intelligence (AI), cloud computing, and the Internet of Things (IoT). Characterized by its unprecedented ability to process massive amounts of data rapidly and accurately, digital technology forms the indispensable backbone of all modern industries and societal infrastructures, driving innovation and providing practical solutions to complex contemporary challenges.'
         },
         'Technology': {
           ja: 'テクノロジー / 技術・工学',
-          descJa: 'テクノロジーは、科学的な知識を応用して、人間の生活を向上させ、社会的な課題を解決するための手段やシステムを創出する分野です。',
-          descEn: 'Technology is the broad field dedicated to applying scientific knowledge to create tools, machines, and systems that improve human life and solve practical societal challenges.'
+          descJa: 'テクノロジー（技術・工学）は、科学的な知識や実証的な経験則を応用して、人間の生活を向上させ、社会的な課題を解決するための手段、道具、機械、システムを創出する分野です。学術的なタグとしては、機械、電子、材料、土木、バイオテクノロジーなどの工学領域全般を包含します。新しいハードウェアの開発やインフラの構築にとどまらず、製造プロセスの最適化、エネルギー効率の向上、技術革新が環境や社会構造に与える影響の評価なども重要なテーマです。理論を現実世界で安全かつ効果的に機能する形へと変換する実践的な領域です。',
+          descEn: 'Technology, often categorized under engineering and applied sciences, is the broad field dedicated to applying scientific knowledge and empirical principles to create tools, machines, and systems that improve human life and solve practical societal challenges. As an academic tag, it encompasses a vast array of disciplines, including mechanical, electrical, civil, and biotechnology engineering. Important themes extend beyond developing new hardware to include optimizing manufacturing processes, enhancing energy efficiency, and rigorously assessing the environmental and social impacts of innovations. It is a highly practical domain focused on translating theories into functional and effective real-world applications.'
         },
         'Research Ethics': {
           ja: '研究倫理',
-          descJa: '研究倫理は、科学的探求や学術活動において研究者が遵守すべき行動規範や道徳的原則を探求・実践する分野です。',
-          descEn: 'Research Ethics is an academic field that explores and implements the codes of conduct and moral principles that researchers must observe in their scientific inquiry and scholarly activities.'
+          descJa: '研究倫理は、科学的探求や学術活動において研究者が遵守すべき行動規範や道徳的原則を探求・実践する分野です。研究の誠実性（インテグリティ）を確保し、科学に対する社会の信頼を維持・構築することを最大の目的としています。具体的には、データの捏造、改ざん、盗用といった研究不正行為の防止をはじめ、研究データの適切な取り扱い、論文の正当な著者資格（オーサーシップ）、資金提供元との利益相反の透明化など、研究活動全般に関わる規範を扱います。また、人間を対象とする医学や社会科学の研究においては、インフォームド・コンセントの取得やプライバシーの保護といった被験者の人権・尊厳への配慮が極めて重要視されます。実験動物の福祉（苦痛の軽減など）も主要なテーマです。近年では、生命科学技術の進歩に伴う生命倫理的ジレンマや、人工知能（AI）・ビッグデータを活用した研究におけるアルゴリズムのバイアス、個人情報の保護など、新たな課題にも直面しています。研究倫理は、単なるルールの遵守にとどまらず、研究者が社会に対する責任を自覚し、健全で持続可能な科学の発展を導くための不可欠な基盤となる領域です。',
+          descEn: 'Research Ethics is an academic field that explores and implements the codes of conduct and moral principles that researchers must observe in their scientific inquiry and scholarly activities. Its primary objective is to ensure research integrity and maintain public trust in science. Specifically, it addresses norms related to overall research practices, including the prevention of research misconduct\u2014such as fabrication, falsification, and plagiarism\u2014as well as proper data management, fair authorship allocation, and the transparent disclosure of conflicts of interest. Furthermore, in medical and social science research involving human subjects, ethical considerations such as obtaining informed consent and protecting the privacy and dignity of participants are of paramount importance. The welfare and ethical treatment of laboratory animals, including the minimization of suffering, is also a major theme. In recent years, the field has faced new challenges, such as bioethical dilemmas arising from rapid advances in the life sciences, as well as algorithmic bias and data privacy concerns in research utilizing artificial intelligence (AI) and big data. Rather than merely enforcing compliance with rules, research ethics serves as an indispensable foundation that encourages researchers to recognize their social responsibilities and guides the sound advancement of science.'
         },
         'Neuroscience': {
           ja: '神経科学',
-          descJa: '神経科学は、脳、脊髄、末梢神経からなる神経系の構造、機能、発達、および病理を解明しようとする学際的な学問分野です。',
-          descEn: 'Neuroscience is an interdisciplinary academic field dedicated to uncovering the structure, function, development, and pathology of the nervous system.'
+          descJa: '神経科学は、脳、脊髄、末梢神経からなる神経系の構造、機能、発達、および病理を解明しようとする学際的な学問分野です。遺伝子やタンパク質、神経細胞（ニューロン）が連携するミクロなレベルの働きから、複雑な神経回路のネットワーク、さらには知覚、学習、記憶、感情、意思決定、そして「意識」といったマクロな精神活動に至るまで、幅広いスケールで「物質である脳がいかにして心や行動を生み出すのか」という根源的な問いに挑みます。生物学や医学、心理学を研究の基盤としつつも、現在では物理学、数学、情報工学など多様な分野の知見と融合している点が大きな特徴です。fMRI（機能的磁気共鳴画像法）や光遺伝学といった最先端のテクノロジーを駆使することで、活動中の生きた脳を精緻に観察・操作することが可能になりました。この分野の成果は、アルツハイマー病などの神経変性疾患やうつ病などの精神疾患のメカニズム解明と新たな治療法開発に直結しています。さらに、脳の仕組みを模倣した人工知能（AI）の構築やブレイン・マシン・インターフェース（BMI）の開発など、未来のテクノロジーの進化をも牽引する極めて重要な最前線の領域となっています。',
+          descEn: 'Neuroscience is an interdisciplinary academic field dedicated to uncovering the structure, function, development, and pathology of the nervous system, encompassing the brain, spinal cord, and peripheral nerves. It tackles the fundamental question of how the physical brain generates the mind and behavior across a vast spectrum of scales. This ranges from the microscopic workings of genes, proteins, and neurons, to complex neural networks, and ultimately to macroscopic mental phenomena such as perception, learning, memory, emotion, decision-making, and consciousness. A defining characteristic of modern neuroscience is its integration of diverse disciplines. While firmly rooted in biology, medicine, and psychology, it actively synthesizes insights from physics, mathematics, and computer science. By utilizing cutting-edge technologies like functional magnetic resonance imaging (fMRI) and optogenetics, researchers can now precisely observe and manipulate the dynamic, living brain in action. The discoveries in this field are directly linked to unraveling the mechanisms of neurodegenerative and psychiatric disorders, such as Alzheimer\'s disease, and developing novel treatments. Furthermore, neuroscience significantly drives the evolution of future technologies, inspiring the architecture of artificial intelligence (AI) and the advancement of brain-machine interfaces (BMI), making it a crucially important domain at the forefront of science.'
+        }
+      };
+
+      /* ── publication summaries ── */
+      const PUB_SUMMARIES = {
+        '南三陸の復興に関するハイパーリンク・エスノグラフィ': {
+          ja: '東日本大震災の被災地である宮城県南三陸町の復興プロセスにおいて、オンライン上の活動の実態を明らかにするため、私は「ハイパーリンク・エスノグラフィ」という手法を用いて調査を行いました。ウェブページ間のリンク構造をネットワークとして可視化し、地元住民・移住者・観光者といった質的な分類と組み合わせることで、多様なアクターが密接に結びついて形成する「デジタルパブリック」の様態を描き出しました。現場のフィールドワークを補完し、復興の全体像をマクロな視点から捉え直す意欲的な研究であると考えています。',
+          en: 'To clarify the role of grassroots online activities in the reconstruction process of Minamisanriku after the Great East Japan Earthquake, I conducted research utilizing "hyperlink ethnography." By visualizing the link structures among web pages as a network and combining this with qualitative categorizations—such as original insiders, new-insiders, and outsiders—I empirically illustrated how a "digital public" is formed through the intricate connections of diverse actors. I believe this study effectively complements on-site fieldwork, providing a crucial macroscopic perspective to reexamine the overall picture of the reconstruction efforts.'
+        },
+        'Revisiting Semantic Prosody of Cause: A Sentiment Analysis': {
+          ja: '英語の動詞「cause」は伝統的にネガティブな結果を伴うとされてきました。しかし私たちはこの前提に疑問を投げかけ、共起表現分析と感情分析を統合した新たなコーパスアプローチを提示しました。データを精緻に分析した結果、「cause」を用いた構文の多くが実際には「中立的」な感情スコアを持つことを実証的に明らかにしました。本研究は、言語、認知、感情の複雑な関係に新たな洞察を与え、従来の「意味的韻律」研究の常識を覆す野心的な論考であると考えています。',
+          en: 'The verb "cause" has traditionally been assumed to carry a strictly negative semantic prosody. To challenge this prevailing assumption, we integrated co-varying collexeme analysis with computational sentiment analysis. By meticulously analyzing the data, we empirically demonstrated that constructions involving "cause" predominantly exhibit neutral sentiment scores, rather than inherently negative ones. We believe this study effectively overturns established assumptions and offers a robust, interdisciplinary framework for exploring the complex interplay between language, cognition, and emotion.'
+        },
+        'デジタル空間の多重性：被災地移住のデジタル人類学': {
+          ja: '津波被災地（宮城県南三陸町）への移住現象を対象に、「多重性」の視点からデジタル人類学の新たなアプローチを提示しました。YouTube、Instagram、Facebookのデータを自然言語処理や説明可能AI（XAI）を用いて分析し、各プラットフォームにおいて移住者の「ビジョン」や「情動」がどのように異なって表現されるかを実証的に明らかにしました。現実空間の語りとデジタル上の自己呈示を比較することで、移住という社会現象の多面的な意味を紐解く、今後のデジタル人類学の基盤となる野心的な研究であると考えています。',
+          en: 'To explore migration to tsunami-affected areas (Minamisanriku Town), I proposed a novel digital anthropological approach centered on the concept of "multiplicity." By analyzing data across YouTube, Instagram, and Facebook using natural language processing and Explainable AI (XAI), I empirically demonstrated how migrants distinctively express their visions and affects on each platform. By comparing face-to-face narratives with digital self-presentations, I believe this study effectively unravels the multifaceted meanings of migration and establishes a robust methodological foundation for the future of digital anthropology.'
+        },
+        '津波被災地域における期待の調整：南三陸町の資源循環型復興ビジョンと移住者のビジョン': {
+          ja: '宮城県南三陸町を事例に、津波被災地域において住民や移住者がどのように「期待の調整」を行っているかを、「期待の社会学」の観点から分析。震災後の資源循環型復興ビジョンにおける「フレーム間の期待の調整」と、町のローカルビジョンと移住者個人のアクターレベルビジョンとの間の「レベル間の期待の調整」が、復興において重要な役割を果たしていることを明らかにした。',
+          en: 'Analyzes how residents and migrants in Minamisanriku Town manage their expectations in tsunami-affected areas, drawing on the "sociology of expectation." Reveals the importance of managing expectations between different "frames"—balancing hopes with realistic constraints—and between "levels," navigating the town\'s local vision and individual actor-level visions held by migrants.'
+        },
+        'The Many Uses of Explain: Quantitative Corpus Method and Philosophy of Science': {
+          ja: '従来の科学哲学における事例研究の限界を克服するため、私たちはデータサイエンスと認知意味論の枠組みを融合した「デジタル科学哲学」のアプローチを提唱しました。本研究では、計量コーパス手法（QCM）を用いて「説明する（explain）」の多様な用法を分析し、学術ジャンルと非学術ジャンルにおける概念の構造的な違いを実証的に明らかにしました。言語学の精緻な手法を導入することで認識論と存在論を架橋する、今後の概念分析の強力な基盤を提供する野心的な研究であると考えています。',
+          en: 'To overcome the limitations of traditional case studies in the philosophy of science, we proposed an updated approach to the "digital philosophy of science" by integrating data science methodologies with cognitive semantics. By applying the Quantitative Corpus Method (QCM) to analyze the diverse uses of the verb explain, we empirically demonstrated how its conceptual structure varies significantly across academic and non-academic genres. By bridging epistemology and ontology through rigorous linguistic methods, we believe this represents an ambitious study that provides a robust foundation for future conceptual analyses.'
+        },
+        'Philosophy with and for Data Science: Setting the Scene': {
+          ja: 'データサイエンスの劇的な進歩は、哲学のアプローチを根本から変革しつつあります。本稿では、従来の少数事例に依存する科学哲学の限界を指摘し、大規模データやトピックモデルを用いた「デジタル科学哲学」というアプローチを提示しました。さらに、哲学がAIのブラックボックス化などデータサイエンス自身の課題を批判的に検討する重要性についても論じました。データ分析と哲学的な問いが双方向に刺激し合い、新たな知のパラダイムを切り拓く論考となったと考えています。',
+          en: 'The rapid advancement of data science is fundamentally transforming traditional philosophical methodologies. In this paper, I challenged the limitations of conventional case-study-reliant philosophy of science and proposed an approach to "digital philosophy of science" that leverages machine learning and topic modeling on large datasets. Furthermore, I discussed the importance of philosophy in critically examining data science itself, such as addressing the black-box problem in AI. I believe this work sets the stage for a dynamic synergy where data science and philosophy mutually enrich each other to open up a new paradigm of knowledge.'
         }
       };
 
@@ -5013,10 +5307,15 @@
           const img = el.querySelector('.pub-book-cover');
           if (img) coverImg = img.getAttribute('src');
         }
+        /* summary lookup */
+        const jaTitle = titleJa ? titleJa.textContent.trim() : (titleOnly ? titleOnly.textContent.trim() : '');
+        const enTitle = titleEn ? titleEn.textContent.trim() : (titleOnly ? titleOnly.textContent.trim() : '');
+        const summaryData = PUB_SUMMARIES[jaTitle] || PUB_SUMMARIES[enTitle] || null;
+
         pubs.push({
           id: 'pub-' + pubs.length,
-          ja: titleJa ? titleJa.textContent.trim() : (titleOnly ? titleOnly.textContent.trim() : ''),
-          en: titleEn ? titleEn.textContent.trim() : (titleOnly ? titleOnly.textContent.trim() : ''),
+          ja: jaTitle,
+          en: enTitle,
           year: yearText,
           sortYear: sortYear,
           isBook: isBook,
@@ -5027,6 +5326,8 @@
           typeEn: typeEn,
           link: linkEl ? linkEl.href : '',
           coverImg: coverImg,
+          summaryJa: summaryData ? summaryData.ja : '',
+          summaryEn: summaryData ? summaryData.en : '',
           el: el
         });
       });
@@ -5071,7 +5372,8 @@
           ja: p.ja, en: p.en, year: p.year, tags: p.tags,
           isBook: p.isBook, typeJa: p.typeJa, typeEn: p.typeEn,
           detailJa: p.detailJa, detailEn: p.detailEn,
-          link: p.link, coverImg: p.coverImg, el: p.el
+          link: p.link, coverImg: p.coverImg,
+          summaryJa: p.summaryJa, summaryEn: p.summaryEn, el: p.el
         });
         p.tags.forEach(tag => {
           links.push({ source: tagNodes[tag], target: p.id });
@@ -5234,6 +5536,8 @@
           body += '</div>';
         }
         if (detail) body += `<div class="tip-grant">${detail}</div>`;
+        const summary = lang === 'en' ? (p.summaryEn || p.summaryJa) : (p.summaryJa || p.summaryEn);
+        if (summary) body += `<div class="tip-summary">${summary}</div>`;
         if (p.isBook && p.link) {
           const linkLabel = lang === 'en' ? 'Link to publisher \u2192' : '\u51FA\u7248\u793E\u3078\u306E\u30EA\u30F3\u30AF\u306F\u3053\u3061\u3089 \u2192';
           body += `<div class="tip-pub-link"><a href="${p.link}" target="_blank" rel="noopener noreferrer">${linkLabel}</a></div>`;
@@ -5355,23 +5659,9 @@
             applyFilter(d.id);
           }
         } else if (d.type === 'project') {
-          const tlWrap = document.getElementById('pub-timeline-wrap');
-          if (tlWrap) tlWrap.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          if (pubTlBars) {
-            pubTlBars.filter(b => b.id === d.id).each(function() {
-              this.classList.remove('tl-flash');
-              void this.offsetWidth;
-              this.classList.add('tl-flash');
-              setTimeout(() => this.classList.remove('tl-flash'), 1500);
-            });
-          }
-          if (pubTlBarLabels) {
-            pubTlBarLabels.filter(b => b.id === d.id).each(function() {
-              this.classList.remove('tl-flash');
-              void this.offsetWidth;
-              this.classList.add('tl-flash');
-              setTimeout(() => this.classList.remove('tl-flash'), 1500);
-            });
+          const pub = findPub(d.id);
+          if (pub && pub.link) {
+            window.open(pub.link, '_blank', 'noopener,noreferrer');
           }
         }
       });
@@ -5802,23 +6092,9 @@
         /* ── click → highlight network node ── */
         pubTlBars.on('click', function(event, d) {
           event.stopPropagation();
-          const neighbors = getNeighbors(d.id);
-          svgEl.classList.remove('has-hover');
-          svgEl.classList.add('has-filter');
-          node.classed('node-active', n => neighbors.has(n.id));
-          link.classed('edge-active', l => isLinkConnected(l, d.id));
-          activeFilter = '__ptl_' + d.id;
-
-          // scroll to network
-          const netEl = document.getElementById('pub-network');
-          if (netEl) netEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-          // auto-clear after 3s
-          setTimeout(() => {
-            if (activeFilter === '__ptl_' + d.id) {
-              clearFilter();
-            }
-          }, 3000);
+          if (d.link) {
+            window.open(d.link, '_blank', 'noopener,noreferrer');
+          }
         });
 
         /* ── responsive resize ── */
@@ -5870,7 +6146,7 @@
 
     /* ── 3-D CARD TILT ── */
     (function() {
-      const TILT_SELECTORS = ['.mvv-card', '.strengths-card', '.research-card'];
+      const TILT_SELECTORS = ['.mvv-card', '.strengths-card', '.ro-pillar'];
       const BASE_T = 'background 0.4s ease, opacity 0.4s ease';
       TILT_SELECTORS.forEach(sel => {
         document.querySelectorAll(sel).forEach(card => {
