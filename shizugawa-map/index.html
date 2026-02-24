@@ -626,13 +626,50 @@
     .leaflet-marker-icon {
       transition: transform 0.15s ease;
     }
-    .marker-drop {
-      animation: marker-drop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+
+    /* スプラッシュ中はマーカーとツールチップを隠す */
+    .leaflet-marker-icon.marker-hidden {
+      opacity: 0 !important;
+      pointer-events: none;
     }
-    @keyframes marker-drop {
-      0%   { opacity: 0; transform: translateY(-40px) scale(0.6); }
-      60%  { opacity: 1; transform: translateY(4px) scale(1.05); }
-      100% { opacity: 1; transform: translateY(0) scale(1); }
+    .markers-hidden .leaflet-tooltip {
+      opacity: 0 !important;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    /* ピンのぼんやり出現アニメーション */
+    .marker-drop {
+      animation: marker-fade-in 5s ease forwards;
+    }
+    @keyframes marker-fade-in {
+      0%   { opacity: 0; }
+      100% { opacity: 1; }
+    }
+
+    /* ==========================================
+       ピン ぼんわりグロー
+       ========================================== */
+    .pin-marker {
+      position: relative;
+    }
+    .pin-glow {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 26px;
+      height: 26px;
+      margin: -13px 0 0 -13px;
+      border-radius: 50%;
+      background: radial-gradient(circle, var(--pin-color) 0%, transparent 70%);
+      opacity: 0.25;
+      pointer-events: none;
+      z-index: -1;
+      animation: pin-glow-pulse 3s ease-in-out infinite;
+    }
+    @keyframes pin-glow-pulse {
+      0%, 100% { transform: scale(1); opacity: 0.25; }
+      50%      { transform: scale(1.5); opacity: 0.1; }
     }
 
     /* ==========================================
@@ -801,8 +838,8 @@
 
     .memory-form label {
       display: block;
-      margin-top: 8px;
-      margin-bottom: 3px;
+      margin-top: 6px;
+      margin-bottom: 2px;
       font-size: 13px;
       font-weight: bold;
       color: #34495e;
@@ -835,49 +872,39 @@
       font-size: 12px;
     }
 
-    .memory-form .submit-btn {
+    .memory-form .submit-btn,
+    .modal-card-footer .submit-btn {
       display: block;
       width: 100%;
-      margin-top: 12px;
-      padding: 8px;
-      font-size: 14px;
+      margin-top: 0;
+      padding: 10px;
+      font-size: 15px;
       font-weight: bold;
       color: #fff;
       background: linear-gradient(135deg, #3498db, #2980b9);
       border: none;
-      border-radius: 6px;
+      border-radius: 8px;
       cursor: pointer;
       transition: transform 0.15s, box-shadow 0.15s, background 0.2s;
-      box-shadow: 0 2px 6px rgba(52,152,219,0.3);
+      box-shadow: 0 2px 8px rgba(52,152,219,0.3);
     }
 
-    .memory-form .submit-btn:hover {
+    .memory-form .submit-btn:hover,
+    .modal-card-footer .submit-btn:hover {
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(52,152,219,0.35);
     }
-    .memory-form .submit-btn:active {
+    .memory-form .submit-btn:active,
+    .modal-card-footer .submit-btn:active {
       transform: translateY(0);
       box-shadow: 0 1px 3px rgba(52,152,219,0.3);
     }
-    .memory-form .submit-btn:disabled {
+    .memory-form .submit-btn:disabled,
+    .modal-card-footer .submit-btn:disabled {
       background: #95a5a6;
       cursor: not-allowed;
       transform: none;
       box-shadow: none;
-    }
-
-    .memory-form .google-map-link,
-    .spot-popup  .google-map-link {
-      display: inline-block;
-      margin-top: 8px;
-      font-size: 12px;
-      color: #2980b9;
-      text-decoration: none;
-    }
-
-    .memory-form .google-map-link:hover,
-    .spot-popup  .google-map-link:hover {
-      text-decoration: underline;
     }
 
     /* ==========================================
@@ -900,6 +927,53 @@
       margin: 0;
       font-size: 15px;
       color: #2c3e50;
+    }
+
+    .spot-popup .rename-btn {
+      border: none;
+      background: none;
+      cursor: pointer;
+      font-size: 13px;
+      color: #aaa;
+      padding: 0 2px;
+      line-height: 1;
+      transition: color 0.15s;
+    }
+    .spot-popup .rename-btn:hover {
+      color: #555;
+    }
+
+    .spot-popup .rename-inline {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+    .spot-popup .rename-inline input {
+      flex: 1;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 4px 6px;
+      font-size: 13px;
+      font-family: inherit;
+    }
+    .spot-popup .rename-inline input:focus {
+      outline: none;
+      border-color: #27ae60;
+    }
+    .spot-popup .rename-inline button {
+      border: none;
+      background: #27ae60;
+      color: #fff;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 4px 8px;
+      border-radius: 4px;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .spot-popup .rename-inline button:hover {
+      background: #219a52;
     }
 
     .spot-popup .memory-count {
@@ -936,12 +1010,32 @@
       margin-bottom: 6px;
     }
 
+    .spot-popup .memory-item .saved-photo-wrap {
+      position: relative;
+      margin-bottom: 6px;
+    }
     .spot-popup .memory-item .saved-photo {
       width: 100%;
       max-height: 160px;
       object-fit: cover;
       border-radius: 4px;
-      margin-bottom: 6px;
+      display: block;
+    }
+    .spot-popup .memory-item .photo-delete-btn {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      padding: 2px 8px;
+      font-size: 10px;
+      color: #fff;
+      background: rgba(0,0,0,0.55);
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+    .spot-popup .memory-item .photo-delete-btn:hover {
+      background: rgba(231,76,60,0.85);
     }
 
     .spot-popup .memory-item .saved-date {
@@ -950,17 +1044,78 @@
       margin-bottom: 4px;
     }
 
-    .spot-popup .memory-item .delete-btn {
-      padding: 3px 8px;
-      font-size: 11px;
-      color: #fff;
-      background-color: #e74c3c;
+    .spot-popup .memory-item .memory-actions {
+      display: flex;
+      gap: 0;
+      margin-top: 6px;
+      border-top: 1px solid #f0f0f0;
+      padding-top: 6px;
+    }
+    .spot-popup .memory-item .memory-actions button {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      padding: 6px 0;
       border: none;
-      border-radius: 3px;
+      background: none;
+      font-size: 11px;
       cursor: pointer;
+      border-radius: 4px;
+      transition: background 0.15s;
+    }
+    .spot-popup .memory-item .edit-btn {
+      color: #2979FF;
+    }
+    .spot-popup .memory-item .edit-btn:hover {
+      background: rgba(41,121,255,0.08);
+    }
+    .spot-popup .memory-item .delete-btn {
+      color: #e74c3c;
+    }
+    .spot-popup .memory-item .delete-btn:hover {
+      background: rgba(231,76,60,0.08);
     }
 
-    .spot-popup .memory-item .delete-btn:hover { background-color: #c0392b; }
+    .spot-popup .memory-item .edit-inline textarea {
+      width: 100%;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      padding: 6px 8px;
+      font-size: 12px;
+      font-family: inherit;
+      resize: vertical;
+      height: 60px;
+      margin-bottom: 4px;
+    }
+    .spot-popup .memory-item .edit-inline textarea:focus {
+      outline: none;
+      border-color: #2979FF;
+    }
+    .spot-popup .memory-item .edit-inline-actions {
+      display: flex;
+      gap: 4px;
+    }
+    .spot-popup .memory-item .edit-inline-actions button {
+      border: none;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .spot-popup .memory-item .edit-save-btn {
+      background: #2979FF;
+      color: #fff;
+    }
+    .spot-popup .memory-item .edit-save-btn:hover { background: #1565C0; }
+    .spot-popup .memory-item .edit-cancel-btn {
+      background: #eee;
+      color: #555;
+    }
+    .spot-popup .memory-item .edit-cancel-btn:hover { background: #ddd; }
 
     .spot-popup .spot-category {
       font-size: 11px;
@@ -1047,13 +1202,35 @@
       z-index: 1;
       width: 92%;
       max-width: 400px;
-      max-height: 85vh;
-      overflow-y: auto;
+      max-height: 88vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
       background: #fff;
       border-radius: 16px;
       box-shadow: 0 16px 48px rgba(0,0,0,0.3);
-      padding: 28px 24px 24px;
+      padding: 0;
       animation: modal-rise 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    #memory-overlay .modal-card-scroll {
+      flex: 1;
+      overflow-y: auto;
+      padding: 28px 24px 8px;
+    }
+    #memory-overlay .modal-card-footer {
+      padding: 0 24px 20px;
+      background: #fff;
+      position: relative;
+    }
+    #memory-overlay .modal-card-footer::before {
+      content: '';
+      position: absolute;
+      top: -24px;
+      left: 0;
+      right: 0;
+      height: 24px;
+      background: linear-gradient(to bottom, rgba(255,255,255,0), rgba(255,255,255,1));
+      pointer-events: none;
     }
     @keyframes modal-rise {
       0%   { opacity: 0; transform: translateY(30px) scale(0.95); }
@@ -1065,6 +1242,7 @@
       position: absolute;
       top: 12px;
       right: 14px;
+      z-index: 2;
       width: 28px;
       height: 28px;
       border: none;
@@ -1105,13 +1283,13 @@
     }
 
     /* モーダル用スクロールバー */
-    #memory-overlay .modal-card::-webkit-scrollbar {
+    #memory-overlay .modal-card-scroll::-webkit-scrollbar {
       width: 5px;
     }
-    #memory-overlay .modal-card::-webkit-scrollbar-track {
+    #memory-overlay .modal-card-scroll::-webkit-scrollbar-track {
       background: transparent;
     }
-    #memory-overlay .modal-card::-webkit-scrollbar-thumb {
+    #memory-overlay .modal-card-scroll::-webkit-scrollbar-thumb {
       background: rgba(0,0,0,0.12);
       border-radius: 3px;
     }
@@ -1509,6 +1687,159 @@
     /* ==========================================
        ヘルプパネル（左下）
        ========================================== */
+    /* ==========================================
+       なつかしマップとは？ボタン（かきこむの上）
+       ========================================== */
+    #btn-about {
+      position: absolute;
+      bottom: 80px;
+      right: 10px;
+      z-index: 1000;
+      border: none;
+      background: #fff;
+      color: #555;
+      font-size: 11px;
+      font-weight: 600;
+      padding: 6px 12px;
+      border-radius: 18px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      cursor: pointer;
+      line-height: 1;
+      white-space: nowrap;
+      user-select: none;
+      transition: background 0.2s, color 0.2s, transform 0.15s;
+    }
+    #btn-about:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+    }
+
+    /* このサイトについてオーバーレイ */
+    #about-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 8000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.35s ease;
+    }
+    #about-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    #about-overlay .overlay-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(30, 30, 30, 0.72);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+    }
+    #about-overlay .modal-card {
+      position: relative;
+      z-index: 1;
+      width: 92%;
+      max-width: 420px;
+      max-height: 88vh;
+      overflow-y: auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 16px 48px rgba(0,0,0,0.3);
+      padding: 28px 24px 24px;
+      animation: modal-rise 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    #about-overlay .modal-close {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      z-index: 2;
+      width: 28px;
+      height: 28px;
+      border: none;
+      background: rgba(0,0,0,0.06);
+      border-radius: 50%;
+      font-size: 16px;
+      color: #888;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s, color 0.15s;
+    }
+    #about-overlay .modal-close:hover {
+      background: rgba(0,0,0,0.12);
+      color: #333;
+    }
+    #about-overlay .about-title {
+      font-size: 17px;
+      font-weight: bold;
+      color: #5D4037;
+      margin-bottom: 14px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #A1887F;
+    }
+    #about-overlay .about-text {
+      font-size: 13.5px;
+      line-height: 1.9;
+      color: #444;
+    }
+    #about-overlay .about-text p {
+      margin-bottom: 12px;
+    }
+    #about-overlay .about-text p:last-child {
+      margin-bottom: 0;
+    }
+    #about-overlay .about-section-label {
+      font-size: 12px;
+      font-weight: bold;
+      color: #8D6E63;
+      margin: 16px 0 6px;
+      letter-spacing: 0.5px;
+    }
+    #about-overlay .about-features {
+      list-style: none;
+      padding: 0;
+      margin: 0 0 8px;
+    }
+    #about-overlay .about-features li {
+      font-size: 12.5px;
+      color: #555;
+      padding: 4px 0;
+      padding-left: 16px;
+      position: relative;
+      line-height: 1.7;
+    }
+    #about-overlay .about-features li::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 10px;
+      width: 7px;
+      height: 7px;
+      background: #A1887F;
+      border-radius: 50%;
+    }
+    #about-overlay .about-credit {
+      margin-top: 16px;
+      padding-top: 10px;
+      border-top: 1px solid #eee;
+      font-size: 11.5px;
+      color: #999;
+      line-height: 1.6;
+    }
+    #about-overlay .modal-card::-webkit-scrollbar {
+      width: 5px;
+    }
+    #about-overlay .modal-card::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    #about-overlay .modal-card::-webkit-scrollbar-thumb {
+      background: rgba(0,0,0,0.12);
+      border-radius: 3px;
+    }
+
     #help-panel {
       position: absolute;
       bottom: 40px;
@@ -1803,12 +2134,70 @@
 <!-- トースト通知 -->
 <div id="toast-container"></div>
 
+<!-- このサイトについてオーバーレイ -->
+<div id="about-overlay">
+  <div class="overlay-backdrop"></div>
+  <div class="modal-card">
+    <button class="modal-close" id="about-close-btn">&times;</button>
+    <div class="about-title">志津川なつかしマップ・デジタルとは</div>
+    <div class="about-text">
+      <p>
+        宮城県南三陸町志津川——かつてそこにあった街並み、お店、学校、遊び場。
+        2011年の東日本大震災で街の姿は大きく変わりましたが、
+        人々の記憶のなかには、あの頃の風景がいまも鮮やかに残っています。
+      </p>
+      <p>
+        「志津川なつかしマップ・デジタル」は、
+        そうした一人ひとりの思い出を地図の上に集め、
+        みんなで分かち合うためのデジタルマップです。
+        テーマは「過去に寄り添う」。
+      </p>
+      <p>
+        「あそこにはこんなお店があった」「放課後はよくあの場所で遊んだ」——
+        そんな記憶をピンと一緒にマップに残すことで、
+        懐かしい街のすがたをもう一度みんなで描き出すことができます。
+      </p>
+    </div>
+
+    <div class="about-section-label">2つのマップ</div>
+    <ul class="about-features">
+      <li>「なつかし」マップ：震災前の街並みを描いた手描きの地図に、あの頃の思い出を残せます</li>
+      <li>「いま」マップ：震災後の街に刻まれた新しい思い出や、変わりゆく風景を記録できます</li>
+    </ul>
+
+    <div class="about-section-label">できること</div>
+    <ul class="about-features">
+      <li>マップの上にピンを置いて思い出を投稿</li>
+      <li>写真を添えて、当時の風景を記録</li>
+      <li>ほかの人が残した思い出を読む</li>
+      <li>「なつかし」と「いま」の地図を切り替えて見くらべる</li>
+      <li>アルバムで投稿を一覧表示</li>
+    </ul>
+
+    <div class="about-section-label">つかいかた</div>
+    <ul class="about-features">
+      <li>ピンをタップすると、その場所の思い出が読めます</li>
+      <li>右上の「なつかし」「いま」で地図を切り替え</li>
+      <li>思い出を書きこむには、右下の「かきこむ」ボタンから</li>
+      <li>左下の「?」ボタンでくわしい操作ガイドを表示</li>
+    </ul>
+
+    <div class="about-credit">
+      志津川なつかしマップの制作：一般社団法人 復興みなさん会<br>
+      デジタル版の制作：菅原裕輝（大阪大学大学院人文学研究科）
+    </div>
+  </div>
+</div>
+
 <!-- 思い出モード — モーダルオーバーレイ -->
 <div id="memory-overlay">
   <div class="overlay-backdrop"></div>
   <div class="modal-card">
     <button class="modal-close" id="modal-close-btn">&times;</button>
-    <div id="modal-body"></div>
+    <div class="modal-card-scroll">
+      <div id="modal-body"></div>
+    </div>
+    <div class="modal-card-footer" id="modal-footer"></div>
   </div>
 </div>
 
@@ -1838,6 +2227,7 @@
   </div>
 
   <button id="btn-album" title="アルバム">&#x1f4d6; アルバム</button>
+  <button id="btn-about">なつかしマップとは？</button>
 
   <!-- ==================================================
        レイヤー切り替えパネル（マップ外に配置）
@@ -2189,40 +2579,6 @@
   // 志津川（南三陸町）の実際の緯度経度（タイルマップ用）
   var SHIZUGAWA_CENTER = [38.676, 141.447];
   var SHIZUGAWA_ZOOM   = 15;
-
-  // ==================================================
-  // 画像ピクセル座標 ↔ 実際の緯度経度の変換
-  //
-  // CRS.Simple での座標: [lat(=Y), lng(=X)]
-  //   左下 [0, 0]       → 南西端の緯度経度 GEO_SW
-  //   右上 [1400, 2000]  → 北東端の緯度経度 GEO_NE
-  //
-  // ※ この値は画像の実際のカバー範囲に合わせて調整してください
-  // ==================================================
-  var GEO_SW = { lat: 38.664, lng: 141.428 };  // 画像左下に対応する緯度経度
-  var GEO_NE = { lat: 38.690, lng: 141.468 };  // 画像右上に対応する緯度経度
-
-  /**
-   * 画像上のピクセル座標を実際の緯度経度に線形変換する
-   * @param {number} pixelLat - CRS.Simple の lat（= Y座標, 0〜1400）
-   * @param {number} pixelLng - CRS.Simple の lng（= X座標, 0〜2000）
-   * @returns {{ lat: number, lng: number }}
-   */
-  function pixelToGeo(pixelLat, pixelLng) {
-    return {
-      lat: GEO_SW.lat + (pixelLat / IMAGE_H) * (GEO_NE.lat - GEO_SW.lat),
-      lng: GEO_SW.lng + (pixelLng / IMAGE_W) * (GEO_NE.lng - GEO_SW.lng)
-    };
-  }
-
-  /**
-   * ピクセル座標から Google Maps の URL を生成する
-   */
-  function googleMapsUrl(pixelLat, pixelLng) {
-    var geo = pixelToGeo(pixelLat, pixelLng);
-    return 'https://www.google.com/maps/@'
-      + geo.lat.toFixed(6) + ',' + geo.lng.toFixed(6) + ',17z';
-  }
 
   // ==================================================
   // レイヤー定義
@@ -2597,8 +2953,8 @@
       makeMarkerDraggable(marker, spotId);
       setupTooltipSuppression(marker);
 
-      // 順番にドロップアニメーション
-      setTimeout(function () { animateMarkerDrop(marker); }, idx * 80);
+      // ふわっと出現アニメーション
+      animateMarkerDrop(marker);
 
       spotMarkerRefs[spotId] = marker;
     });
@@ -2609,13 +2965,17 @@
   // ==================================================
   var memoryOverlay = document.getElementById('memory-overlay');
   var modalBody     = document.getElementById('modal-body');
+  var modalFooter   = document.getElementById('modal-footer');
 
   /**
    * モーダルを開く
    * @param {string} html - モーダル内に表示する HTML
+   * @param {string} [footerHtml] - フッターに表示するボタン等の HTML
    */
-  function openMemoryModal(html) {
+  function openMemoryModal(html, footerHtml) {
     modalBody.innerHTML = html;
+    modalFooter.innerHTML = footerHtml || '';
+    modalFooter.style.display = footerHtml ? '' : 'none';
     memoryOverlay.classList.add('active');
     // 少し遅延してフォーカス
     setTimeout(function () {
@@ -2631,6 +2991,8 @@
     memoryOverlay.classList.remove('active');
     setTimeout(function () {
       modalBody.innerHTML = '';
+      modalFooter.innerHTML = '';
+      modalFooter.style.display = 'none';
       // 一時マーカーがあれば除去
       if (tempMarker) {
         map.removeLayer(tempMarker);
@@ -2826,7 +3188,10 @@
     tempMarker._pendingLatLng = latlng;
 
     // モーダル表示（かきこむモード中なので常にフォーム）
-    openMemoryModal(buildNewSpotFormHtml(latlng));
+    openMemoryModal(
+      buildNewSpotFormHtml(latlng),
+      '<button class="submit-btn" id="btn-submit-new">ピンを保存する</button>'
+    );
   }
 
   /**
@@ -2932,7 +3297,7 @@
   }
 
   /**
-   * マーカーにドロップアニメーションを付与する
+   * マーカーにふわっと出現アニメーションを付与する
    */
   function animateMarkerDrop(marker) {
     var el = marker.getElement ? marker.getElement() : null;
@@ -2956,7 +3321,8 @@
       ? '<span class="pin-badge">' + count + '</span>'
       : '';
 
-    var html = '<div class="pin-marker">' +
+    var html = '<div class="pin-marker" style="--pin-color:' + color + ';">' +
+      '<div class="pin-glow"></div>' +
       '<div class="pin-head" style="background:' + color + ';"></div>' +
       badge +
     '</div>';
@@ -3017,8 +3383,6 @@
    * @param {L.LatLng} latlng - クリックされたピクセル座標
    */
   function buildNewSpotFormHtml(latlng) {
-    var mapsUrl = googleMapsUrl(latlng.lat, latlng.lng);
-
     // 色パレットを生成
     var colorHtml = '<div class="color-picker" id="color-picker">';
     PIN_COLORS.forEach(function (c, i) {
@@ -3046,10 +3410,6 @@
         '<label for="input-photo">当時の写真</label>' +
         '<input type="file" id="input-photo" accept="image/*">' +
         '<img class="photo-preview" id="photo-preview">' +
-        '<button class="submit-btn" id="btn-submit-new">ピンを保存する</button>' +
-        '<a href="' + escapeHtml(mapsUrl) + '" target="_blank" rel="noopener" class="google-map-link">' +
-          '現在のGoogleマップでこの場所を見る &#x2197;' +
-        '</a>' +
       '</div>';
   }
 
@@ -3074,7 +3434,6 @@
         '<label for="input-photo">当時の写真</label>' +
         '<input type="file" id="input-photo" accept="image/*">' +
         '<img class="photo-preview" id="photo-preview">' +
-        '<button class="submit-btn" id="btn-submit-add">思い出を残す</button>' +
       '</div>';
   }
 
@@ -3130,11 +3489,7 @@
   function buildSpotPopupHtml(spotId, memories) {
     var n = memories.length;
 
-    // スポットのピクセル座標から Google Maps URL を生成
     var spot = spotsData[spotId];
-    var mapsUrl = spot
-      ? googleMapsUrl(spot.spotData.lat, spot.spotData.lng)
-      : '#';
 
     var h = '<div class="spot-popup" data-spot-id="' + escapeHtml(spotId) + '">';
 
@@ -3143,6 +3498,7 @@
     var catLabel = spot ? pinColorLabel(spot.spotData.pinColor) : '';
     h += '<div class="spot-header">' +
            '<h3>' + escapeHtml(pName) + '</h3>' +
+           (isWriteMode ? '<button class="rename-btn" data-spot-id="' + escapeHtml(spotId) + '" title="名前を変更">&#x270E;</button>' : '') +
            (catLabel ? '<span class="spot-category" style="color:' + escapeHtml(spot.spotData.pinColor) + ';">' + escapeHtml(catLabel) + '</span>' : '') +
            (n > 0 ? '<span class="memory-count">(' + n + '件)</span>' : '') +
          '</div>';
@@ -3174,15 +3530,30 @@
           h += '<div class="saved-memory">' + escapeHtml(m.memory) + '</div>';
         }
         if (m.photoURL) {
+          h += '<div class="saved-photo-wrap">';
           h += '<img class="saved-photo" src="' + escapeHtml(m.photoURL) + '" alt="当時の写真">';
+          if (isWriteMode) {
+            h += '<button class="photo-delete-btn" ' +
+                   'data-spot-id="'    + escapeHtml(spotId) + '" ' +
+                   'data-memory-id="'  + escapeHtml(m.docId) + '" ' +
+                   'data-photo-path="' + escapeHtml(m.photoPath || '') + '"' +
+                   '>&times; 写真を削除</button>';
+          }
+          h += '</div>';
         }
         h +=   '<div class="saved-date">' + escapeHtml(formatDate(m.createdAt)) + '</div>';
         if (isWriteMode) {
-          h += '<button class="delete-btn" ' +
-                 'data-spot-id="'    + escapeHtml(spotId) + '" ' +
-                 'data-memory-id="'  + escapeHtml(m.docId) + '" ' +
-                 'data-photo-path="' + escapeHtml(m.photoPath || '') + '">' +
-                 '削除</button>';
+          h += '<div class="memory-actions">' +
+                 '<button class="edit-btn" ' +
+                   'data-spot-id="'   + escapeHtml(spotId) + '" ' +
+                   'data-memory-id="' + escapeHtml(m.docId) + '">' +
+                   '&#x270E; この思い出を編集</button>' +
+                 '<button class="delete-btn" ' +
+                   'data-spot-id="'    + escapeHtml(spotId) + '" ' +
+                   'data-memory-id="'  + escapeHtml(m.docId) + '" ' +
+                   'data-photo-path="' + escapeHtml(m.photoPath || '') + '">' +
+                   '&#x2715; この思い出を削除</button>' +
+               '</div>';
         }
         h += '</div>';
       });
@@ -3196,8 +3567,6 @@
       h += '<button class="add-toggle-btn" id="btn-toggle-form">この場所に思い出を追加する</button>';
     }
 
-    h += '<a href="' + escapeHtml(mapsUrl) + '" target="_blank" rel="noopener" class="google-map-link">' +
-           '現在のGoogleマップでこの場所を見る &#x2197;</a>';
     h += '</div>';
     return h;
   }
@@ -3241,6 +3610,9 @@
   // ① マップを生成（スプラッシュの裏で準備）
   switchLayer('old');
 
+  // スプラッシュ中はツールチップも隠す
+  document.getElementById('map').classList.add('markers-hidden');
+
   // ② スプラッシュ中はパネルを隠す
   var mapToggleEl = document.getElementById('map-toggle');
   mapToggleEl.style.opacity    = '0';
@@ -3258,6 +3630,10 @@
   contactPanel.style.opacity    = '0';
   contactPanel.style.transition = 'opacity 0.6s ease';
 
+  var aboutBtn = document.getElementById('btn-about');
+  aboutBtn.style.opacity    = '0';
+  aboutBtn.style.transition = 'opacity 0.6s ease';
+
   var albumBtn = document.getElementById('btn-album');
   albumBtn.style.opacity    = '0';
   albumBtn.style.transition = 'opacity 0.6s ease';
@@ -3268,6 +3644,19 @@
 
   // ③ スプラッシュ → フェードアウト → 街全体がそのまま見える
   var SPLASH_DURATION = 6500;
+  var splashDone = false;
+
+  /** スプラッシュ後に全マーカーを同時にふわっと表示する */
+  function animateAllMarkersEntrance() {
+    var ids = Object.keys(spotMarkerRefs);
+    ids.forEach(function (spotId) {
+      var marker = spotMarkerRefs[spotId];
+      var el = marker.getElement ? marker.getElement() : null;
+      if (!el) return;
+      el.classList.remove('marker-hidden');
+      animateMarkerDrop(marker);
+    });
+  }
 
   setTimeout(function () {
     var splash = document.getElementById('splash');
@@ -3275,16 +3664,21 @@
 
     // スプラッシュが消えたらマップ全体を再フィット（サイズ確定後）
     setTimeout(function () {
-      mapToggleEl.style.opacity = '1';
-      layerPanel.style.opacity  = '1';
+      mapToggleEl.style.opacity  = '1';
+      layerPanel.style.opacity   = '1';
       helpPanel.style.opacity    = '1';
       contactPanel.style.opacity = '1';
+      aboutBtn.style.opacity     = '1';
       modeToggle.style.opacity   = '1';
       albumBtn.style.opacity     = '1';
       if (map && currentMode === 'simple') {
         map.invalidateSize();
         map.fitBounds(IMAGE_BOUNDS, { padding: [20, 20] });
       }
+      // スプラッシュ終了 → ピンを降らせる
+      splashDone = true;
+      document.getElementById('map').classList.remove('markers-hidden');
+      animateAllMarkersEntrance();
 
     }, 400);
 
@@ -3344,6 +3738,18 @@
             });
             makeMarkerDraggable(marker, r.spotId);
             setupTooltipSuppression(marker);
+            // スプラッシュ中は隠す（後でまとめてアニメーション）
+            // スプラッシュ後なら即アニメーション
+            if (!splashDone) {
+              (function(m) {
+                setTimeout(function() {
+                  var el = m.getElement ? m.getElement() : null;
+                  if (el) el.classList.add('marker-hidden');
+                }, 0);
+              })(marker);
+            } else {
+              animateMarkerDrop(marker);
+            }
             spotMarkerRefs[r.spotId] = marker;
           }
         });
@@ -3415,6 +3821,22 @@
   });
 
   // ==================================================
+  // このサイトについてオーバーレイの操作
+  // ==================================================
+  var aboutOverlay = document.getElementById('about-overlay');
+
+  document.getElementById('btn-about').addEventListener('click', function () {
+    aboutOverlay.classList.add('active');
+  });
+
+  function closeAboutOverlay() {
+    aboutOverlay.classList.remove('active');
+  }
+
+  document.getElementById('about-close-btn').addEventListener('click', closeAboutOverlay);
+  aboutOverlay.querySelector('.overlay-backdrop').addEventListener('click', closeAboutOverlay);
+
+  // ==================================================
   // ヘルプパネルの操作
   // ==================================================
   var helpToggle = document.getElementById('help-toggle');
@@ -3451,6 +3873,53 @@
         }
         colorOption.classList.add('selected');
       }
+      return;
+    }
+
+    // ===== スポット名変更（ポップアップ内） =====
+    if (t.closest('.rename-btn')) {
+      var renameBtn = t.closest('.rename-btn');
+      var spotId = renameBtn.getAttribute('data-spot-id');
+      if (!spotId || !isWriteMode) return;
+
+      var popup = renameBtn.closest('.spot-popup');
+      var header = popup ? popup.querySelector('.spot-header') : null;
+      if (!header) return;
+
+      var currentName = spotsData[spotId].spotData.placeName || '';
+      header.innerHTML =
+        '<div class="rename-inline">' +
+          '<input type="text" id="input-rename" value="' + escapeHtml(currentName) + '" placeholder="スポット名を入力">' +
+          '<button id="btn-rename-save" data-spot-id="' + escapeHtml(spotId) + '">変更</button>' +
+        '</div>';
+
+      var inp = document.getElementById('input-rename');
+      if (inp) { inp.focus(); inp.select(); }
+      return;
+    }
+
+    if (t.id === 'btn-rename-save') {
+      var spotId = t.getAttribute('data-spot-id');
+      var inp = document.getElementById('input-rename');
+      var newName = inp ? inp.value.trim() : '';
+      if (!spotId || !newName || !isWriteMode) return;
+
+      spotsData[spotId].spotData.placeName = newName;
+      var marker = spotMarkerRefs[spotId];
+      if (marker) {
+        marker.setPopupContent(buildSpotPopupHtml(spotId, spotsData[spotId].memories));
+        marker.setTooltipContent(buildSpotTooltipHtml(spotId, spotsData[spotId].memories));
+        marker.getPopup().update();
+      }
+
+      db.collection('spots').doc(spotId).update({ placeName: newName })
+        .then(function () {
+          showToast('スポット名を変更しました', 'success');
+        })
+        .catch(function (err) {
+          console.error('名前変更失敗:', err);
+          showToast('名前の変更に失敗しました', 'error');
+        });
       return;
     }
 
@@ -3604,7 +4073,10 @@
     if (t.id === 'btn-toggle-form') {
       e.preventDefault();
       if (!isWriteMode) return;
-      openMemoryModal(buildAddMemoryFormHtml());
+      openMemoryModal(
+        buildAddMemoryFormHtml(),
+        '<button class="submit-btn" id="btn-submit-add">思い出を残す</button>'
+      );
     }
 
     // ===== 3. 既存スポットへ思い出を追加 =====
@@ -3669,6 +4141,140 @@
     }
 
     // ===== 4. 個別の思い出を削除 =====
+    // ===== 思い出テキスト編集 =====
+    if (t.classList.contains('edit-btn')) {
+      e.preventDefault();
+      if (!isWriteMode) return;
+      var spotId   = t.getAttribute('data-spot-id');
+      var memoryId = t.getAttribute('data-memory-id');
+      if (!spotId || !memoryId) return;
+
+      var entry = spotsData[spotId];
+      if (!entry) return;
+      var mem = null;
+      for (var i = 0; i < entry.memories.length; i++) {
+        if (entry.memories[i].docId === memoryId) { mem = entry.memories[i]; break; }
+      }
+      if (!mem) return;
+
+      // memory-item 内をインライン編集フォームに差し替え
+      var item = t.closest('.memory-item');
+      if (!item) return;
+      var currentText = mem.memory || '';
+      item.innerHTML =
+        '<div class="edit-inline">' +
+          '<textarea id="edit-memory-text">' + escapeHtml(currentText) + '</textarea>' +
+          '<div class="edit-inline-actions">' +
+            '<button class="edit-save-btn" data-spot-id="' + escapeHtml(spotId) + '" data-memory-id="' + escapeHtml(memoryId) + '">保存</button>' +
+            '<button class="edit-cancel-btn" data-spot-id="' + escapeHtml(spotId) + '">キャンセル</button>' +
+          '</div>' +
+        '</div>';
+      var ta = document.getElementById('edit-memory-text');
+      if (ta) { ta.focus(); }
+      return;
+    }
+
+    if (t.classList.contains('edit-save-btn')) {
+      e.preventDefault();
+      var spotId   = t.getAttribute('data-spot-id');
+      var memoryId = t.getAttribute('data-memory-id');
+      var ta = document.getElementById('edit-memory-text');
+      var newText = ta ? ta.value.trim() : '';
+      if (!spotId || !memoryId || !newText) {
+        if (!newText) showToast('思い出のテキストを入力してください', 'error');
+        return;
+      }
+
+      var entry = spotsData[spotId];
+      if (!entry) return;
+      for (var i = 0; i < entry.memories.length; i++) {
+        if (entry.memories[i].docId === memoryId) {
+          entry.memories[i].memory = newText;
+          break;
+        }
+      }
+
+      var marker = spotMarkerRefs[spotId];
+      if (marker) {
+        marker.setPopupContent(buildSpotPopupHtml(spotId, entry.memories));
+        marker.setTooltipContent(buildSpotTooltipHtml(spotId, entry.memories));
+        marker.getPopup().update();
+      }
+
+      db.collection('spots').doc(spotId)
+        .collection('memories').doc(memoryId)
+        .update({ memory: newText })
+        .then(function () { showToast('思い出を編集しました', 'success'); })
+        .catch(function (err) {
+          console.error('編集失敗:', err);
+          showToast('編集に失敗しました', 'error');
+        });
+      return;
+    }
+
+    if (t.classList.contains('edit-cancel-btn')) {
+      e.preventDefault();
+      var spotId = t.getAttribute('data-spot-id');
+      if (!spotId) return;
+      var entry = spotsData[spotId];
+      if (!entry) return;
+      var marker = spotMarkerRefs[spotId];
+      if (marker) {
+        marker.setPopupContent(buildSpotPopupHtml(spotId, entry.memories));
+        marker.getPopup().update();
+      }
+      return;
+    }
+
+    // ===== 写真だけ削除 =====
+    if (t.classList.contains('photo-delete-btn')) {
+      e.preventDefault();
+      if (!isWriteMode) return;
+      if (!confirm('この写真を削除しますか？')) return;
+
+      var spotId    = t.getAttribute('data-spot-id');
+      var memoryId  = t.getAttribute('data-memory-id');
+      var photoPath = t.getAttribute('data-photo-path');
+      if (!spotId || !memoryId) return;
+
+      // Storage から写真を削除
+      var p = (photoPath)
+        ? storage.ref(photoPath).delete().catch(function (err) {
+            console.warn('Storage写真の削除をスキップ:', err);
+          })
+        : Promise.resolve();
+
+      // Firestore の photoURL, photoPath をクリア
+      p.then(function () {
+        return db.collection('spots').doc(spotId)
+          .collection('memories').doc(memoryId)
+          .update({ photoURL: '', photoPath: '' });
+      }).then(function () {
+        // ローカルデータを更新
+        var entry = spotsData[spotId];
+        if (!entry) return;
+        for (var i = 0; i < entry.memories.length; i++) {
+          if (entry.memories[i].docId === memoryId) {
+            entry.memories[i].photoURL = '';
+            entry.memories[i].photoPath = '';
+            break;
+          }
+        }
+        // ポップアップを再描画
+        var marker = spotMarkerRefs[spotId];
+        if (marker) {
+          marker.setPopupContent(buildSpotPopupHtml(spotId, entry.memories));
+          marker.setTooltipContent(buildSpotTooltipHtml(spotId, entry.memories));
+          marker.getPopup().update();
+        }
+        showToast('写真を削除しました', 'info');
+      }).catch(function (err) {
+        console.error('写真削除失敗:', err);
+        showToast('写真の削除に失敗しました', 'error');
+      });
+      return;
+    }
+
     if (t.classList.contains('delete-btn')) {
       e.preventDefault();
       if (!isWriteMode) {
@@ -3719,9 +4325,6 @@
       });
     }
 
-    // ===== 5. Googleマップリンク =====
-    // href に実URLが設定済み・target="_blank" で新しいタブに開くため
-    // JavaScript での処理は不要（ブラウザのデフォルト動作に委ねる）
   });
 
   // ==================================================
@@ -3731,6 +4334,11 @@
     if (e.key === 'Enter' && e.target.id === 'input-auth-pw') {
       e.preventDefault();
       var btn = document.getElementById('btn-auth-submit');
+      if (btn) btn.click();
+    }
+    if (e.key === 'Enter' && e.target.id === 'input-rename') {
+      e.preventDefault();
+      var btn = document.getElementById('btn-rename-save');
       if (btn) btn.click();
     }
   });
