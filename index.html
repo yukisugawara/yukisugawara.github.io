@@ -21,7 +21,7 @@
       --font-sans: 'Inter', 'Noto Sans JP', sans-serif;
     }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; scroll-padding-top: 64px; }
 
     body {
       background: var(--bg);
@@ -33,15 +33,84 @@
       letter-spacing: 0.02em;
     }
 
-    /* ── LANGUAGE TOGGLE ── */
-    .lang-bar {
+    /* ── NAVIGATION BAR ── */
+    .nav-bar {
       position: fixed;
       top: 0; left: 0; right: 0;
       z-index: 100;
+      background: rgba(12,12,12,0.0);
+      backdrop-filter: blur(0px);
+      border-bottom: 1px solid transparent;
+      transition: background 0.4s, backdrop-filter 0.4s, border-color 0.4s;
+    }
+    .nav-bar.scrolled {
+      background: rgba(12,12,12,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom-color: var(--line);
+    }
+    .nav-inner {
+      max-width: 1100px;
+      margin: 0 auto;
       display: flex;
-      justify-content: flex-end;
-      padding: 18px 48px;
-      background: linear-gradient(to bottom, rgba(12,12,12,0.95), transparent);
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 48px;
+      height: 56px;
+    }
+    .nav-logo {
+      text-decoration: none;
+      flex-shrink: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: center;
+    }
+    .nav-logo:hover { opacity: 0.7; }
+    .nav-logo-img {
+      height: 22px;
+      width: auto;
+      display: block;
+    }
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .nav-link {
+      position: relative;
+      text-decoration: none;
+      font-size: 11px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 6px 11px;
+      border-radius: 2px;
+      transition: color 0.25s, background 0.25s;
+    }
+    .nav-link:hover {
+      color: var(--text);
+      background: rgba(255,255,255,0.04);
+    }
+    .nav-link.active {
+      color: var(--accent);
+    }
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 16px;
+      height: 1px;
+      background: var(--accent);
+    }
+    .nav-link-label { display: none; }
+    body.lang-ja .nav-link-label[data-lang="ja"] { display: inline; }
+    body.lang-en .nav-link-label[data-lang="en"] { display: inline; }
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-shrink: 0;
     }
     .lang-toggle {
       display: flex;
@@ -58,7 +127,7 @@
       font-size: 11px;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      padding: 7px 16px;
+      padding: 6px 12px;
       cursor: pointer;
       transition: all 0.25s;
     }
@@ -68,6 +137,35 @@
       font-weight: 500;
     }
     .lang-toggle button:hover:not(.active) { color: var(--text); }
+    .nav-progress {
+      height: 1px;
+      width: 0%;
+      background: var(--accent);
+      transition: width 0.1s linear;
+    }
+    /* hamburger (mobile) */
+    .nav-hamburger {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      gap: 5px;
+      width: 32px;
+      height: 32px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
+    .nav-hamburger span {
+      display: block;
+      width: 100%;
+      height: 1px;
+      background: var(--text);
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .nav-hamburger.open span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .nav-hamburger.open span:nth-child(2) { opacity: 0; }
+    .nav-hamburger.open span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
 
     /* ── HERO ── */
     .hero {
@@ -2393,6 +2491,251 @@
     body.lang-en .ig-desc[data-lang="en"],
     body.lang-en .ig-type[data-lang="en"] { display: block; }
 
+    /* ── WORKS CARDS ── */
+    .works-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-top: 56px;
+    }
+    .works-card {
+      position: relative;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      border-radius: 2px;
+      cursor: pointer;
+      aspect-ratio: 16 / 10;
+      transition: border-color 0.35s, transform 0.4s cubic-bezier(0.16,1,0.3,1), box-shadow 0.4s;
+    }
+    .works-card:hover {
+      border-color: rgba(200,169,110,0.4);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    }
+    .works-card-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.7) saturate(0.85);
+      transition: filter 0.5s, transform 0.5s cubic-bezier(0.16,1,0.3,1);
+    }
+    .works-card:hover .works-card-img {
+      filter: brightness(0.35) saturate(0.6);
+      transform: scale(1.04);
+    }
+    .works-card-overlay {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      padding: 28px;
+      pointer-events: none;
+    }
+    .works-card-label {
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 8px;
+      opacity: 0.8;
+    }
+    .works-card-name {
+      font-size: clamp(18px, 2vw, 24px);
+      font-weight: 300;
+      color: var(--white);
+      line-height: 1.3;
+      margin-bottom: 6px;
+    }
+    .works-card-tech {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.05em;
+      margin-bottom: 14px;
+    }
+    .works-card-desc {
+      font-size: 13px;
+      color: var(--text);
+      line-height: 1.7;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.4s 0.05s, transform 0.4s 0.05s cubic-bezier(0.16,1,0.3,1);
+    }
+    .works-card:hover .works-card-desc {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .works-card-arrow {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      font-size: 18px;
+      color: var(--muted);
+      opacity: 0;
+      transform: translate(-6px, 6px);
+      transition: opacity 0.3s, transform 0.3s cubic-bezier(0.16,1,0.3,1);
+    }
+    .works-card:hover .works-card-arrow {
+      opacity: 1;
+      transform: translate(0, 0);
+      color: var(--accent);
+    }
+    /* works lang handling */
+    .works-card-name[data-lang],
+    .works-card-desc[data-lang],
+    .works-card-label[data-lang] { display: none; }
+    body.lang-ja .works-card-name[data-lang="ja"],
+    body.lang-ja .works-card-desc[data-lang="ja"],
+    body.lang-ja .works-card-label[data-lang="ja"] { display: block; }
+    body.lang-en .works-card-name[data-lang="en"],
+    body.lang-en .works-card-desc[data-lang="en"],
+    body.lang-en .works-card-label[data-lang="en"] { display: block; }
+
+    /* ── WORKS MODAL ── */
+    .works-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0,0,0,0.0);
+      backdrop-filter: blur(0px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.45s ease, visibility 0.45s ease, background 0.45s ease, backdrop-filter 0.45s ease;
+    }
+    .works-modal-backdrop.active {
+      opacity: 1;
+      visibility: visible;
+      background: rgba(0,0,0,0.82);
+      backdrop-filter: blur(12px);
+    }
+    .works-modal {
+      background: var(--bg2);
+      border: 1px solid var(--line);
+      border-radius: 3px;
+      max-width: 800px;
+      width: 90vw;
+      max-height: 85vh;
+      overflow-y: auto;
+      transform: translateY(40px) scale(0.96);
+      transition: transform 0.45s cubic-bezier(0.16,1,0.3,1);
+      scrollbar-width: thin;
+      scrollbar-color: var(--line) transparent;
+    }
+    .works-modal-backdrop.active .works-modal {
+      transform: translateY(0) scale(1);
+    }
+    .works-modal-hero {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      overflow: hidden;
+    }
+    .works-modal-hero img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .works-modal-hero-gradient {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 50%;
+      background: linear-gradient(to top, var(--bg2), transparent);
+    }
+    .works-modal-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 36px;
+      height: 36px;
+      border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 50%;
+      background: rgba(12,12,12,0.6);
+      backdrop-filter: blur(8px);
+      color: var(--white);
+      font-size: 18px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.2s, border-color 0.2s;
+      z-index: 1;
+    }
+    .works-modal-close:hover {
+      background: rgba(200,169,110,0.2);
+      border-color: var(--accent);
+    }
+    .works-modal-body {
+      padding: 36px 40px 44px;
+    }
+    .works-modal-label {
+      font-size: 10px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 12px;
+    }
+    .works-modal-title {
+      font-size: clamp(22px, 2.5vw, 30px);
+      font-weight: 200;
+      color: var(--white);
+      line-height: 1.3;
+      margin-bottom: 20px;
+    }
+    .works-modal-desc {
+      font-size: 14px;
+      color: var(--text);
+      line-height: 1.9;
+      margin-bottom: 28px;
+    }
+    .works-modal-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 32px;
+    }
+    .works-modal-tag {
+      font-size: 11px;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      border: 1px solid var(--line);
+      padding: 4px 12px;
+      border-radius: 2px;
+    }
+    .works-modal-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      text-decoration: none;
+      border-bottom: 1px solid var(--accent);
+      padding-bottom: 3px;
+      transition: color 0.2s;
+    }
+    .works-modal-link:hover { color: var(--white); }
+    /* modal lang handling */
+    .works-modal-title[data-lang],
+    .works-modal-desc[data-lang],
+    .works-modal-label[data-lang],
+    .works-modal-link[data-lang] { display: none; }
+    body.lang-ja .works-modal-title[data-lang="ja"],
+    body.lang-ja .works-modal-desc[data-lang="ja"],
+    body.lang-ja .works-modal-label[data-lang="ja"] { display: block; }
+    body.lang-ja .works-modal-link[data-lang="ja"] { display: inline-flex; }
+    body.lang-en .works-modal-title[data-lang="en"],
+    body.lang-en .works-modal-desc[data-lang="en"],
+    body.lang-en .works-modal-label[data-lang="en"] { display: block; }
+    body.lang-en .works-modal-link[data-lang="en"] { display: inline-flex; }
+
     /* ── FOOTER ── */
     footer {
       padding: 48px;
@@ -2408,6 +2751,22 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 860px) {
+      .nav-inner { padding: 0 24px; height: 50px; }
+      .nav-links {
+        display: none;
+        position: absolute;
+        top: 50px;
+        left: 0; right: 0;
+        flex-direction: column;
+        background: rgba(12,12,12,0.96);
+        backdrop-filter: blur(16px);
+        border-bottom: 1px solid var(--line);
+        padding: 12px 24px 20px;
+        gap: 2px;
+      }
+      .nav-links.open { display: flex; }
+      .nav-link { padding: 10px 12px; font-size: 12px; }
+      .nav-hamburger { display: flex; }
       .hero { padding: 0 24px 64px; }
       section { padding: 64px 24px; }
       .mvv-grid { grid-template-columns: 1fr; }
@@ -2417,6 +2776,8 @@
       .str-block-header { gap: 14px; margin-bottom: 18px; }
       .str-block-title { font-size: 18px; }
       .ig-grid { grid-template-columns: 1fr; }
+      .works-grid { grid-template-columns: 1fr; }
+      .works-modal-body { padding: 28px 24px 36px; }
       .ro-pillars { grid-template-columns: 1fr; }
       .ro-pillar { border-right: none; border-bottom: 1px solid var(--line); }
       .ro-pillar:last-child { border-bottom: none; }
@@ -2666,16 +3027,8 @@
       to   { transform: translateY(0);    opacity: 1; }
     }
 
-    /* ── SCROLL PROGRESS ── */
-    #scroll-progress {
-      position: fixed;
-      top: 0; left: 0;
-      height: 2px;
-      width: 0%;
-      background: var(--accent);
-      z-index: 200;
-      transition: width 0.1s linear;
-    }
+    /* ── SCROLL PROGRESS (moved into nav-bar) ── */
+    #scroll-progress { display: none; }
 
     /* ── CUSTOM CURSOR ── */
     #cursor {
@@ -2872,13 +3225,60 @@
   <div id="cursor"></div>
   <div id="cursor-ring"></div>
 
-  <!-- LANGUAGE BAR -->
-  <div class="lang-bar">
-    <div class="lang-toggle">
-      <button data-target="ja" class="active" onclick="setLang('ja')">JA</button>
-      <button data-target="en" onclick="setLang('en')">EN</button>
+  <!-- NAVIGATION BAR -->
+  <nav class="nav-bar" id="nav-bar">
+    <div class="nav-inner">
+      <a href="#" class="nav-logo" onclick="window.scrollTo({top:0,behavior:'smooth'});return false;"><img src="image/ysugawara_sign_inverted_v2.png" alt="Yuki Sugawara" class="nav-logo-img" /></a>
+      <div class="nav-links" id="nav-links">
+        <a href="#sec-news" class="nav-link" data-section="sec-news">
+          <span class="nav-link-label" data-lang="ja">新着</span>
+          <span class="nav-link-label" data-lang="en">News</span>
+        </a>
+        <a href="#sec-mvv" class="nav-link" data-section="sec-mvv">
+          <span class="nav-link-label" data-lang="ja">MVV</span>
+          <span class="nav-link-label" data-lang="en">MVV</span>
+        </a>
+        <a href="#sec-career" class="nav-link" data-section="sec-career">
+          <span class="nav-link-label" data-lang="ja">経歴</span>
+          <span class="nav-link-label" data-lang="en">Career</span>
+        </a>
+        <a href="#sec-research" class="nav-link" data-section="sec-research">
+          <span class="nav-link-label" data-lang="ja">研究</span>
+          <span class="nav-link-label" data-lang="en">Research</span>
+        </a>
+        <a href="#sec-publications" class="nav-link" data-section="sec-publications">
+          <span class="nav-link-label" data-lang="ja">業績</span>
+          <span class="nav-link-label" data-lang="en">Pubs</span>
+        </a>
+        <a href="#sec-projects" class="nav-link" data-section="sec-projects">
+          <span class="nav-link-label" data-lang="ja">助成</span>
+          <span class="nav-link-label" data-lang="en">Projects</span>
+        </a>
+        <a href="#sec-teaching" class="nav-link" data-section="sec-teaching">
+          <span class="nav-link-label" data-lang="ja">授業</span>
+          <span class="nav-link-label" data-lang="en">Teaching</span>
+        </a>
+        <a href="#sec-works" class="nav-link" data-section="sec-works">
+          <span class="nav-link-label" data-lang="ja">制作</span>
+          <span class="nav-link-label" data-lang="en">Works</span>
+        </a>
+        <a href="#sec-contact" class="nav-link" data-section="sec-contact">
+          <span class="nav-link-label" data-lang="ja">連絡</span>
+          <span class="nav-link-label" data-lang="en">Contact</span>
+        </a>
+      </div>
+      <div class="nav-right">
+        <div class="lang-toggle">
+          <button data-target="ja" class="active" onclick="setLang('ja')">JA</button>
+          <button data-target="en" onclick="setLang('en')">EN</button>
+        </div>
+        <button class="nav-hamburger" id="nav-hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
     </div>
-  </div>
+    <div class="nav-progress" id="nav-progress"></div>
+  </nav>
 
   <!-- HERO -->
   <div class="hero">
@@ -2913,7 +3313,7 @@
   </div>
 
   <!-- NEWS -->
-  <section>
+  <section id="sec-news">
     <p class="sec-label">News</p>
     <h2 class="sec-title" data-lang="ja">新着情報</h2>
     <h2 class="sec-title" data-lang="en">News</h2>
@@ -2965,7 +3365,7 @@
   </section>
 
   <!-- MISSION / VISION / VALUES -->
-  <div style="padding: 90px 0; border-bottom: 1px solid var(--line);">
+  <div id="sec-mvv" style="padding: 90px 0; border-bottom: 1px solid var(--line);">
     <div style="max-width:1100px; margin:0 auto; padding:0 48px;">
       <p class="sec-label">Mission, Vision and Values</p>
       <h2 class="sec-title" data-lang="ja">ミッション／ビジョン／バリュー</h2>
@@ -3204,7 +3604,7 @@
   </div>
 
   <!-- CAREER -->
-  <section>
+  <section id="sec-career">
     <p class="sec-label">Career</p>
     <h2 class="sec-title" data-lang="ja">経歴</h2>
     <h2 class="sec-title" data-lang="en">Academic Career (Selected)</h2>
@@ -3471,7 +3871,7 @@
   </section>
 
   <!-- RESEARCH -->
-  <section>
+  <section id="sec-research">
     <p class="sec-label">Research</p>
     <h2 class="sec-title" data-lang="ja">研究</h2>
     <h2 class="sec-title" data-lang="en">Research Overview</h2>
@@ -3568,7 +3968,7 @@
   </section>
 
   <!-- PUBLICATIONS -->
-  <section>
+  <section id="sec-publications">
     <p class="sec-label">Publications</p>
     <h2 class="sec-title" data-lang="ja">業績</h2>
     <h2 class="sec-title" data-lang="en">Selected Publications</h2>
@@ -3873,7 +4273,7 @@
   </section>
 
   <!-- RESEARCH PROJECTS -->
-  <section>
+  <section id="sec-projects">
     <p class="sec-label">Grants &amp; Projects</p>
     <h2 class="sec-title" data-lang="ja">研究プロジェクト</h2>
     <h2 class="sec-title" data-lang="en">Research Projects &amp; Grants</h2>
@@ -4253,7 +4653,7 @@
   </section>
 
   <!-- TEACHING -->
-  <section>
+  <section id="sec-teaching">
     <p class="sec-label">Teaching</p>
     <h2 class="sec-title" data-lang="ja">授業</h2>
     <h2 class="sec-title" data-lang="en">Courses Currently Taught</h2>
@@ -4392,6 +4792,100 @@
     </div>
   </section>
 
+  <!-- WORKS -->
+  <section id="sec-works">
+    <p class="sec-label">Works</p>
+    <h2 class="sec-title" data-lang="ja">制作物</h2>
+    <h2 class="sec-title" data-lang="en">Digital Works</h2>
+
+    <div class="works-grid">
+
+      <!-- Shizugawa Nostalgia Map -->
+      <div class="works-card" data-works="shizugawa-map">
+        <img src="image/shizugawa-map.png" alt="志津川なつかしマップ・デジタル" class="works-card-img" />
+        <div class="works-card-overlay">
+          <div class="works-card-label" data-lang="ja">デジタル人類学</div>
+          <div class="works-card-label" data-lang="en">Digital Anthropology</div>
+          <div class="works-card-name" data-lang="ja">志津川なつかしマップ・デジタル</div>
+          <div class="works-card-name" data-lang="en">Shizugawa Nostalgia Map</div>
+          <div class="works-card-tech">Leaflet / Firebase</div>
+          <div class="works-card-desc" data-lang="ja">東日本大震災前の志津川の記憶を、住民の声と共にデジタル地図上に記録するプロジェクト。</div>
+          <div class="works-card-desc" data-lang="en">A community-driven digital map preserving memories of Shizugawa before the 2011 Great East Japan Earthquake.</div>
+        </div>
+        <span class="works-card-arrow">&nearr;</span>
+      </div>
+
+      <!-- MinimalQDA -->
+      <div class="works-card" data-works="minimal-qda">
+        <img src="image/minimal-qda.png" alt="MinimalQDA" class="works-card-img" />
+        <div class="works-card-overlay">
+          <div class="works-card-label" data-lang="ja">研究ツール</div>
+          <div class="works-card-label" data-lang="en">Research Tool</div>
+          <div class="works-card-name" data-lang="ja">MinimalQDA</div>
+          <div class="works-card-name" data-lang="en">MinimalQDA</div>
+          <div class="works-card-tech">JavaScript / Web App</div>
+          <div class="works-card-desc" data-lang="ja">軽量でブラウザ完結型の質的データ分析（QDA）ツール。コーディング・メモ・カラーラベル機能を搭載。</div>
+          <div class="works-card-desc" data-lang="en">A lightweight, browser-based qualitative data analysis tool with coding, memo, and color-label features.</div>
+        </div>
+        <span class="works-card-arrow">&nearr;</span>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- WORKS MODALS -->
+  <div class="works-modal-backdrop" id="works-modal-shizugawa-map">
+    <div class="works-modal">
+      <div class="works-modal-hero">
+        <img src="image/shizugawa-map.png" alt="志津川なつかしマップ・デジタル" />
+        <div class="works-modal-hero-gradient"></div>
+        <button class="works-modal-close" aria-label="Close">&times;</button>
+      </div>
+      <div class="works-modal-body">
+        <div class="works-modal-label" data-lang="ja">デジタル人類学プロジェクト</div>
+        <div class="works-modal-label" data-lang="en">Digital Anthropology Project</div>
+        <div class="works-modal-title" data-lang="ja">志津川なつかしマップ・デジタル</div>
+        <div class="works-modal-title" data-lang="en">Shizugawa Nostalgia Map ─ Digital Edition</div>
+        <div class="works-modal-desc" data-lang="ja">宮城県南三陸町志津川の震災前の街並みを、住民の記憶とともにデジタル地図上に記録する参加型プロジェクトです。手描きイラストによる「懐かしの地図」と現在の地図を切り替えながら、場所に紐づいた思い出をピンとして共有できます。写真の添付やアルバム機能も備え、コミュニティの集合的記憶をアーカイブするデジタル・メモリアルとして機能します。</div>
+        <div class="works-modal-desc" data-lang="en">A participatory project that records the pre-earthquake streetscapes of Shizugawa, Minami-Sanriku Town, Miyagi Prefecture, alongside residents' memories on a digital map. Users can switch between a hand-drawn "nostalgia" illustration and a present-day map, pinning and sharing recollections tied to specific locations. With photo attachments and an album feature, it serves as a digital memorial archiving the community's collective memory.</div>
+        <div class="works-modal-tags">
+          <span class="works-modal-tag">Leaflet</span>
+          <span class="works-modal-tag">Firebase</span>
+          <span class="works-modal-tag">Community Memory</span>
+          <span class="works-modal-tag">Digital Anthropology</span>
+        </div>
+        <a class="works-modal-link" data-lang="ja" href="https://yukisugawara.github.io/shizugawa-map/" target="_blank" rel="noopener noreferrer">サイトを見る &rarr;</a>
+        <a class="works-modal-link" data-lang="en" href="https://yukisugawara.github.io/shizugawa-map/" target="_blank" rel="noopener noreferrer">Visit Site &rarr;</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="works-modal-backdrop" id="works-modal-minimal-qda">
+    <div class="works-modal">
+      <div class="works-modal-hero">
+        <img src="image/minimal-qda.png" alt="MinimalQDA" />
+        <div class="works-modal-hero-gradient"></div>
+        <button class="works-modal-close" aria-label="Close">&times;</button>
+      </div>
+      <div class="works-modal-body">
+        <div class="works-modal-label" data-lang="ja">研究ツール</div>
+        <div class="works-modal-label" data-lang="en">Research Tool</div>
+        <div class="works-modal-title" data-lang="ja">MinimalQDA ─ 軽量質的データ分析ツール</div>
+        <div class="works-modal-title" data-lang="en">MinimalQDA ─ Lightweight Qualitative Data Analysis</div>
+        <div class="works-modal-desc" data-lang="ja">ブラウザだけで完結する軽量な質的データ分析（QDA）ツールです。テキストへのコーディング、カラーラベルによる分類、メモ機能、ファイル管理など、質的研究に必要な基本機能をミニマルなインターフェースで提供します。インストール不要で、データはローカルに保持されるため、プライバシーを確保しながら手軽に分析を始めることができます。</div>
+        <div class="works-modal-desc" data-lang="en">A lightweight, browser-based qualitative data analysis (QDA) tool that requires no installation. It provides essential features for qualitative research — text coding, color-label classification, memo management, and file organization — through a minimal interface. All data is stored locally, ensuring privacy while enabling researchers to begin analysis effortlessly.</div>
+        <div class="works-modal-tags">
+          <span class="works-modal-tag">JavaScript</span>
+          <span class="works-modal-tag">LocalStorage</span>
+          <span class="works-modal-tag">Qualitative Research</span>
+          <span class="works-modal-tag">Text Analysis</span>
+        </div>
+        <a class="works-modal-link" data-lang="ja" href="https://yukisugawara.github.io/minimal-qda/" target="_blank" rel="noopener noreferrer">サイトを見る &rarr;</a>
+        <a class="works-modal-link" data-lang="en" href="https://yukisugawara.github.io/minimal-qda/" target="_blank" rel="noopener noreferrer">Visit Site &rarr;</a>
+      </div>
+    </div>
+  </div>
+
   <!-- INSTAGRAM -->
   <section>
     <p class="sec-label">Social</p>
@@ -4434,7 +4928,7 @@
   </section>
 
   <!-- CONTACT -->
-  <section>
+  <section id="sec-contact">
     <p class="sec-label">Contact</p>
     <h2 class="sec-title" data-lang="ja">連絡先</h2>
     <h2 class="sec-title" data-lang="en">Get in Touch</h2>
@@ -4531,13 +5025,66 @@
       }, 1600);
     });
 
-    /* ── SCROLL PROGRESS ── */
-    const progressBar = document.getElementById('scroll-progress');
-    window.addEventListener('scroll', () => {
-      const scrolled = window.scrollY;
-      const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-      progressBar.style.width = (scrolled / maxScroll * 100) + '%';
-    }, { passive: true });
+    /* ── NAV BAR LOGIC ── */
+    (function() {
+      const navBar = document.getElementById('nav-bar');
+      const navProgress = document.getElementById('nav-progress');
+      const navLinks = document.querySelectorAll('.nav-link');
+      const hamburger = document.getElementById('nav-hamburger');
+      const navLinksContainer = document.getElementById('nav-links');
+
+      // Hamburger toggle
+      hamburger.addEventListener('click', () => {
+        hamburger.classList.toggle('open');
+        navLinksContainer.classList.toggle('open');
+      });
+
+      // Close mobile menu on link click
+      navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          hamburger.classList.remove('open');
+          navLinksContainer.classList.remove('open');
+        });
+      });
+
+      // Section IDs for tracking
+      const sectionIds = ['sec-news','sec-mvv','sec-career','sec-research','sec-publications','sec-projects','sec-teaching','sec-works','sec-contact'];
+
+      function onScroll() {
+        const scrolled = window.scrollY;
+        const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+
+        // Progress bar
+        navProgress.style.width = (scrolled / maxScroll * 100) + '%';
+
+        // Scrolled state (background blur)
+        if (scrolled > 60) {
+          navBar.classList.add('scrolled');
+        } else {
+          navBar.classList.remove('scrolled');
+        }
+
+        // Active section tracking
+        let currentId = '';
+        for (let i = sectionIds.length - 1; i >= 0; i--) {
+          const sec = document.getElementById(sectionIds[i]);
+          if (sec && sec.getBoundingClientRect().top <= 120) {
+            currentId = sectionIds[i];
+            break;
+          }
+        }
+        navLinks.forEach(link => {
+          if (link.getAttribute('data-section') === currentId) {
+            link.classList.add('active');
+          } else {
+            link.classList.remove('active');
+          }
+        });
+      }
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    })();
 
     /* ── CUSTOM CURSOR ── */
     const cursor     = document.getElementById('cursor');
@@ -4561,7 +5108,7 @@
     }
     animateRing();
 
-    document.querySelectorAll('a, button, .mvv-card, .mvv-block, .strengths-card, .str-block, .ig-card').forEach(el => {
+    document.querySelectorAll('a, button, .mvv-card, .mvv-block, .strengths-card, .str-block, .ig-card, .works-card').forEach(el => {
       el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
       el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
     });
@@ -4628,6 +5175,12 @@
       revealObserver.observe(el);
     });
 
+    // Observe Works cards
+    document.querySelectorAll('.works-card').forEach((el, i) => {
+      el.classList.add('reveal', `stagger-${i + 1}`);
+      revealObserver.observe(el);
+    });
+
     // Observe Instagram cards
     document.querySelectorAll('.ig-card').forEach((el, i) => {
       el.classList.add('reveal', `stagger-${i + 1}`);
@@ -4664,6 +5217,47 @@
         setTimeout(() => { scrollHint.style.transform = 'scaleX(1)'; }, 300);
       }, 2500);
     }
+
+    /* ── WORKS MODAL ── */
+    (function() {
+      const cards = document.querySelectorAll('.works-card');
+      const backdrops = document.querySelectorAll('.works-modal-backdrop');
+
+      function openModal(id) {
+        const modal = document.getElementById('works-modal-' + id);
+        if (!modal) return;
+        modal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal(backdrop) {
+        backdrop.classList.remove('active');
+        document.body.style.overflow = '';
+      }
+
+      cards.forEach(card => {
+        card.addEventListener('click', () => {
+          const id = card.getAttribute('data-works');
+          openModal(id);
+        });
+      });
+
+      backdrops.forEach(backdrop => {
+        backdrop.addEventListener('click', (e) => {
+          if (e.target === backdrop) closeModal(backdrop);
+        });
+        const closeBtn = backdrop.querySelector('.works-modal-close');
+        if (closeBtn) closeBtn.addEventListener('click', () => closeModal(backdrop));
+      });
+
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+          backdrops.forEach(backdrop => {
+            if (backdrop.classList.contains('active')) closeModal(backdrop);
+          });
+        }
+      });
+    })();
 
     /* ── HERO CANVAS (constellation) ── */
     (function() {
