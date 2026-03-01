@@ -2228,7 +2228,13 @@
       transition: color 0.25s;
     }
     .pub-item:hover > div::after { color: var(--accent); }
-    .pub-item.news-entry:hover .pub-detail { max-height: 2000px; transition: max-height 0.8s cubic-bezier(0.16,1,0.3,1), opacity 0.5s ease, margin-top 0.3s ease; }
+    .pub-item.news-entry .pub-detail {
+      transition: max-height 0.8s cubic-bezier(0.16,1,0.3,1), opacity 0.5s ease, margin-top 0.3s ease;
+    }
+    .pub-item.news-entry:hover .pub-detail { max-height: 0; opacity: 0; margin-top: 0; }
+    .pub-item.news-entry.open .pub-detail { max-height: 2000px; opacity: 1; margin-top: 8px; }
+    .pub-item.news-entry.open > div::after { content: '×'; color: var(--accent); }
+    .pub-item.news-entry { cursor: pointer; }
 
     /* ── GRANTS & TEACHING ── */
     .grant-group-label {
@@ -2592,6 +2598,155 @@
     body.lang-en .works-card-desc[data-lang="en"],
     body.lang-en .works-card-label[data-lang="en"] { display: block; }
 
+    /* ── MANUALS CARD ── */
+    #manual-card-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+      margin-top: 56px;
+    }
+    .manual-card {
+      position: relative;
+      overflow: hidden;
+      padding: 28px 28px 24px;
+      border: 1px solid var(--line);
+      background: var(--bg);
+      transition: background 0.4s ease, opacity 0.4s ease;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+    }
+    .manual-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0;
+      width: 0; height: 2px;
+      background: var(--card-accent, var(--accent));
+      transition: width 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .manual-card:hover::before { width: 100%; }
+    .manual-card::after {
+      content: '';
+      position: absolute;
+      bottom: -60px; right: -60px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, var(--card-glow, rgba(200,169,110,0.08)) 0%, transparent 70%);
+      transform: scale(0);
+      transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+      pointer-events: none;
+      z-index: 0;
+    }
+    .manual-card:hover::after { transform: scale(1); }
+    .manual-card:hover { background: var(--bg2); }
+    .manual-card > * { position: relative; z-index: 1; }
+    #manual-card-grid:has(.manual-card:hover) .manual-card:not(:hover) { opacity: 0.06; }
+    .manual-card-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .manual-card-num {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      font-size: 10px;
+      font-weight: 500;
+      line-height: 1;
+      color: var(--bg);
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .manual-card-title {
+      font-size: 14px;
+      font-weight: 400;
+      color: var(--white);
+      line-height: 1.55;
+    }
+    .manual-card-year {
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+      margin-bottom: 8px;
+    }
+    .manual-card-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .manual-card-tags .topic-tag {
+      font-size: 9px;
+      padding: 2px 8px;
+    }
+    .manual-card-detail {
+      font-size: 11px;
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 8px;
+    }
+    .manual-card-summary {
+      font-size: 12px;
+      color: var(--text);
+      line-height: 1.75;
+      max-height: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: max-height 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+                  opacity 0.4s ease;
+    }
+    .manual-card:hover .manual-card-summary {
+      max-height: 600px;
+      overflow: visible;
+      opacity: 1;
+    }
+    .manual-card-summary[data-lang] { display: none; }
+    body.lang-ja .manual-card-summary[data-lang="ja"] { display: block; }
+    body.lang-en .manual-card-summary[data-lang="en"] { display: block; }
+    .manual-card-title[data-lang] { display: none; }
+    body.lang-ja .manual-card-title[data-lang="ja"] { display: block; }
+    body.lang-en .manual-card-title[data-lang="en"] { display: block; }
+    .manual-card-detail[data-lang] { display: none; }
+    body.lang-ja .manual-card-detail[data-lang="ja"] { display: block; }
+    body.lang-en .manual-card-detail[data-lang="en"] { display: block; }
+    .manual-card-arrow[data-lang] { display: none; }
+    body.lang-ja .manual-card-arrow[data-lang="ja"] { display: block; }
+    body.lang-en .manual-card-arrow[data-lang="en"] { display: block; }
+    .manual-card-arrow {
+      margin-top: auto;
+      padding-top: 12px;
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      opacity: 0;
+      transform: translateX(-6px);
+      transition: opacity 0.3s 0.1s, transform 0.3s 0.1s cubic-bezier(0.16,1,0.3,1), color 0.3s;
+    }
+    .manual-card:hover .manual-card-arrow {
+      opacity: 1;
+      transform: translateX(0);
+      color: var(--accent);
+    }
+    @media (max-width: 768px) {
+      #manual-card-grid { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 560px) {
+      .manual-card { padding: 20px 18px 18px; }
+      #manual-card-grid:has(.manual-card:hover) .manual-card:not(:hover) { opacity: 1; }
+    }
+    @media (pointer: coarse) {
+      .manual-card-summary {
+        max-height: none;
+        overflow: visible;
+        opacity: 1;
+      }
+      .manual-card-arrow { opacity: 1; transform: translateX(0); color: var(--accent); }
+      #manual-card-grid:has(.manual-card:hover) .manual-card:not(:hover) { opacity: 1; }
+    }
+
     /* ── WORKS MODAL ── */
     .works-modal-backdrop {
       position: fixed;
@@ -2844,7 +2999,19 @@
         margin-top: 6px;
         transition: none;
       }
+      /* news-entry はクリック制御なのでタッチでも初期非表示 */
+      .pub-item.news-entry .pub-detail {
+        max-height: 0;
+        opacity: 0;
+        margin-top: 0;
+      }
+      .pub-item.news-entry.open .pub-detail {
+        max-height: none;
+        opacity: 1;
+        margin-top: 6px;
+      }
       .pub-item > div::after { display: none; }
+      .pub-item.news-entry > div::after { display: block; }
       .ro-pillar-body {
         max-height: none;
         opacity: 1;
@@ -3261,6 +3428,10 @@
         <a href="#sec-works" class="nav-link" data-section="sec-works">
           <span class="nav-link-label" data-lang="ja">制作</span>
           <span class="nav-link-label" data-lang="en">Works</span>
+        </a>
+        <a href="#sec-manuals" class="nav-link" data-section="sec-manuals">
+          <span class="nav-link-label" data-lang="ja">説明書</span>
+          <span class="nav-link-label" data-lang="en">Manuals</span>
         </a>
         <a href="#sec-contact" class="nav-link" data-section="sec-contact">
           <span class="nav-link-label" data-lang="ja">連絡</span>
@@ -4886,6 +5057,39 @@
     </div>
   </div>
 
+  <!-- MANUALS -->
+  <section id="sec-manuals">
+    <p class="sec-label">Manuals</p>
+    <h2 class="sec-title" data-lang="ja">説明書</h2>
+    <h2 class="sec-title" data-lang="en">Manuals</h2>
+
+    <div id="manual-card-grid">
+
+      <!-- Manual 1: Hyperlink Ethnography -->
+      <div class="manual-card" data-link="https://yukisugawara.github.io/digital-methods-manual/" style="--card-accent:#38b0e8; --card-glow:rgba(56,176,232,0.08);">
+        <div class="manual-card-header">
+          <span class="manual-card-num" style="background:#38b0e8">1</span>
+          <div>
+            <div class="manual-card-title" data-lang="ja">デジタルメソッドの説明書：ハイパーリンク・エスノグラフィ篇</div>
+            <div class="manual-card-title" data-lang="en">A Manual of Digital Methods: The Hyperlink Ethnography Edition</div>
+          </div>
+        </div>
+        <div class="manual-card-year">2026.03</div>
+        <div class="manual-card-detail" data-lang="ja">デジタルメソッド・シリーズ</div>
+        <div class="manual-card-detail" data-lang="en">Digital Methods Series</div>
+        <div class="manual-card-tags">
+          <span class="topic-tag" style="border-color:rgba(56,176,232,0.4); color:#38b0e8;">Digital Methods</span>
+          <span class="topic-tag" style="border-color:rgba(200,169,110,0.4); color:#c8a96e;">Digital Anthropology</span>
+        </div>
+        <div class="manual-card-summary" data-lang="ja">ハイパーリンク・エスノグラフィの方法論を体系的に解説した実践マニュアルです。ウェブ上のハイパーリンク構造をエスノグラフィックに分析する手法を、具体的な手順とともに紹介しています。</div>
+        <div class="manual-card-summary" data-lang="en">A practical manual that systematically explains the methodology of hyperlink ethnography. It introduces techniques for ethnographically analyzing the hyperlink structures on the web, with step-by-step instructions.</div>
+        <div class="manual-card-arrow" data-lang="ja">詳しく見る &rarr;</div>
+        <div class="manual-card-arrow" data-lang="en">View Manual &rarr;</div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- INSTAGRAM -->
   <section>
     <p class="sec-label">Social</p>
@@ -5048,7 +5252,7 @@
       });
 
       // Section IDs for tracking
-      const sectionIds = ['sec-news','sec-mvv','sec-career','sec-research','sec-publications','sec-projects','sec-teaching','sec-works','sec-contact'];
+      const sectionIds = ['sec-news','sec-mvv','sec-career','sec-research','sec-publications','sec-projects','sec-teaching','sec-works','sec-manuals','sec-contact'];
 
       function onScroll() {
         const scrolled = window.scrollY;
@@ -5256,6 +5460,25 @@
             if (backdrop.classList.contains('active')) closeModal(backdrop);
           });
         }
+      });
+    })();
+
+    /* ── NEWS ENTRY CLICK TOGGLE ── */
+    (function() {
+      document.querySelectorAll('.pub-item.news-entry').forEach(entry => {
+        entry.addEventListener('click', (e) => {
+          if (e.target.closest('a')) return;
+          entry.classList.toggle('open');
+        });
+      });
+    })();
+
+    /* ── MANUAL CARDS CLICK ── */
+    (function() {
+      document.querySelectorAll('.manual-card[data-link]').forEach(card => {
+        card.addEventListener('click', () => {
+          window.open(card.dataset.link, '_blank', 'noopener,noreferrer');
+        });
       });
     })();
 
